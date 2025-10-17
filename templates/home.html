@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="home-container">
+    <h2>Welcome, {{ user.name }}! 🍰</h2>
+    <p>Enjoy browsing our selection of freshly baked cakes.</p>
+    <img src="{{ url_for('static', filename='images/cake_banner.jpg') }}" alt="Cake Banner" style="max-width: 100%; border-radius: 12px;">
+</div>
+{% endblock %}
