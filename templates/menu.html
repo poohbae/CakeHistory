@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Our Cakes Menu 🍰</h2>
+<div class="menu-grid">
+    {% for cake in cakes %}
+    <div class="menu-item">
+        <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+        <h3>{{ cake.name }}</h3>
+        <p>RM {{ "%.2f"|format(cake.price) }}</p>
+        <a href="{{ url_for('order') }}" class="order-btn">Order Now</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

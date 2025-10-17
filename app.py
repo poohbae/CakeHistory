@@ -5,17 +5,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 
 app = Flask(__name__)
+app.secret_key = 'supersecretkey'
 
-# Database configuration
+# Database config
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mysql+mysqlconnector://poohbae:CakeHistory@poohbae.mysql.pythonanywhere-services.com/poohbae$CakeHistory'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize database AFTER app is created
 db.init_app(app)
 
-# Flask-Login setup
+# Login manager setup
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login_user_route'
@@ -24,10 +24,48 @@ login_manager.login_view = 'login_user_route'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Routes
+# --------------------------
+# Public pages
+# --------------------------
 @app.route('/')
-def login():
-    return render_template('login.html')
+def home():
+    return render_template('home.html')
+
+@app.route('/menu')
+def menu():
+    cakes = [
+        {"name": "Chocolate Heaven", "price": 35.00, "img": "choco_cake.jpg"},
+        {"name": "Strawberry Dream", "price": 40.00, "img": "strawberry_cake.jpg"},
+        {"name": "Vanilla Classic", "price": 30.00, "img": "vanilla_cake.jpg"}
+    ]
+    return render_template('menu.html', cakes=cakes)
+
+# --------------------------
+# Restricted page (Order)
+# --------------------------
+@app.route('/order')
+@login_required
+def order():
+    return render_template('order.html', user=current_user)
+
+# --------------------------
+# Auth routes
+# --------------------------
+@app.route('/login', methods=['GET', 'POST'])
+def login_user_route():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password_hash, password):
+            login_user(user)
+            flash('Login successful! 🍰', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid email or password.', 'danger')
+
+    return render_template('login.html', show_nav=True)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -47,35 +85,14 @@ def register():
         flash('Registration successful! Please login.', 'success')
         return redirect(url_for('login_user_route'))
 
-    return render_template('register.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login_user_route():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-
-        user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password_hash, password):
-            login_user(user)
-            flash('Login successful! 🍰', 'success')
-            return redirect(url_for('home'))
-        else:
-            flash('Invalid email or password.', 'danger')
-
-    return render_template('login.html')
-
-@app.route('/home')
-@login_required
-def home():
-    return render_template('home.html', user=current_user)
+    return render_template('register.html', show_nav=True)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash('You have logged out successfully.', 'info')
-    return redirect(url_for('login_user_route'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
