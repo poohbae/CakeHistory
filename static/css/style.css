@@ -1176,11 +1176,12 @@ button:hover {
     border-bottom: none;
 }
 
-/* Product image */
 .cart-item img {
-    width: 120px;
-    height: auto;
+    width: 120px;           /* fixed width */
+    height: 120px;          /* fixed height */
     border-radius: 10px;
+    object-fit: cover;      /* crop nicely to fill square */
+    background-color: #f8f8f8; /* optional: consistent background */
 }
 
 /* Details section */
@@ -1539,6 +1540,7 @@ button:hover {
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     width: 340px;
+    height: 400px;
     padding: 40px 30px;
     text-align: center;
     align-items: center;

@@ -16,6 +16,9 @@
                         <h3>{{ item.name }}</h3>
                         <p>Quantity: {{ item.quantity }}</p>
                         <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
+                        {% if item.special_request %}
+                            <p><strong>Special Request:</strong> {{ item.special_request }}</p>
+                        {% endif %}
                     </div>
                     <div class="cart-total">
                         <p>Total: <strong>RM {{ "%.2f"|format(item.total) }}</strong></p>
@@ -35,7 +38,7 @@
                         <p>Quantity: {{ item.quantity }}</p>
                         <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
                         {% if item.special_request %}
-                            <p class="special-note"><strong>Special Request:</strong> {{ item.special_request }}</p>
+                            <p><strong>Special Request:</strong> {{ item.special_request }}</p>
                         {% endif %}
                     </div>
                     <div class="cart-total">
