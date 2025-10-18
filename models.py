@@ -19,6 +19,7 @@ class Product(db.Model):
     name = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Float, nullable=False)
     img = db.Column(db.String(120))
+    img2 = db.Column(db.String(120))
     description = db.Column(db.Text)
 
     # Relationship — One product can appear in many order items
@@ -88,7 +89,7 @@ class OrderAddon(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
     addon_type = db.Column(db.Enum('candle', 'card', 'box'), nullable=False)
     addon_id = db.Column(db.Integer, nullable=False)
-    option_selected = db.Column(db.String(50))  # e.g. "Red", "Size M", "Number 5"
+    option_selected = db.Column(db.String(50))
     quantity = db.Column(db.Integer, default=1)
     price_each = db.Column(db.Float, nullable=False)
 

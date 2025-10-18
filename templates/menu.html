@@ -129,7 +129,7 @@
                 <label for="alphabet-num-{{ candle.id }}">Choose Number:</label>
                 <select id="alphabet-num-{{ candle.id }}" class="addon-select">
                     {% for n in range(1, 13) %}
-                        <option value="{{ n }}">{{ n }}</option>
+                        <option value="Number {{ n }}">{{ n }}</option>
                     {% endfor %}
                 </select>
                 {% elif candle.type == 'love' %}
