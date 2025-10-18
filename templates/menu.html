@@ -57,10 +57,11 @@
                 value.textContent = qty;
             } else {
                 Swal.fire({
-                    icon: 'info',
+                    icon: 'warning',
                     title: 'Limit Reached',
                     text: 'Maximum quantity is 20 per item.',
-                    confirmButtonColor: '#ff69b4'
+                    confirmButtonColor: '#ff69b4',
+                    scrollbarPadding: false
                 });
             }
         });
@@ -77,7 +78,8 @@
                 title: 'Login Required',
                 text: 'Please login to add items to your cart',
                 confirmButtonColor: '#ff69b4',
-                confirmButtonText: 'Login'
+                confirmButtonText: 'Login',
+                scrollbarPadding: false
             }).then(() => {
                 window.location.href = "{{ url_for('login_user_route') }}";
             });
@@ -136,7 +138,8 @@
                     icon: data.success ? 'success' : 'error',
                     title: data.success ? 'Added to Cart!' : 'Oops...',
                     text: data.message,
-                    confirmButtonColor: '#ff69b4'
+                    confirmButtonColor: '#ff69b4',
+                    scrollbarPadding: false
                 });
             });
         });

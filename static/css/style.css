@@ -38,6 +38,10 @@ body.auth-page footer {
     display: none;
 }
 
+body.swal2-shown {
+    padding-right: 0 !important; /* prevent double compensation */
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -304,7 +308,7 @@ button:hover {
 /* Hero Banner */
 .hero-banner {
     background: url('../images/cake_banner.jpg') center/cover no-repeat;
-    height: 60vh;
+    height: 30vh;
     position: relative;
     display: flex;
     justify-content: center;
@@ -315,7 +319,7 @@ button:hover {
     background: rgba(0, 0, 0, 0.4);
     color: white;
     text-align: center;
-    padding: 40px;
+    padding: 30px;
     border-radius: 12px;
 }
 
@@ -331,7 +335,7 @@ button:hover {
 }
 
 .hero-btn {
-    background: #ff69b4;
+    background: #ffb6c1;
     color: white;
     text-decoration: none;
     padding: 10px 20px;
