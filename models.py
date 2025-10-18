@@ -1,31 +1,43 @@
-from datetime import datetime
+from app import db
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from datetime import datetime
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120))
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(200), nullable=False)
+    password = db.Column(db.String(200), nullable=False)
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+    # Relationship — One user can have many orders
+    orders = db.relationship('Order', backref='user', lazy=True)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-class Cart(db.Model):
-    __tablename__ = 'cart'
+class Product(db.Model):
+    __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    product_name = db.Column(db.String(120), nullable=False)
-    image = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    quantity = db.Column(db.Integer, nullable=False, default=1)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    img = db.Column(db.String(120))
+    description = db.Column(db.Text)
 
-    user = db.relationship('User', backref='cart_items')
+    # Relationship — One product can appear in many order items
+    order_items = db.relationship('OrderItem', backref='product', lazy=True)
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    total_amount = db.Column(db.Float, nullable=False)
+    order_date = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(50), default='Pending')  # e.g., Pending, Completed, Canceled
+
+    # Relationship — one order has many items
+    items = db.relationship('OrderItem', backref='order', lazy=True, cascade="all, delete")
+
+class OrderItem(db.Model):
+    __tablename__ = 'order_items'
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    price_each = db.Column(db.Float, nullable=False)

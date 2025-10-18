@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User
+from models import db, User, Product
 
 app = Flask(__name__)
 app.secret_key = '42866344300694f99fd79971e88cbb48'
@@ -32,11 +32,7 @@ def home():
 
 @app.route('/menu')
 def menu():
-    cakes = [
-        {"name": "Chocolate Heaven", "price": 35.00, "img": "choco_cake.jpg"},
-        {"name": "Strawberry Dream", "price": 40.00, "img": "strawberry_cake.jpg"},
-        {"name": "Vanilla Classic", "price": 30.00, "img": "vanilla_cake.jpg"}
-    ]
+    cakes = Product.query.all()
     return render_template('menu.html', cakes=cakes)
 
 # --------------------------
@@ -45,7 +41,7 @@ def menu():
 @app.route('/cart')
 @login_required
 def cart():
-    from models import Cart  # import here to avoid circular imports
+    from models import Cart
     cart_items = Cart.query.filter_by(user_id=current_user.id).all()
 
     # Calculate total

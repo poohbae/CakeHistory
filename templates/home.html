@@ -1,8 +1,66 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="home-container">
-    <h2><i class="fa-solid fa-cake-candles"></i> Welcome to Cake History!</h2>
-    <p>Enjoy browsing our selection of freshly baked cakes.</p>
-    <img src="{{ url_for('static', filename='images/cake_banner.jpg') }}" alt="Cake Banner" style="max-width: 100%; border-radius: 12px;">
+<div class="home-page">
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-overlay">
+            <h1>CakeHistory</h1>
+            <p>Freshly baked with love — available for pickup or delivery 🍰</p>
+            <a href="{{ url_for('menu') }}" class="hero-btn">Order Now</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section">
+        <h2>About Us</h2>
+        <p>
+            At <strong>CakeHistory</strong>, we believe every cake tells a story — of joy, love, and celebration.
+            Our mission is to deliver handcrafted cakes that bring smiles to every occasion.
+        </p>
+
+        <div class="vm-container">
+            <div class="vision">
+                <h3>🎯 Vision</h3>
+                <p>To be the most loved and trusted cake brand in Malaysia, known for creativity and flavor.</p>
+            </div>
+            <div class="mission">
+                <h3>💗 Mission</h3>
+                <p>To craft premium quality cakes with passion, innovation, and a sprinkle of happiness in every bite.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Preview Section -->
+    <section class="home-menu-preview">
+        <h2>Our Signature Cakes</h2>
+        <div class="home-menu-grid">
+            <div class="home-menu-item">
+                <img src="{{ url_for('static', filename='images/choco_cake.jpg') }}" alt="Chocolate Heaven">
+                <h4>Chocolate Heaven</h4>
+            </div>
+            <div class="home-menu-item">
+                <img src="{{ url_for('static', filename='images/strawberry_cake.jpg') }}" alt="Strawberry Dream">
+                <h4>Strawberry Dream</h4>
+            </div>
+            <div class="home-menu-item">
+                <img src="{{ url_for('static', filename='images/vanilla_cake.jpg') }}" alt="Vanilla Classic">
+                <h4>Vanilla Classic</h4>
+            </div>
+        </div>
+        <a href="{{ url_for('menu') }}" class="home-menu-btn">View Full Menu</a>
+    </section>
+
+    <!-- Get in Touch -->
+    <section class="contact-section">
+        <h2>Get in Touch</h2>
+        <p>We’d love to connect with you! Follow us for the latest cake designs and seasonal offers.</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p class="contact-note">📍 Based in Penang, Malaysia — serving smiles one slice at a time.</p>
+    </section>
+
 </div>
 {% endblock %}
