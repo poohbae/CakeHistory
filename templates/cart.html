@@ -123,92 +123,115 @@
             </div>
 
             <script>
-            const modal = document.getElementById("orderModal");
-            const btn = document.querySelector(".place-order-btn");
-            const closeBtn = document.querySelector(".close-modal");
-            const form = document.getElementById("orderForm");
-            const pickup = document.getElementById("pickup-address");
-            const delivery = document.getElementById("delivery-address");
-            const deliveryFee = document.getElementById("delivery-fee");
-            const totalEl = document.getElementById("grand-total");
-            const baseTotal = parseFloat(totalEl.textContent);
+                document.addEventListener('DOMContentLoaded', () => {
+                    const modal = document.getElementById("orderModal");
+                    const btn = document.querySelector(".place-order-btn");
+                    const closeBtn = document.querySelector(".close-modal");
+                    const form = document.getElementById("orderForm");
+                    const pickup = document.getElementById("pickup-address");
+                    const delivery = document.getElementById("delivery-address");
+                    const deliveryFee = document.getElementById("delivery-fee");
+                    const totalEl = document.getElementById("grand-total");
+                    const baseTotal = parseFloat(totalEl.textContent);
 
-            // Open/close modal
-            btn.addEventListener("click", () => modal.style.display = "flex");
-            closeBtn.addEventListener("click", () => modal.style.display = "none");
-            modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+                    const paymentCategory = document.getElementById('payment-category');
+                    const bankOptions = document.getElementById('bank-options');
+                    const bankSelect = document.getElementById('payment_method_id');
+                    const tngId = document.getElementById('tng_id')?.value || '';
 
-            // Toggle delivery/pickup visibility + fee
-            form.method.forEach(radio => {
-                radio.addEventListener("change", () => {
-                    if (radio.value === "delivery" && radio.checked) {
-                        pickup.style.display = "none";
-                        delivery.style.display = "block";
-                        deliveryFee.style.display = "block";
-                        totalEl.textContent = (baseTotal + 5).toFixed(2);
-                    } else if (radio.value === "pickup" && radio.checked) {
-                        pickup.style.display = "block";
-                        delivery.style.display = "none";
-                        deliveryFee.style.display = "none";
-                        totalEl.textContent = baseTotal.toFixed(2);
+                    // 🩷 Open & close modal
+                    btn.addEventListener("click", () => modal.style.display = "flex");
+                    closeBtn.addEventListener("click", () => modal.style.display = "none");
+                    modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+
+                    // 🩷 Delivery/pickup toggle
+                    form.method.forEach(radio => {
+                        radio.addEventListener("change", () => {
+                            if (radio.value === "delivery" && radio.checked) {
+                                pickup.style.display = "none";
+                                delivery.style.display = "block";
+                                deliveryFee.style.display = "block";
+                                totalEl.textContent = (baseTotal + 5).toFixed(2);
+                            } else if (radio.value === "pickup" && radio.checked) {
+                                pickup.style.display = "block";
+                                delivery.style.display = "none";
+                                deliveryFee.style.display = "none";
+                                totalEl.textContent = baseTotal.toFixed(2);
+                            }
+                        });
+                    });
+
+                    // 🩷 Payment method selection logic
+                    paymentCategory.addEventListener('change', () => {
+                        const category = paymentCategory.value;
+
+                        if (category === 'online') {
+                            bankOptions.style.display = 'block';
+                            bankSelect.required = true;
+                            bankSelect.value = ''; // ensure user selects a bank
+                        } 
+                        else if (category === 'tng') {
+                            bankOptions.style.display = 'none';
+                            bankSelect.required = false;
+                            bankSelect.value = tngId; // use hidden TnG ID
+                        } 
+                        else {
+                            bankOptions.style.display = 'none';
+                            bankSelect.required = false;
+                            bankSelect.value = ''; // reset
+                        }
+                    });
+
+                    // 🩷 Validate datetime (disable past)
+                    const dateInput = form.querySelector('input[name="datetime"]');
+                    if (dateInput) {
+                        const now = new Date();
+                        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                        dateInput.min = now.toISOString().slice(0, 16);
+
+                        dateInput.addEventListener("change", () => {
+                            const selected = new Date(dateInput.value);
+                            if (selected <= new Date()) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Invalid Date/Time',
+                                    text: 'Please choose a future date and time.',
+                                    confirmButtonColor: '#ff69b4'
+                                });
+                                dateInput.value = dateInput.min;
+                            }
+                        });
                     }
-                });
-            });
-        
-            document.getElementById('payment-category').addEventListener('change', function() {
-                const bankOptions = document.getElementById('bank-options');
-                const bankSelect = document.getElementById('payment_method_id');
-                const tngId = document.getElementById('tng_id').value; // safely get the ID here
 
-                if (this.value === 'online') {
-                    bankOptions.style.display = 'block';
-                    bankSelect.required = true;
-                } else if (this.value === 'tng') {
-                    bankOptions.style.display = 'none';
-                    bankSelect.required = false;
-                    bankSelect.value = tngId; // automatically set the TnG payment id
-                } else {
-                    bankOptions.style.display = 'none';
-                    bankSelect.required = false;
-                    bankSelect.value = ''; // reset
-                }
-            });
+                    // 🩷 Form submit
+                    form.addEventListener("submit", e => {
+                        e.preventDefault();
+                        const formData = new FormData(form);
+                        const payload = Object.fromEntries(formData.entries());
 
-            // Form submission
-            form.addEventListener("submit", e => {
-                e.preventDefault();
-                const formData = new FormData(form);
-                const payload = Object.fromEntries(formData.entries());
+                        // For TnG, ensure ID is included
+                        if (paymentCategory.value === 'tng') {
+                            payload.payment_method_id = tngId;
+                        }
 
-                const selected = new Date(payload.datetime);
-                const now = new Date();
-                if (selected <= now) {
-                    Swal.fire({ icon: 'warning', text: 'Please select a future date and time.', confirmButtonColor: '#ff69b4' });
-                    return;
-                }
-
-                fetch('/place_order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        method: formData.get('method'),
-                        address: formData.get('address'),
-                        datetime: formData.get('datetime'),
-                        payment_method_id: formData.get('payment_method_id')
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    Swal.fire({
-                        icon: data.success ? 'success' : 'error',
-                        title: data.success ? 'Order Successful!' : 'Oops...',
-                        text: data.message,
-                        confirmButtonColor: '#ff69b4'
-                    }).then(() => {
-                        if (data.success) window.location.href = "{{ url_for('order') }}";
+                        fetch('/place_order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: data.success ? 'success' : 'error',
+                                title: data.success ? 'Order Successful!' : 'Oops...',
+                                text: data.message,
+                                confirmButtonColor: '#ff69b4'
+                            }).then(() => {
+                                if (data.success) window.location.href = "{{ url_for('order') }}";
+                            });
+                        });
                     });
                 });
-            });
             </script>
         {% else %}
             <div class="empty-cart">

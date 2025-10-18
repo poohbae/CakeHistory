@@ -1124,6 +1124,33 @@ button:hover {
   text-align: center;
 }
 
+/* Style all <select> elements in the order modal */
+.order-modal-content select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+/* Slight highlight when focused */
+.order-modal-content select:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 4px rgba(255, 105, 180, 0.3);
+}
+
+/* Optional: add margin between selects and labels */
+.order-modal-content label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+}
+
 .method-option {
     display: inline-flex;
     align-items: center;
