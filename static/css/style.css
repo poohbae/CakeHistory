@@ -257,17 +257,26 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Subscription checkbox alignment */
 .subscribe-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 300px;
     text-align: left;
-    margin: 15px 0 20px 25px;
     font-size: 14px;
     color: #444;
+    line-height: 1.4;
 }
 
 .subscribe-box input[type="checkbox"] {
     accent-color: #ff69b4;
-    transform: scale(1.2);
-    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
 }
 
 .flash-messages li {
