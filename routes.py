@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from models import db, Cart, Feedback, Order, OrderItem, Product, User
+from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderItem, Product, User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def register_routes(app):
@@ -10,10 +10,13 @@ def register_routes(app):
         # Load top 3 featured products from the database
         cakes = Product.query.limit(3).all()
         return render_template('home.html', cakes=cakes)
+    
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
 
     @app.route('/menu')
     def menu():
-        from models import Product, Candle, Card, Box
         cakes = Product.query.all()
         candles = Candle.query.all()
         cards = Card.query.all()
