@@ -10,7 +10,6 @@ html, body {
 
 main {
     flex: 1;
-    padding-bottom: 40px;
 }
 
 /* Centered layout only for login/register pages */
