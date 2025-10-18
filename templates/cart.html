@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2><i class="fa-solid fa-cart-shopping"></i> Your Cart</h2>
+
+{% if current_user.is_authenticated %}
+    {% if cart_items %}
+        <div class="cart-container">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.product_name }}">
+                <div class="cart-details">
+                    <h3>{{ item.product_name }}</h3>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
+                </div>
+                <div class="cart-total">
+                    <p>Total: <strong>RM {{ "%.2f"|format(item.price * item.quantity) }}</strong></p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="cart-summary">
+                <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal) }}</p>
+                <p><strong>Delivery:</strong> RM {{ "%.2f"|format(delivery) }}</p>
+                <hr>
+                <p class="grand-total"><strong>Grand Total:</strong> RM {{ "%.2f"|format(grand_total) }}</p>
+
+                <button class="place-order-btn"><i class="fa-solid fa-credit-card"></i> Place Order</button>
+            </div>
+        </div>
+    {% else %}
+        <p>Your cart is empty 🧁</p>
+    {% endif %}
+{% else %}
+    <p>Please <a href="{{ url_for('login_user_route') }}">login</a> to view your cart.</p>
+{% endif %}
+{% endblock %}

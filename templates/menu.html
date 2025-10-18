@@ -15,14 +15,19 @@
                 <span class="qty-value">1</span>
                 <button class="qty-btn plus">+</button>
             </div>
-            <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+
+            {% if current_user.is_authenticated %}
+                <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            {% else %}
+                <button class="add-cart-btn login-prompt"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
 </div>
 
 <script>
-    // Small inline JS to handle quantity changes
+    // Quantity controls (already present)
     document.querySelectorAll('.menu-item').forEach(item => {
         const minus = item.querySelector('.minus');
         const plus = item.querySelector('.plus');
@@ -37,6 +42,21 @@
         plus.addEventListener('click', () => {
             qty++;
             value.textContent = qty;
+        });
+    });
+
+    // Handle login prompts for unauthenticated users
+    document.querySelectorAll('.login-prompt').forEach(btn => {
+        btn.addEventListener('click', () => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Login Required',
+                text: 'Please login to add items to your cart 🍰',
+                confirmButtonColor: '#ff69b4',
+                confirmButtonText: 'Go to Login'
+            }).then(() => {
+                window.location.href = "{{ url_for('login_user_route') }}";
+            });
         });
     });
 </script>

@@ -5,11 +5,13 @@
     <title>CakeHistory</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header class="header">
         <div class="logo">
-            <h1><i class="fa-solid fa-cake-candles"></i> CakeHistory</h1>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CakeHistory Logo" class="logo-img">
+            <h1>CakeHistory</h1>
         </div>
 
         <nav class="nav-links">

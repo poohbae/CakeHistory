@@ -39,12 +39,27 @@ def menu():
     return render_template('menu.html', cakes=cakes)
 
 # --------------------------
-# Restricted page (Order)
+# Restricted page (Cart)
 # --------------------------
-@app.route('/order')
+@app.route('/cart')
 @login_required
-def order():
-    return render_template('order.html', user=current_user)
+def cart():
+    from models import Cart  # import here to avoid circular imports
+    cart_items = Cart.query.filter_by(user_id=current_user.id).all()
+
+    # Calculate total
+    subtotal = sum(item.price * item.quantity for item in cart_items)
+    delivery = 5.00 if cart_items else 0.00
+    grand_total = subtotal + delivery
+
+    return render_template(
+        'cart.html',
+        user=current_user,
+        cart_items=cart_items,
+        subtotal=subtotal,
+        delivery=delivery,
+        grand_total=grand_total
+    )
 
 # --------------------------
 # Auth routes
@@ -91,6 +106,12 @@ def logout():
     logout_user()
     flash('You have logged out successfully.', 'info')
     return redirect(url_for('home'))
+
+# Redirect unauthorized users to login page with a message
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash('Please login to view your cart or place an order.', 'warning')
+    return redirect(url_for('login_user_route'))
 
 if __name__ == '__main__':
     app.run(debug=True)
