@@ -72,7 +72,7 @@
                             <input type="radio" name="method" value="pickup" checked> Pickup
                         </label>
                         <label class="method-option">
-                            <input type="radio" name="method" value="delivery"> Delivery
+                            <input type="radio" name="method" value="delivery"> Delivery (Grab)
                         </label>
                         <br>
 
@@ -81,7 +81,14 @@
                         </div>
 
                         <div id="delivery-address" style="display:none;">
-                            <input type="text" name="address" placeholder="Enter delivery address">
+                            <label><strong>Choose Delivery Area:</strong></label>
+                            <select id="delivery-area" name="address">
+                                <option value="">-- Select Area --</option>
+                                <option value="Bayan Lepas|10">Bayan Lepas (RM10)</option>
+                                <option value="Georgetown|8">Georgetown (RM8)</option>
+                                <option value="Tanjung Tokong|14">Tanjung Tokong (RM14)</option>
+                                <option value="Mainland|22">Mainland (RM22)</option>
+                            </select>
                         </div>
                         <br>
 
@@ -101,7 +108,7 @@
                             <label><strong>Select Bank:</strong></label>
                             <select id="payment_method_id" name="payment_method_id">
                                 {% for method in payment_methods %}
-                                    {% set name = method.name|string|lower %}
+                                    {% set name = (method.name | string | lower) %}
                                     {% if 'bank' in name %}
                                         <option value="{{ method.id }}">{{ method.name }}</option>
                                     {% endif %}
@@ -130,14 +137,11 @@
                     const form = document.getElementById("orderForm");
                     const pickup = document.getElementById("pickup-address");
                     const delivery = document.getElementById("delivery-address");
-                    const deliveryFee = document.getElementById("delivery-fee");
                     const totalEl = document.getElementById("grand-total");
                     const baseTotal = parseFloat(totalEl.textContent);
 
-                    const paymentCategory = document.getElementById('payment-category');
-                    const bankOptions = document.getElementById('bank-options');
-                    const bankSelect = document.getElementById('payment_method_id');
-                    const tngId = document.getElementById('tng_id')?.value || '';
+                    const deliveryArea = document.getElementById("delivery-area");
+                    let deliveryFee = 0;
 
                     // Open & close modal
                     btn.addEventListener("click", () => modal.style.display = "flex");
@@ -150,87 +154,60 @@
                             if (radio.value === "delivery" && radio.checked) {
                                 pickup.style.display = "none";
                                 delivery.style.display = "block";
-                                deliveryFee.style.display = "block";
-                                totalEl.textContent = (baseTotal + 5).toFixed(2);
+                                deliveryArea.value = ""; // reset selection
+                                totalEl.textContent = baseTotal.toFixed(2);
                             } else if (radio.value === "pickup" && radio.checked) {
                                 pickup.style.display = "block";
                                 delivery.style.display = "none";
-                                deliveryFee.style.display = "none";
                                 totalEl.textContent = baseTotal.toFixed(2);
+                                deliveryFee = 0;
                             }
                         });
                     });
 
-                    // Payment method selection logic
-                    paymentCategory.addEventListener('change', () => {
-                        const category = paymentCategory.value;
-
-                        if (category === 'online') {
-                            bankOptions.style.display = 'block';
-                            bankSelect.required = true;
-                            bankSelect.value = ''; // ensure user selects a bank
-                        } 
-                        else if (category === 'tng') {
-                            bankOptions.style.display = 'none';
-                            bankSelect.required = false;
-                            bankSelect.value = tngId; // use hidden TnG ID
-                        } 
-                        else {
-                            bankOptions.style.display = 'none';
-                            bankSelect.required = false;
-                            bankSelect.value = ''; // reset
+                    // When user selects delivery area
+                    deliveryArea.addEventListener("change", () => {
+                        if (deliveryArea.value) {
+                            const [area, fee] = deliveryArea.value.split("|");
+                            deliveryFee = parseFloat(fee);
+                            totalEl.textContent = (baseTotal + deliveryFee).toFixed(2);
+                        } else {
+                            totalEl.textContent = baseTotal.toFixed(2);
+                            deliveryFee = 0;
                         }
                     });
 
-                    //  Validate datetime (disable past + restrict to 1PM–5PM)
-                    const dateInput = form.querySelector('input[name="datetime"]');
-                    if (dateInput) {
-                        const now = new Date();
-                        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                        dateInput.min = now.toISOString().slice(0, 16);
-                        dateInput.step = 300; // 5-minute intervals
+                    // Payment selection (unchanged)
+                    const paymentCategory = document.getElementById('payment-category');
+                    const bankOptions = document.getElementById('bank-options');
+                    const bankSelect = document.getElementById('payment_method_id');
+                    const tngId = document.getElementById('tng_id')?.value || '';
 
-                        dateInput.addEventListener("change", () => {
-                            const selected = new Date(dateInput.value);
-                            const hour = selected.getHours();
+                    paymentCategory.addEventListener('change', () => {
+                        const category = paymentCategory.value;
+                        if (category === 'online') {
+                            bankOptions.style.display = 'block';
+                            bankSelect.required = true;
+                            bankSelect.value = '';
+                        } else if (category === 'tng') {
+                            bankOptions.style.display = 'none';
+                            bankSelect.required = false;
+                            bankSelect.value = tngId;
+                        } else {
+                            bankOptions.style.display = 'none';
+                            bankSelect.required = false;
+                            bankSelect.value = '';
+                        }
+                    });
 
-                            // Check for past date/time
-                            if (selected <= new Date()) {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Invalid Date/Time',
-                                    text: 'Please choose a future date and time.',
-                                    confirmButtonColor: '#ff69b4'
-                                });
-                                dateInput.value = '';
-                                return;
-                            }
-
-                            // Check operating hours: 1PM (13:00) to 5PM (17:00)
-                            if (hour < 13 || hour >= 17) {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Outside Operating Hours',
-                                    text: 'Please select a time between 1:00 PM and 5:00 PM.',
-                                    confirmButtonColor: '#ff69b4'
-                                });
-                                dateInput.value = '';
-                                return;
-                            }
-                        });
-                    }
-
-
-                    // Form submit
+                    // Submit form
                     form.addEventListener("submit", e => {
                         e.preventDefault();
                         const formData = new FormData(form);
                         const payload = Object.fromEntries(formData.entries());
 
-                        // For TnG, ensure ID is included
-                        if (paymentCategory.value === 'tng') {
-                            payload.payment_method_id = tngId;
-                        }
+                        // Include delivery fee in payload
+                        payload.delivery_fee = deliveryFee;
 
                         fetch('/place_order', {
                             method: 'POST',

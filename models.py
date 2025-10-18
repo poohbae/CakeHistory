@@ -20,6 +20,7 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     img = db.Column(db.String(120))
     img2 = db.Column(db.String(120))
+    img3 = db.Column(db.String(120))
     description = db.Column(db.Text)
 
     # Relationship — One product can appear in many order items

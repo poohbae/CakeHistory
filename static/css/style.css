@@ -329,6 +329,97 @@ button:hover {
 }
 
 /* ================================
+   ABOUT PAGE STYLING
+================================ */
+.about-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.about-intro {
+    margin-bottom: 40px;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.about-intro h2,
+.founders-section h2,
+.team-section h2 {
+    color: #ff69b4;
+    margin-bottom: 20px;
+    font-size: 26px;
+}
+
+/* 🧁 Founders */
+.founders-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.founder-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 220px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.founder-card:hover {
+    transform: translateY(-5px);
+}
+
+.founder-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* 👩‍🍳 Team Members */
+.team-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.team-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+}
+
+.team-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.team-card h3 {
+    margin: 0;
+    color: #333;
+}
+
+.team-card p {
+    color: #777;
+    font-size: 14px;
+}
+
+/* ================================
    HOMEPAGE STYLING
 ================================ */
 /* Hero Banner */
@@ -466,6 +557,68 @@ button:hover {
 
 .home-menu-btn:hover {
     background: #ff1493;
+}
+
+/* Ingredients Section */
+.ingredients-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: #fffaf7;
+    border-top: 2px solid #ffe4ec;
+    border-bottom: 2px solid #ffe4ec;
+}
+
+.ingredients-section h2 {
+    color: #ff69b4;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.ingredients-description {
+    max-width: 800px;
+    margin: 0 auto 35px auto;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.7;
+}
+
+.ingredients-description strong {
+    color: #ff1493;
+}
+
+.ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    justify-items: center;
+    align-items: center;
+}
+
+.ingredient-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 180px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ingredient-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(255, 105, 180, 0.2);
+}
+
+.ingredient-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.ingredient-item h4 {
+    font-size: 15px;
+    color: #333;
+    margin: 0;
 }
 
 .addons-section {
@@ -725,6 +878,23 @@ button:hover {
 /* ==========================
    MENU PAGE STYLING
 ========================== */
+.delivery-note {
+    background: #fff5f8;
+    border-left: 5px solid #ff69b4;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin: 20px auto 30px;
+    max-width: 900px;
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.delivery-note strong {
+    color: #d63384;
+}
+
 .menu-section {
     margin: 40px auto;
     max-width: 1100px;
@@ -1051,35 +1221,30 @@ button:hover {
 }
 
 /* Buttons row */
-/* Buttons row */
 .cart-buttons {
     display: flex;
-    justify-content: space-between; /* pushes buttons to opposite ends */
-    align-items: center;
-    margin-top: auto;
+    justify-content: space-between;
+    align-items: stretch; /* ensure same height */
     width: 100%;
     gap: 15px;
     padding-top: 10px;
 }
 
-/* Make both buttons same size */
+/* Force equal size */
 .cart-buttons a,
 .cart-buttons button {
     flex: 1; /* equal width */
+    text-align: center;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 0;
+    padding: 12px 0; /* uniform vertical padding only */
     border-radius: 8px;
     font-weight: 600;
     font-size: 16px;
-    text-align: center;
-}
-
-/* Add some spacing between them */
-.cart-buttons a {
-    margin-right: 10px;
+    height: 48px; /* fixed height ensures same visual size */
+    box-sizing: border-box;
 }
 
 /* Continue Shopping Button */
@@ -1371,25 +1536,36 @@ button:hover {
     border-color: #ff69b4;
 }
 
+/* ⭐ Star rating container */
 .rating-stars {
     display: flex;
-    justify-content: center;
-    flex-direction: row-reverse;
-    margin: 10px 0 20px 0;
+    flex-direction: row-reverse; /* ensures the stars fill from left to right */
+    justify-content: flex-start;
+    gap: 5px;
 }
+
+/* Hide radio buttons */
 .rating-stars input {
     display: none;
 }
-.rating-stars label {
-    font-size: 28px;
+
+/* Default star appearance */
+.rating-stars label i {
+    font-size: 24px;
+    color: #ccc; /* gray by default */
     cursor: pointer;
-    color: #ccc;
     transition: color 0.2s;
 }
-.rating-stars input:checked ~ label,
-.rating-stars label:hover,
-.rating-stars label:hover ~ label {
-    color: #ff69b4;
+
+/* Hover and active states */
+.rating-stars label:hover i,
+.rating-stars label:hover ~ label i {
+    color: #FFD700; /* gold hover */
+}
+
+/* When a star is selected (checked), color all previous ones */
+.rating-stars input:checked ~ label i {
+    color: #FFD700; /* gold selected */
 }
 
 .feedback-container textarea {

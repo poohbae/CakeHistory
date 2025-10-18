@@ -53,6 +53,37 @@
         <a href="{{ url_for('menu') }}" class="home-menu-btn">View Full Menu</a>
     </section>
 
+    <!-- Ingredients Section -->
+    <section class="ingredients-section">
+        <h2>Our Ingredients</h2>
+        <p class="ingredients-description">
+            <strong>PREMIUM SELECTION FROM TRUSTED BRANDS</strong><br>
+            We source our ingredients from well-known and reliable brands to maintain the highest quality in every bake.
+            Using <strong>Golden Churn Butter</strong> known for its creamy richness and buttery aroma, 
+            along with other premium ingredients, we ensure that each cake delivers a soft texture and the authentic 
+            <em>“古早味”</em> taste that feels just like home.
+        </p>
+
+        <div class="ingredients-grid">
+            <div class="ingredient-item">
+                <img src="{{ url_for('static', filename='images/egg.png') }}" alt="Eggs">
+                <h4>Fresh Farm Eggs</h4>
+            </div>
+            <div class="ingredient-item">
+                <img src="{{ url_for('static', filename='images/sugar.png') }}" alt="Sugar">
+                <h4>Pure Fine Sugar</h4>
+            </div>
+            <div class="ingredient-item">
+                <img src="{{ url_for('static', filename='images/butter.png') }}" alt="Butter">
+                <h4>Golden Churn Butter</h4>
+            </div>
+            <div class="ingredient-item">
+                <img src="{{ url_for('static', filename='images/milk.png') }}" alt="Milk">
+                <h4>Fresh Dairy Milk</h4>
+            </div>
+        </div>
+    </section>
+
     <!-- Add-ons Section -->
     <section class="addons-section">
         <h2>🎁 Complete Your Celebration</h2>

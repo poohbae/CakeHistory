@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="about-page">
+
+    <!-- 💖 Story Section -->
+    <section class="about-intro">
+        <h2><i class="fa-solid fa-heart"></i> Our Story</h2>
+        <p>
+            <strong>CakeHistory</strong> was founded by <strong>Gan Rui E</strong> (Business Owner) and 
+            <strong>Aveline</strong> (Business Partner), who both share a deep passion for traditional 
+            <em>"E 7 I*"</em> homemade cakes.  
+            What began as a small home-based idea has grown into a heartfelt mission — 
+            to bring warmth, comfort, and happiness through every slice.
+        </p>
+    </section>
+
+    <!-- 🧁 Founders -->
+    <section class="founders-section">
+        <h2><i class="fa-solid fa-user-tie"></i> Founders</h2>
+        <div class="founders-container">
+            <div class="founder-card">
+                <img src="{{ url_for('static', filename='images/gan_rui_e.jpg') }}" alt="Gan Rui E">
+                <h3>Gan Rui E</h3>
+                <p>Business Owner</p>
+            </div>
+            <div class="founder-card">
+                <img src="{{ url_for('static', filename='images/aveline.jpg') }}" alt="Aveline">
+                <h3>Aveline</h3>
+                <p>Business Partner</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 👩‍🍳 Team Members -->
+    <section class="team-section">
+        <h2><i class="fa-solid fa-people-group"></i> Our Team</h2>
+        <div class="team-container">
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/andy_kang.jpg') }}" alt="Andy Kang">
+                <h3>Andy Kang</h3>
+                <p>Assistant Manager</p>
+            </div>
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/lee_jia_xin.jpg') }}" alt="Lee Jia Xin">
+                <h3>Lee Jia Xin</h3>
+                <p>Administrative Assistant</p>
+            </div>
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/heah_min_jiun.jpg') }}" alt="Heah Min Jiun">
+                <h3>Heah Min Jiun</h3>
+                <p>Head Baker</p>
+            </div>
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/aleeya_batrysha.jpg') }}" alt="Aleeya Batrysha">
+                <h3>Aleeya Batrysha</h3>
+                <p>Marketing Executive</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

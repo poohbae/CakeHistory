@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderItem, Product, User
+from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderItem, PaymentMethod, Product, User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def register_routes(app):
@@ -75,13 +75,12 @@ def register_routes(app):
         for item in cart_items:
             product = item.product
             if not product:
-                continue  # skip broken references
+                continue
 
             total_price = product.price * item.quantity
             subtotal += total_price
 
-            # Add-on items (candles, cards, boxes) share same structure
-            if "candle" in product.name.lower() or "card" in product.name.lower() or "box" in product.name.lower():
+            if any(x in product.name.lower() for x in ['candle', 'card', 'box']):
                 addon_items.append({
                     'name': product.name,
                     'image': product.img,
@@ -98,12 +97,15 @@ def register_routes(app):
                     'total': total_price
                 })
 
+        payment_methods = PaymentMethod.query.all()
+
         return render_template(
             'cart.html',
             user=current_user,
             cake_items=cake_items,
             addon_items=addon_items,
-            subtotal=subtotal
+            subtotal=subtotal,
+            payment_methods=payment_methods
         )
 
     @app.route('/place_order', methods=['POST'])
@@ -111,9 +113,10 @@ def register_routes(app):
     def place_order():
         data = request.get_json()
         method = data.get('method')
-        address = data.get('address', None)
+        address_data = data.get('address', None)  # format: "Area|Fee"
         date_time = data.get('datetime')
         payment_method_id = data.get('payment_method_id')
+        delivery_fee = float(data.get('delivery_fee', 0))
 
         # Validate datetime
         try:
@@ -129,13 +132,25 @@ def register_routes(app):
 
         total = sum(item.product.price * item.quantity for item in cart_items)
 
-        # Create order and include datetime
+        # Parse delivery area + fee if applicable
+        delivery_address = None
+        if method == 'delivery' and address_data:
+            try:
+                area, fee = address_data.split('|')
+                delivery_address = area.strip()
+            except ValueError:
+                delivery_address = address_data
+
+        # Add delivery fee to total
+        total += delivery_fee
+
+        # Create order
         order = Order(
             user_id=current_user.id,
             total_amount=total,
             payment_method_id=payment_method_id,
             delivery_method=method,
-            delivery_address=address if method == 'delivery' else None,
+            delivery_address=delivery_address,
             scheduled_datetime=selected_dt
         )
         db.session.add(order)
@@ -153,6 +168,7 @@ def register_routes(app):
 
         db.session.commit()
         return jsonify({'success': True, 'message': 'Order placed successfully!'})
+
     
     @app.route('/order')
     @login_required
