@@ -10,8 +10,8 @@
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
-                data-img="{{ url_for('static', filename='images/' + cake.img) }}">
-                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                data-img="{{ url_for('static', filename='images/' + cake.img2) }}">
+                <img src="{{ url_for('static', filename='images/' + cake.img2) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
                 <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
@@ -45,8 +45,8 @@
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
-                data-img="{{ url_for('static', filename='images/' + cake.img) }}">
-                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                data-img="{{ url_for('static', filename='images/' + cake.img2) }}">
+                <img src="{{ url_for('static', filename='images/' + cake.img2) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
                 <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
@@ -70,9 +70,9 @@
 
 <hr>
 
-<!-- PREMIUM COMBO SECTION -->
+<!-- PREMIUM SECTION -->
 <section class="menu-section">
-    <h2><i class="fa-solid fa-gem"></i> Premium Combo Series</h2>
+    <h2><i class="fa-solid fa-gem"></i> Premium Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
             {% if "Premium" in cake.name %}
@@ -80,8 +80,8 @@
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
-                data-img="{{ url_for('static', filename='images/' + cake.img) }}">
-                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                data-img="{{ url_for('static', filename='images/' + cake.img2) }}">
+                <img src="{{ url_for('static', filename='images/' + cake.img2) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
                 <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
@@ -280,9 +280,9 @@
         item.addEventListener('mouseenter', () => {
             hoverTimer = setTimeout(() => {
                 modal.classList.add('show');
-                modalImg.src = item.dataset.img2;
+                modalImg.src = item.dataset.img;
                 modalTitle.textContent = item.dataset.name;
-                modalDesc.textContent = item.dataset.description;
+                modalDesc.textContent = item.dataset.description || "No description available.";
             }, 150);
         });
 
