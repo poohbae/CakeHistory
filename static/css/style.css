@@ -910,10 +910,12 @@ button:hover {
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 per row max */
-    max-width: 950px; /* fits 3 cards nicely centered */
+    max-width: 950px;       /* keeps grid neatly contained */
+    margin: 0 auto;         /* ✅ centers the grid container itself */
+    justify-items: center;  /* ✅ centers each card within its grid cell */
+    align-items: start;     /* aligns tops evenly */
     gap: 25px;
     padding: 30px;
-    justify-content: center;
 }
 
 /* Cake card */
@@ -1500,6 +1502,15 @@ button:hover {
     padding: 10px;
     border-bottom: 1px solid #f0c8da;
     text-align: center;
+}
+
+.addon-header td {
+    background: #f9f9f9;
+    border-top: 2px solid #ccc;
+}
+.addon-row td {
+    background: #fafafa;
+    font-style: italic;
 }
 
 .order-footer {
