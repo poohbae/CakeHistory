@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderItem, PaymentMethod, Product, User
+from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderAddon, OrderItem, PaymentMethod, Product, User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def register_routes(app):
@@ -145,15 +145,20 @@ def register_routes(app):
         date_time = data.get('datetime')
         payment_method_id = data.get('payment_method_id')
         delivery_fee = float(data.get('delivery_fee', 0))
-
-        # Validate datetime
+    
         try:
+            # Parse input (naive, no timezone)
             selected_dt = datetime.fromisoformat(date_time)
+
+            # Assume it's local time; convert to UTC safely
+            selected_dt = selected_dt.replace(tzinfo=timezone.utc)
+
             if selected_dt < datetime.now(timezone.utc):
                 return jsonify({'success': False, 'message': 'Please choose a future date/time.'})
-        except Exception:
+        except Exception as e:
+            print("Datetime error:", e)
             return jsonify({'success': False, 'message': 'Invalid date/time format.'})
-
+  
         cart_items = Cart.query.filter_by(user_id=current_user.id).all()
         if not cart_items:
             return jsonify({'success': False, 'message': 'Cart is empty.'})
@@ -187,11 +192,12 @@ def register_routes(app):
             except ValueError:
                 delivery_address = address_data
 
-        # 🧾 Create the order
+        # Create the order
         order = Order(
             user_id=current_user.id,
-            total_amount=total,
             payment_method_id=payment_method_id,
+            total_amount=total,
+            order_date=datetime.now(timezone.utc),
             delivery_method=method,
             delivery_address=delivery_address,
             scheduled_datetime=selected_dt
@@ -199,7 +205,7 @@ def register_routes(app):
         db.session.add(order)
         db.session.commit()
 
-        # 🧁 Transfer cart items
+        # Transfer cart items
         for item in cart_items:
             # Handle cakes
             if item.item_type == 'product':
@@ -237,7 +243,6 @@ def register_routes(app):
 
         db.session.commit()
         return jsonify({'success': True, 'message': 'Order placed successfully!'})
-
 
     @app.route('/order')
     @login_required
