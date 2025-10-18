@@ -221,15 +221,6 @@
             <img src="{{ url_for('static', filename='images/' + box.img) }}" alt="{{ box.name }}">
             <h3>{{ box.name }}</h3>
             <p>RM {{ "%.2f"|format(box.price) }}</p>
-
-            <div class="option-section">
-                <label for="box-size-{{ box.id }}">Choose Size:</label>
-                <select id="box-size-{{ box.id }}" class="addon-select">
-                    <option value="S">Small</option>
-                    <option value="M">Medium</option>
-                    <option value="L">Large</option>
-                </select>
-            </div>
             <div class="menu-actions">
                 <div class="quantity">
                     <button class="qty-btn minus">−</button>

@@ -51,7 +51,6 @@ class Box(db.Model):
     price = db.Column(db.Float, nullable=False)
     img = db.Column(db.String(120))
     description = db.Column(db.Text)
-    has_size_option = db.Column(db.Boolean, default=True)
 
 class PaymentMethod(db.Model):
     __tablename__ = 'payment_methods'
