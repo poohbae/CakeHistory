@@ -151,12 +151,18 @@
                 </select>
                 {% endif %}
             </div>
-
-            {% if current_user.is_authenticated %}
-                <button class="add-cart-btn">Add to Cart</button>
-            {% else %}
-                <button class="add-cart-btn login-prompt">Add to Cart</button>
-            {% endif %}
+            <div class="menu-actions">
+                <div class="quantity">
+                    <button class="qty-btn minus">−</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-btn plus">+</button>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <button class="add-cart-btn">Add to Cart</button>
+                {% else %}
+                    <button class="add-cart-btn login-prompt">Add to Cart</button>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
 
@@ -180,11 +186,18 @@
                     <option value="Congratulations">Congratulations</option>
                 </select>
             </div>
-            {% if current_user.is_authenticated %}
-                <button class="add-cart-btn">Add to Cart</button>
-            {% else %}
-                <button class="add-cart-btn login-prompt">Add to Cart</button>
-            {% endif %}
+            <div class="menu-actions">
+                <div class="quantity">
+                    <button class="qty-btn minus">−</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-btn plus">+</button>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <button class="add-cart-btn">Add to Cart</button>
+                {% else %}
+                    <button class="add-cart-btn login-prompt">Add to Cart</button>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
 
@@ -208,12 +221,18 @@
                     <option value="L">Large</option>
                 </select>
             </div>
-
-            {% if current_user.is_authenticated %}
-                <button class="add-cart-btn">Add to Cart</button>
-            {% else %}
-                <button class="add-cart-btn login-prompt">Add to Cart</button>
-            {% endif %}
+            <div class="menu-actions">
+                <div class="quantity">
+                    <button class="qty-btn minus">−</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-btn plus">+</button>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <button class="add-cart-btn">Add to Cart</button>
+                {% else %}
+                    <button class="add-cart-btn login-prompt">Add to Cart</button>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>
@@ -237,7 +256,7 @@
 
     let hoverTimer;
 
-    // 🩷 Only bind hover events to images inside menu items
+    // Only bind hover events to images inside menu items
     document.querySelectorAll('.menu-item img').forEach(img => {
         const item = img.closest('.menu-item'); // reference to parent card
 
