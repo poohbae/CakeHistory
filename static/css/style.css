@@ -42,8 +42,8 @@ body.auth-page footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
-    color: black;
+    background-color: #eee3e3;
+    color: #ffb6c1;
     padding: 10px 30px;
     flex-wrap: wrap;
 }
@@ -60,7 +60,7 @@ body.auth-page footer {
 }
 
 .logo h1 {
-    color: black;
+    color: #ffb6c1;
     font-size: 24px;
     margin: 0;
     font-weight: 700;
