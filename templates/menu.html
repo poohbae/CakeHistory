@@ -294,7 +294,7 @@
     document.querySelectorAll('.login-prompt').forEach(btn => {
         btn.addEventListener('click', e => {
             e.preventDefault();
-            e.stopPropagation();
+            e.stopPropagation();    
             Swal.fire({
                 icon: 'info',
                 title: 'Login Required',
@@ -305,11 +305,12 @@
                 cancelButtonText: 'Cancel',
                 cancelButtonColor: '#999',
                 scrollbarPadding: false
-            }).then(() => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "{{ url_for('login_user_route') }}";
                 }
             });
+
         });
     });
 
