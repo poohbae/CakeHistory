@@ -46,8 +46,8 @@ body.swal2-shown {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #eee3e3;
-    color: #ffb6c1;
+    background-color: #ffb6c1;
+    color: #ff69b4;
     padding: 10px 30px;
     flex-wrap: wrap;
 }
@@ -74,7 +74,7 @@ body.swal2-shown {
 .nav-links a {
     position: relative;
     margin: 0 10px;
-    color: white;
+    color: #ff69b4;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
@@ -86,7 +86,7 @@ body.swal2-shown {
 /* Separator bar between items */
 .nav-links a:not(:last-child)::after {
     content: "|";
-    color: rgba(255, 255, 255, 0.6);
+    color: #fd5cad;
     position: absolute;
     right: -12px;
     top: 50%;
@@ -110,8 +110,8 @@ body.swal2-shown {
 
 .nav-links a:hover {
     background: white;
-    color: #ff69b4;
-    box-shadow: 0 3px 0 #ff69b4;
+    color: #ff1493;
+    box-shadow: 0 3px 0 #ff1493;
 }
 
 /* Optional smooth hover animation */
@@ -308,7 +308,7 @@ button:hover {
 /* Hero Banner */
 .hero-banner {
     background: url('../images/cake_banner.jpg') center/cover no-repeat;
-    height: 30vh;
+    height: 60vh;
     position: relative;
     display: flex;
     justify-content: center;
