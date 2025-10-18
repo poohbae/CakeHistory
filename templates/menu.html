@@ -162,6 +162,33 @@
             {% endif %}
         {% endfor %}
 
+        <!-- Boxes -->
+        {% for box in boxes %}
+        <div class="menu-item" 
+            data-item-type="box"
+            data-id="{{ box.id }}" 
+            data-name="{{ box.name }}" 
+            data-description="{{ box.description }}" 
+            data-img="{{ url_for('static', filename='images/' + box.img) }}">
+            
+            <img src="{{ url_for('static', filename='images/' + box.img) }}" alt="{{ box.name }}">
+            <h3>{{ box.name }}</h3>
+            <p>RM {{ "%.2f"|format(box.price) }}</p>
+            <div class="menu-actions">
+                <div class="quantity">
+                    <button class="qty-btn minus">−</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-btn plus">+</button>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <button class="add-cart-btn">Add to Cart</button>
+                {% else %}
+                    <button class="add-cart-btn login-prompt">Add to Cart</button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
         <!-- Candles -->
         {% for candle in candles %}
         <div class="menu-item"
@@ -230,33 +257,6 @@
                     <option value="Congratulations">Congratulations</option>
                 </select>
             </div>
-            <div class="menu-actions">
-                <div class="quantity">
-                    <button class="qty-btn minus">−</button>
-                    <span class="qty-value">1</span>
-                    <button class="qty-btn plus">+</button>
-                </div>
-                {% if current_user.is_authenticated %}
-                    <button class="add-cart-btn">Add to Cart</button>
-                {% else %}
-                    <button class="add-cart-btn login-prompt">Add to Cart</button>
-                {% endif %}
-            </div>
-        </div>
-        {% endfor %}
-
-        <!-- Boxes -->
-        {% for box in boxes %}
-        <div class="menu-item" 
-            data-item-type="box"
-            data-id="{{ box.id }}" 
-            data-name="{{ box.name }}" 
-            data-description="{{ box.description }}" 
-            data-img="{{ url_for('static', filename='images/' + box.img) }}">
-            
-            <img src="{{ url_for('static', filename='images/' + box.img) }}" alt="{{ box.name }}">
-            <h3>{{ box.name }}</h3>
-            <p>RM {{ "%.2f"|format(box.price) }}</p>
             <div class="menu-actions">
                 <div class="quantity">
                     <button class="qty-btn minus">−</button>
