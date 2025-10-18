@@ -4,7 +4,6 @@
     <h2>My Orders</h2>
 
     {% if orders %}
-        <div class="order-container"> 
         {% for order in orders %}
             <div class="order-card">
                 <div class="order-header">
@@ -106,7 +105,6 @@
                 </div>
             </div>
             {% endfor %}
-        </div>
     {% else %}
         <div class="empty-order">
             <h3>No Orders Yet!</h3>
