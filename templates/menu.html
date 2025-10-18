@@ -128,9 +128,40 @@
 <!-- ADD-ONS SECTION -->
 <section class="menu-section">
     <h2>🎁 Add-ons</h2>
-    <p>Customize your order with candles, cards, and boxes</p>
+    <p>Customize your order with add-on slices, candles, cards, and boxes</p>
 
     <div class="menu-grid">
+        <!-- 🌟 Slices -->
+        {% for cake in cakes %}
+        {% if cake.img3 %}
+        <div class="menu-item"
+            data-item-type="product"
+            data-id="{{ cake.id }}" 
+            data-name="{{ cake.name }}" 
+            data-description="{{ cake.description }}" 
+            data-img="{{ url_for('static', filename='images/' + cake.img3) }}"
+            data-img3="{{ url_for('static', filename='images/' + cake.img3) }}">
+            
+            <img src="{{ url_for('static', filename='images/' + cake.img3) }}" alt="{{ cake.name }}">
+            <h3>{{ cake.name }}</h3>
+            <p>RM {{ "%.2f"|format(cake.price) }}</p>
+
+            <div class="menu-actions">
+                <div class="quantity">
+                    <button class="qty-btn minus">−</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-btn plus">+</button>
+                </div>
+                {% if current_user.is_authenticated %}
+                    <button class="add-cart-btn">Add to Cart</button>
+                {% else %}
+                    <button class="add-cart-btn login-prompt">Add to Cart</button>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
         <!-- Candles -->
         {% for candle in candles %}
         <div class="menu-item"
@@ -261,14 +292,23 @@
 
     let hoverTimer;
 
-    // Only bind hover events to images inside menu items
+    // Loop through all menu images
     document.querySelectorAll('.menu-item img').forEach(img => {
-        const item = img.closest('.menu-item'); // reference to parent card
+        const item = img.closest('.menu-item');
 
         img.addEventListener('mouseenter', () => {
             hoverTimer = setTimeout(() => {
                 modal.classList.add('show');
-                modalImg.src = item.dataset.img; // show main image
+
+                // If the item has img3 (Special Edition) → use it
+                if (item.dataset.img3) {
+                    modalImg.src = item.dataset.img3;
+                } 
+                // Otherwise use the regular img (for butter/chiffon/premium)
+                else {
+                    modalImg.src = item.dataset.img;
+                }
+
                 modalTitle.textContent = item.dataset.name;
                 modalDesc.textContent = item.dataset.description || "No description available.";
             }, 150);
@@ -362,7 +402,16 @@
                 cancelButtonColor: '#999',
                 scrollbarPadding: false,
                 customClass: {
-                    input: 'centered-input'
+                    popup: 'swal-custom-popup',   // target popup
+                    input: 'swal-custom-input'    // target input
+                },
+                didOpen: () => {
+                    const input = Swal.getInput();
+                    if (input) {
+                        input.style.textAlign = 'center';
+                        input.style.fontSize = '15px';
+                        input.style.padding = '10px';
+                    }
                 }
             }).then(result => {
                 if (result.isConfirmed) {
