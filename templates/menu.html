@@ -355,15 +355,15 @@
                 input: 'text',
                 inputLabel: 'E.g. add normal candle, birthday message, or short note.',
                 inputPlaceholder: 'Leave blank if none',
+                inputAttributes: {
+                    style: 'text-align:center; font-size:15px; padding:10px;'
+                },
                 showCancelButton: true,
                 confirmButtonText: 'Add to Cart',
                 confirmButtonColor: '#ff69b4',
                 cancelButtonText: 'Cancel',
                 cancelButtonColor: '#999',
-                scrollbarPadding: false,
-                customClass: {
-                    input: 'swal-center-input'
-                }
+                scrollbarPadding: false
             }).then(result => {
                 if (result.isConfirmed) {
                     const specialRequest = result.value || null;

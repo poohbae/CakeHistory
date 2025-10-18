@@ -53,7 +53,8 @@ def register_routes(app):
             user_id=current_user.id,
             product_id=product_id,
             option_selected=option_selected,
-            special_request=special_request
+            special_request=special_request,
+            item_type=item_type
         ).first()
 
         if existing_item:
@@ -62,6 +63,7 @@ def register_routes(app):
             new_item = Cart(
                 user_id=current_user.id,
                 product_id=product_id,
+                item_type=item_type,
                 quantity=quantity,
                 option_selected=option_selected,
                 special_request=special_request
@@ -80,30 +82,30 @@ def register_routes(app):
     @login_required
     def cart():
         cart_items = Cart.query.filter_by(user_id=current_user.id).all()
-
-        # Separate cakes and add-ons
-        cake_items = []
-        addon_items = []
+        cake_items, addon_items = [], []
         subtotal = 0
 
         for item in cart_items:
-            product = item.product
+            # get the correct item object
+            if item.item_type == 'product':
+                product = Product.query.get(item.product_id)
+            elif item.item_type == 'candle':
+                product = Candle.query.get(item.product_id)
+            elif item.item_type == 'card':
+                product = Card.query.get(item.product_id)
+            elif item.item_type == 'box':
+                product = Box.query.get(item.product_id)
+            else:
+                continue  # skip unknown
+
             if not product:
                 continue
 
             total_price = product.price * item.quantity
             subtotal += total_price
 
-            if any(x in product.name.lower() for x in ['candle', 'card', 'box']):
-                addon_items.append({
-                    'name': product.name,
-                    'image': product.img,
-                    'price': product.price,
-                    'quantity': item.quantity,
-                    'total': total_price,
-                    'special_request': item.special_request
-                })
-            else:
+            # group accordingly
+            if item.item_type == 'product':
                 cake_items.append({
                     'name': product.name,
                     'image': product.img,
@@ -112,7 +114,16 @@ def register_routes(app):
                     'total': total_price,
                     'special_request': item.special_request
                 })
-
+            else:
+                addon_items.append({
+                    'name': product.name,
+                    'image': product.img,
+                    'price': product.price,
+                    'quantity': item.quantity,
+                    'total': total_price,
+                    'special_request': item.special_request
+                })
+                
         payment_methods = PaymentMethod.query.all()
 
         return render_template(

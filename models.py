@@ -62,13 +62,13 @@ class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    product_id = db.Column(db.Integer, nullable=False)
+    item_type = db.Column(db.String(50), nullable=False, default='product')
     quantity = db.Column(db.Integer, nullable=False, default=1)
     option_selected = db.Column(db.String(50))
-    special_request = db.Column(db.String(255))
+    special_request = db.Column(db.String(200))
 
     user = db.relationship('User', backref='cart_items', lazy=True)
-    product = db.relationship('Product', backref='cart_entries', lazy=True)
 
 class Order(db.Model):
     __tablename__ = 'orders'
