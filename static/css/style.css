@@ -971,6 +971,119 @@ button:hover {
     margin-bottom: 30px;
 }
 
+/* Cart container */
+.cart-container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+}
+
+/* Single row cart item */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 15px 0;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+/* Product image */
+.cart-item img {
+    width: 120px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Details section */
+.cart-details {
+    flex: 1;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.cart-details h3 {
+    margin: 0 0 8px 0;
+    color: #ff1493;
+}
+
+.cart-details p {
+    margin: 3px 0;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Total on the right */
+.cart-total {
+    text-align: right;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Summary (below items) */
+.cart-summary {
+    text-align: right;
+    margin-top: 20px;
+    background: #fff8f0;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+}
+
+.cart-summary p {
+    margin: 6px 0;
+}
+
+.cart-summary .grand-total {
+    font-size: 18px;
+    color: #ff1493;
+}
+
+.cart-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.continue-btn {
+    background: #f5f5f5;
+    color: #555;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid #ddd;
+}
+
+.continue-btn:hover {
+    background: #ffe4ec;
+    color: #ff69b4;
+    border-color: #ff69b4;
+}
+
+.place-order-btn {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.place-order-btn:hover {
+    background: #ff1493;
+}
+
 .order-modal {
   display: none;
   position: fixed;

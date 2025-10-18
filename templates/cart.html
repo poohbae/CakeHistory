@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="cart-page">
-    <h2><i class="fa-solid fa-cart-shopping"></i> My Cart</h2>
+    <h2>My Cart</h2>
 
     {% if current_user.is_authenticated %}
         {% if cake_items or addon_items %}
             <div class="cart-container">
-                <!-- 🧁 Cakes Section -->
+                <!-- Cakes Section -->
                 {% if cake_items %}
                 <h3 class="cart-section-title"><i class="fa-solid fa-cake-candles"></i> Cakes</h3>
                 {% for item in cake_items %}
@@ -47,12 +47,22 @@
                     <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal) }}</p>
                     <p id="delivery-fee" style="display:none;"><strong>Delivery Fee:</strong> RM 5.00</p>
                     <hr>
-                    <p class="grand-total"><strong>Total:</strong> RM <span id="grand-total">{{ "%.2f"|format(subtotal) }}</span></p>
-                    <button class="place-order-btn"><i class="fa-solid fa-credit-card"></i> Place Order</button>
+                    <p class="grand-total"><strong>Total:</strong> RM 
+                        <span id="grand-total">{{ "%.2f"|format(subtotal) }}</span>
+                    </p>
+
+                    <div class="cart-buttons">
+                        <a href="{{ url_for('menu') }}" class="continue-btn">
+                            <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+                        </a>
+                        <button class="place-order-btn">
+                            <i class="fa-solid fa-credit-card"></i> Place Order
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- 🧾 Order Modal -->
+            <!-- Order Modal -->
             <div id="orderModal" class="order-modal">
                 <div class="order-modal-content">
                     <span class="close-modal">&times;</span>
