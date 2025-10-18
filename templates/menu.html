@@ -2,8 +2,8 @@
 {% block content %}
 <div class="menu-grid">
     {% for cake in cakes %}
-    <div class="menu-item" data-name="{{ cake.name }}" data-description="{{ cake.description }}" data-img="{{ url_for('static', filename='images/' + cake.img) }}">
-        <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+    <div class="menu-item" data-id="{{ cake.id }}" data-name="{{ cake.name }}" data-description="{{ cake.description }}" data-img="{{ url_for('static', filename='images/' + cake.img) }}">
+        <img src="{{ url_for('static', filename='images/' + cake_box.img) }}" alt="{{ cake.name }}">
         <h3>{{ cake.name }}</h3>
         <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
@@ -92,6 +92,34 @@
     closeModal.addEventListener('click', () => modal.style.display = 'none');
     modal.addEventListener('click', e => {
         if (e.target === modal) modal.style.display = 'none';
+    });
+
+    // Add to cart
+    document.querySelectorAll('.add-cart-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const item = e.target.closest('.menu-item');
+            const productName = item.dataset.name;
+            const productId = item.dataset.id || item.getAttribute('data-id');
+            const qty = parseInt(item.querySelector('.qty-value').textContent);
+
+            fetch('/add_to_cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_id: productId, quantity: qty })
+            })
+            .then(res => res.json())
+            .then(data => {
+                Swal.fire({
+                    icon: data.success ? 'success' : 'error',
+                    title: data.success ? 'Added to Cart!' : 'Oops...',
+                    text: data.message,
+                    confirmButtonColor: '#ff69b4'
+                });
+            });
+        });
     });
 </script>
 {% endblock %}

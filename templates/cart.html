@@ -27,9 +27,110 @@
 
                 <button class="place-order-btn"><i class="fa-solid fa-credit-card"></i> Place Order</button>
             </div>
+
+            <!-- Order Modal -->
+            <div id="orderModal" class="order-modal">
+            <div class="order-modal-content">
+                <span class="close-modal">&times;</span>
+                <h3><i class="fa-solid fa-truck"></i> Place Your Order</h3>
+
+                <form id="orderForm">
+                <label><strong>Choose Method:</strong></label><br>
+                <input type="radio" name="method" value="pickup" checked> Pickup
+                <input type="radio" name="method" value="delivery"> Delivery
+                <br><br>
+
+                <div id="pickup-address" style="display:block;">
+                    <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
+                </div>
+
+                <div id="delivery-address" style="display:none;">
+                    <input type="text" name="address" placeholder="Enter delivery address">
+                </div>
+
+                <br>
+                <label><strong>Date & Time:</strong></label><br>
+                <input type="datetime-local" name="datetime" required><br><br>
+
+                <label><strong>Payment Method:</strong></label><br>
+                <select name="payment" required>
+                    <option value="cash">Cash on Delivery</option>
+                    <option value="online">Online Payment</option>
+                </select>
+                <br><br>
+
+                <button type="submit" class="confirm-order-btn">Confirm Order</button>
+                </form>
+            </div>
+            </div>
+
+            <script>
+            const modal = document.getElementById("orderModal");
+            const btn = document.querySelector(".place-order-btn");
+            const closeBtn = document.querySelector(".close-modal");
+            const form = document.getElementById("orderForm");
+            const pickup = document.getElementById("pickup-address");
+            const delivery = document.getElementById("delivery-address");
+
+            btn.addEventListener("click", () => modal.style.display = "flex");
+            closeBtn.addEventListener("click", () => modal.style.display = "none");
+            modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+
+            // Toggle delivery/pickup fields
+            form.method.forEach(radio => {
+            radio.addEventListener("change", () => {
+                if (radio.value === "delivery" && radio.checked) {
+                pickup.style.display = "none";
+                delivery.style.display = "block";
+                } else if (radio.value === "pickup" && radio.checked) {
+                pickup.style.display = "block";
+                delivery.style.display = "none";
+                }
+            });
+            });
+
+            // Form submission
+            form.addEventListener("submit", e => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+
+            // Validate date/time
+            const selected = new Date(payload.datetime);
+            const now = new Date();
+            if (selected <= now) {
+                Swal.fire({ icon: 'warning', text: 'Please select a future date and time.', confirmButtonColor: '#ff69b4' });
+                return;
+            }
+
+            fetch('/place_order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                Swal.fire({
+                icon: data.success ? 'success' : 'error',
+                title: data.success ? 'Order Successful!' : 'Oops...',
+                text: data.message,
+                confirmButtonColor: '#ff69b4'
+                }).then(() => {
+                if (data.success) window.location.href = "{{ url_for('home') }}";
+                });
+            });
+            });
+            </script>
         </div>
     {% else %}
-        <p>Your cart is empty 🧁</p>
+        <div class="empty-cart">
+            <img src="{{ url_for('static', filename='images/empty_cart.png') }}" alt="Empty Cart" class="empty-cart-img">
+            <h3>Your cart is empty!</h3>
+            <p>Looks like you haven’t added any cakes yet.</p>
+            <a href="{{ url_for('menu') }}" class="browse-menu-btn">
+                <i class="fa-solid fa-cake-candles"></i> Browse Menu
+            </a>
+        </div>
     {% endif %}
 {% else %}
     <p>Please <a href="{{ url_for('login_user_route') }}">login</a> to view your cart.</p>
