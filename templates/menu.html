@@ -10,7 +10,10 @@
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
-                data-img="{{ url_for('static', filename='images/' + cake.img2) }}">
+                data-img="{{ url_for('static', filename='images/' + cake.img) }}"
+                data-img2="{{ url_for('static', filename='images/' + cake.img2) }}">
+                
+                <!-- Display smaller image (img2) -->
                 <img src="{{ url_for('static', filename='images/' + cake.img2) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
                 <p>RM {{ "%.2f"|format(cake.price) }}</p>
@@ -45,7 +48,10 @@
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
-                data-img="{{ url_for('static', filename='images/' + cake.img2) }}">
+                data-img="{{ url_for('static', filename='images/' + cake.img) }}"
+                data-img2="{{ url_for('static', filename='images/' + cake.img2) }}">
+                
+                <!-- Display smaller image (img2) -->
                 <img src="{{ url_for('static', filename='images/' + cake.img2) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
                 <p>RM {{ "%.2f"|format(cake.price) }}</p>
@@ -80,7 +86,10 @@
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
-                data-img="{{ url_for('static', filename='images/' + cake.img2) }}">
+                data-img="{{ url_for('static', filename='images/' + cake.img) }}"
+                data-img2="{{ url_for('static', filename='images/' + cake.img2) }}">
+                
+                <!-- Display smaller image (img2) -->
                 <img src="{{ url_for('static', filename='images/' + cake.img2) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
                 <p>RM {{ "%.2f"|format(cake.price) }}</p>
@@ -220,6 +229,29 @@
 </div>
 
 <script>
+    // Modal interaction
+    const modal = document.getElementById('cakeModal');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+
+    let hoverTimer;
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            hoverTimer = setTimeout(() => {
+                modal.classList.add('show');
+                modalImg.src = item.dataset.img; // 🩷 use main image (img)
+                modalTitle.textContent = item.dataset.name;
+                modalDesc.textContent = item.dataset.description || "No description available.";
+            }, 150);
+        });
+
+        item.addEventListener('mouseleave', () => {
+            clearTimeout(hoverTimer);
+            modal.classList.remove('show');
+        });
+    });
+
     // Quantity control (only applies to items that have the buttons)
     document.querySelectorAll('.menu-item').forEach(item => {
         const minus = item.querySelector('.minus');
@@ -254,7 +286,6 @@
         });
     });
 
-
     // Login prompt SweetAlert
     document.querySelectorAll('.login-prompt').forEach(btn => {
         btn.addEventListener('click', e => {
@@ -270,29 +301,6 @@
             }).then(() => {
                 window.location.href = "{{ url_for('login_user_route') }}";
             });
-        });
-    });
-
-    //  Modal interaction
-    const modal = document.getElementById('cakeModal');
-    const modalImg = document.getElementById('modal-img');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDesc = document.getElementById('modal-desc');
-
-    let hoverTimer;
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            hoverTimer = setTimeout(() => {
-                modal.classList.add('show');
-                modalImg.src = item.dataset.img;
-                modalTitle.textContent = item.dataset.name;
-                modalDesc.textContent = item.dataset.description || "No description available.";
-            }, 150);
-        });
-
-        item.addEventListener('mouseleave', () => {
-            clearTimeout(hoverTimer);
-            modal.classList.remove('show');
         });
     });
 
