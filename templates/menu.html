@@ -3,7 +3,7 @@
 <div class="menu-grid">
     {% for cake in cakes %}
     <div class="menu-item" data-id="{{ cake.id }}" data-name="{{ cake.name }}" data-description="{{ cake.description }}" data-img="{{ url_for('static', filename='images/' + cake.img) }}">
-        <img src="{{ url_for('static', filename='images/' + cake_box.img) }}" alt="{{ cake.name }}">
+        <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
         <h3>{{ cake.name }}</h3>
         <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
