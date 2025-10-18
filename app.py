@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Database config
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'mysql+mysqlconnector://poohbae:CakeHistory@poohbae.mysql.pythonanywhere-services.com/poohbae$CakeHistory'
+    'mysql+mysqlconnector://poohbae:cakehistory@poohbae.mysql.pythonanywhere-services.com/poohbae$CakeHistory'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
