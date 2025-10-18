@@ -87,7 +87,7 @@ def register_routes(app):
 
         for item in cart_items:
             # get the correct item object
-            if item.item_type == 'product':
+            if item.item_type == 'cake':
                 product = Product.query.get(item.product_id)
             elif item.item_type == 'candle':
                 product = Candle.query.get(item.product_id)
@@ -230,9 +230,10 @@ def register_routes(app):
                     continue
                 addon = OrderAddon(
                     order_id=order.id,
+                    addon_name=product.name,
                     addon_type=item.item_type,
                     addon_id=item.product_id,
-                    option_selected=item.option_selected,  # ✅ Save the selected option
+                    option_selected=item.option_selected,
                     quantity=item.quantity,
                     price_each=product.price
                 )

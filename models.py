@@ -99,8 +99,9 @@ class OrderAddon(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
-    addon_type = db.Column(db.Enum('candle', 'card', 'box'), nullable=False)
     addon_id = db.Column(db.Integer, nullable=False)
+    addon_name = db.Column(db.String(100), nullable=False)
+    addon_type = db.Column(db.Enum('candle', 'card', 'box'), nullable=False)
     option_selected = db.Column(db.String(50))
     quantity = db.Column(db.Integer, default=1)
     price_each = db.Column(db.Float, nullable=False)

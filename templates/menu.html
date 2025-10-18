@@ -15,7 +15,7 @@
         {% for cake in cakes %}
             {% if "Chiffon" not in cake.name and "Signature" not in cake.name and "Mix" not in cake.name %}
             <div class="menu-item" 
-                data-item-type="product"
+                data-item-type="cake"
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
@@ -55,7 +55,7 @@
             {% if "Chiffon" in cake.name %}
             <div class="menu-item" 
                 data-id="{{ cake.id }}"
-                data-item-type="product" 
+                data-item-type="cake" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
                 data-img="{{ url_for('static', filename='images/' + cake.img) }}"
@@ -94,7 +94,7 @@
             {% if "Signature" in cake.name or "Mix" in cake.name %}
             <div class="menu-item" 
                 data-id="{{ cake.id }}"
-                data-item-type="product"
+                data-item-type="cake"
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
                 data-img="{{ url_for('static', filename='images/' + cake.img) }}"
@@ -135,7 +135,7 @@
         {% for cake in cakes %}
             {% if cake.img3 and 1 <= cake.id <= 5 %}
             <div class="menu-item"
-                data-item-type="product"
+                data-item-type="cake"
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
@@ -389,7 +389,7 @@
             const qty = parseInt(item.querySelector('.qty-value').textContent);
             const option = item.querySelector('.addon-select')?.value || null;
             const name = item.dataset.name || '';
-            const type = item.dataset.itemType || 'product';
+            const type = item.dataset.itemType || 'cake';
 
             // CASE 1: MIX BOX (choose up to 5 cakes)
             if (name.includes("Mix")) {
