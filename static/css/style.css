@@ -289,7 +289,6 @@ button:hover {
     padding: 10px 40px 10px 12px; /* more space for icon on right */
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 15px;
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s ease;
