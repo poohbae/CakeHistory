@@ -153,7 +153,7 @@ def register_routes(app):
     
     @app.route('/order')
     @login_required
-    def order_page():
+    def order():
         orders = (
             Order.query
             .filter_by(user_id=current_user.id)
