@@ -58,9 +58,6 @@ class PaymentMethod(db.Model):
     name = db.Column(db.String(100), nullable=False)
     img = db.Column(db.String(150))
 
-    # Relationship
-    orders = db.relationship('Order', backref='payment_method', lazy=True)
-
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
@@ -72,8 +69,6 @@ class Cart(db.Model):
     user = db.relationship('User', backref='cart_items', lazy=True)
     product = db.relationship('Product', backref='cart_entries', lazy=True)
 
-from datetime import datetime, timezone
-
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
@@ -84,11 +79,10 @@ class Order(db.Model):
     status = db.Column(db.String(50), default='Pending')
     delivery_method = db.Column(db.String(20))  # 'pickup' or 'delivery'
     delivery_address = db.Column(db.String(255), nullable=True)
-    scheduled_datetime = db.Column(db.DateTime, nullable=False)  # NEW COLUMN
+    scheduled_datetime = db.Column(db.DateTime, nullable=False)
 
-    # Relationships
     items = db.relationship('OrderItem', backref='order', lazy=True, cascade="all, delete")
-    payment_method = db.relationship('PaymentMethod', backref='orders', lazy=True)
+    payment_method = db.relationship('PaymentMethod', lazy=True)
 
 class OrderItem(db.Model):
     __tablename__ = 'order_items'
