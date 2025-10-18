@@ -47,5 +47,33 @@
     <footer>
         <p>© 2025 CakeHistory. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartLink = document.querySelector('a[href="{{ url_for("cart") }}"]');
+            const isAuthenticated = "{{ 'true' if current_user.is_authenticated else 'false' }}" === "true";
+
+            if (!isAuthenticated && cartLink) {
+                cartLink.addEventListener('click', e => {
+                    e.preventDefault(); // stop direct navigation
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Login Required',
+                        text: 'Please login to view your cart or place an order.',
+                        confirmButtonText: 'Login',
+                        confirmButtonColor: '#ff69b4',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancel',
+                        cancelButtonColor: '#999',
+                        scrollbarPadding: false
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ url_for('login_user_route') }}";
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
