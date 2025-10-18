@@ -280,15 +280,16 @@ button:hover {
 
 .input-wrapper {
     position: relative;
-    display: inline-block;  /* ✅ Ensures icon overlays input correctly */
+    display: inline-block;
     width: 100%;
     margin-bottom: 10px;
 }
 
 .input-wrapper input {
     width: 100%;
-    padding-right: 40px; /* space for the eye icon */
+    padding: 10px 40px 10px 10px; /* right padding for eye icon */
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 .input-wrapper .toggle-password {
