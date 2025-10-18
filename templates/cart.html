@@ -76,13 +76,32 @@
                     <input type="datetime-local" name="datetime" required><br><br>
 
                     <label><strong>Payment Method:</strong></label><br>
-                    <select name="payment_method_id" required>
-                        {% for method in payment_methods %}
-                            <option value="{{ method.id }}">{{ method.name }}</option>
-                        {% endfor %}
+                    <select id="payment-category" name="payment_category" required>
+                        <option value="">-- Select Payment Method --</option>
+                        <option value="tng">Touch 'n Go eWallet</option>
+                        <option value="online">Online Banking</option>
                     </select>
-                    <br><br>
 
+                    <!-- This is the dropdown for banks -->
+                    <div id="bank-options" style="display:none; margin-top:10px;">
+                        <label><strong>Select Bank:</strong></label><br>
+                        <select id="payment_method_id" name="payment_method_id">
+                            {% for method in payment_methods %}
+                                {% if 'Bank' in method.name %}
+                                    <option value="{{ method.id }}">{{ method.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Store the TnG ID in a hidden input -->
+                    {% for method in payment_methods %}
+                        {% if 'Touch' in method.name %}
+                            <input type="hidden" id="tng_id" value="{{ method.id }}">
+                        {% endif %}
+                    {% endfor %}
+
+                    <br><br>
                     <button type="submit" class="confirm-order-btn">Confirm Order</button>
                 </form>
             </div>
@@ -119,6 +138,25 @@
                     totalEl.textContent = baseTotal.toFixed(2);
                 }
             });
+        });
+    
+        document.getElementById('payment-category').addEventListener('change', function() {
+            const bankOptions = document.getElementById('bank-options');
+            const bankSelect = document.getElementById('payment_method_id');
+            const tngId = document.getElementById('tng_id').value; // safely get the ID here
+
+            if (this.value === 'online') {
+                bankOptions.style.display = 'block';
+                bankSelect.required = true;
+            } else if (this.value === 'tng') {
+                bankOptions.style.display = 'none';
+                bankSelect.required = false;
+                bankSelect.value = tngId; // automatically set the TnG payment id
+            } else {
+                bankOptions.style.display = 'none';
+                bankSelect.required = false;
+                bankSelect.value = ''; // reset
+            }
         });
 
         // Form submission
