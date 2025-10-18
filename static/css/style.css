@@ -918,6 +918,17 @@ button:hover {
     padding: 30px;
 }
 
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* up to 3 per row */
+    max-width: 950px;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: start;
+    gap: 25px;
+    padding: 30px;
+}
+
 /* Cake card */
 .menu-item {
     background: #fff;
@@ -987,75 +998,50 @@ button:hover {
     font-size: 14px;
 }
 
-/* Quantity & Add button container */
+/* ✅ Button + quantity wrapper stays fixed at bottom */
 .menu-actions {
+    margin-top: auto; /* pushes actions to bottom */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
 }
 
-/* Quantity counter */
+/* quantity controls */
 .quantity {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 4px 8px;
+    gap: 8px;
 }
 
 .qty-btn {
-    background: #ffe6ef;
-    color: #ff1493;
+    background: #ff1493;
+    color: #fff;
     border: none;
     border-radius: 6px;
-    width: 30px;
-    height: 30px;
-    font-size: 18px;
+    padding: 5px 10px;
+    font-weight: bold;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;  /* ✅ perfectly center icon */
-    transition: background 0.2s ease;
+    transition: 0.2s;
 }
 
 .qty-btn:hover {
-    background: #ffb6c1;
+    background: #e01382;
 }
 
-.qty-value {
-    font-weight: 600;
-    font-size: 16px;
-    color: #444;
-    width: 30px;              /* consistent width */
-    text-align: center;       /* ✅ horizontally centered */
-    display: flex;
-    justify-content: center;  /* ✅ center horizontally */
-    align-items: center;      /* ✅ center vertically */
-}
-
-/* Add to Cart button */
+/* Add to cart button */
 .add-cart-btn {
-    background: #ff69b4;
+    background: #32cd32;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 6px 14px;
+    border-radius: 6px;
+    padding: 8px 14px;
     font-weight: 600;
-    font-size: 14px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100px;
+    transition: 0.2s;
 }
 
 .add-cart-btn:hover {
-    background: #ff1493;
-    transform: translateY(-1px);
+    background: #28a428;
 }
 
 .swal-custom-popup {
