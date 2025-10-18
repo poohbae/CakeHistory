@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CakeHistory 🍰</title>
+    <title>CakeHistory</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -15,8 +15,9 @@
         <nav class="nav-links">
             <a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
             <a href="{{ url_for('menu') }}"><i class="fa-solid fa-utensils"></i> Menu</a>
-            <a href="{{ url_for('order') }}"><i class="fa-solid fa-cart-shopping"></i> Order</a>
+            <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
         </nav>
+
 
         <div class="auth-buttons">
             {% if current_user.is_authenticated %}

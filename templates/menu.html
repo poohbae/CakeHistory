@@ -1,14 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Our Cakes Menu 🍰</h2>
+<h2>Our Cakes Menu <i class="fa-solid fa-cake-candles"></i></h2>
+
 <div class="menu-grid">
     {% for cake in cakes %}
     <div class="menu-item">
         <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
         <h3>{{ cake.name }}</h3>
         <p>RM {{ "%.2f"|format(cake.price) }}</p>
-        <a href="{{ url_for('order') }}" class="order-btn">Order Now</a>
+
+        <div class="menu-actions">
+            <div class="quantity">
+                <button class="qty-btn minus">−</button>
+                <span class="qty-value">1</span>
+                <button class="qty-btn plus">+</button>
+            </div>
+            <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+        </div>
     </div>
     {% endfor %}
 </div>
+
+<script>
+    // Small inline JS to handle quantity changes
+    document.querySelectorAll('.menu-item').forEach(item => {
+        const minus = item.querySelector('.minus');
+        const plus = item.querySelector('.plus');
+        const value = item.querySelector('.qty-value');
+        let qty = 1;
+
+        minus.addEventListener('click', () => {
+            if (qty > 1) qty--;
+            value.textContent = qty;
+        });
+
+        plus.addEventListener('click', () => {
+            qty++;
+            value.textContent = qty;
+        });
+    });
+</script>
 {% endblock %}
