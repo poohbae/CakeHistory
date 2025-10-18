@@ -121,9 +121,10 @@ def register_routes(app):
                     'price': product.price,
                     'quantity': item.quantity,
                     'total': total_price,
-                    'special_request': item.special_request
+                    'special_request': item.special_request,
+                    'option_selected': item.option_selected
                 })
-                
+
         payment_methods = PaymentMethod.query.all()
 
         return render_template(
@@ -157,20 +158,36 @@ def register_routes(app):
         if not cart_items:
             return jsonify({'success': False, 'message': 'Cart is empty.'})
 
-        total = sum(item.product.price * item.quantity for item in cart_items)
+        # Calculate total
+        total = 0
+        for item in cart_items:
+            # Find correct product object by type
+            if item.item_type == 'product':
+                product = Product.query.get(item.product_id)
+            elif item.item_type == 'candle':
+                product = Candle.query.get(item.product_id)
+            elif item.item_type == 'card':
+                product = Card.query.get(item.product_id)
+            elif item.item_type == 'box':
+                product = Box.query.get(item.product_id)
+            else:
+                continue
 
-        # Parse delivery area + fee if applicable
+            if product:
+                total += product.price * item.quantity
+
+        total += delivery_fee
+
+        # Parse delivery address
         delivery_address = None
         if method == 'delivery' and address_data:
             try:
-                area, fee = address_data.split('|')
+                area, _ = address_data.split('|')
                 delivery_address = area.strip()
             except ValueError:
                 delivery_address = address_data
 
-        total += delivery_fee
-
-        # Create order
+        # 🧾 Create the order
         order = Order(
             user_id=current_user.id,
             total_amount=total,
@@ -182,20 +199,45 @@ def register_routes(app):
         db.session.add(order)
         db.session.commit()
 
-        # 🧁 Transfer each cart item into OrderItem (including special_request)
+        # 🧁 Transfer cart items
         for item in cart_items:
-            order_item = OrderItem(
-                order_id=order.id,
-                product_id=item.product_id,
-                quantity=item.quantity,
-                price_each=item.product.price,
-                special_request=item.special_request
-            )
-            db.session.add(order_item)
-            db.session.delete(item)  # clear cart after order placed
+            # Handle cakes
+            if item.item_type == 'product':
+                product = Product.query.get(item.product_id)
+                if not product:
+                    continue
+                order_item = OrderItem(
+                    order_id=order.id,
+                    product_id=item.product_id,
+                    quantity=item.quantity,
+                    price_each=product.price,
+                    special_request=item.special_request
+                )
+                db.session.add(order_item)
+
+            # Handle add-ons (candles/cards/boxes)
+            elif item.item_type in ['candle', 'card', 'box']:
+                # find product to get price
+                model = {'candle': Candle, 'card': Card, 'box': Box}[item.item_type]
+                product = model.query.get(item.product_id)
+                if not product:
+                    continue
+                addon = OrderAddon(
+                    order_id=order.id,
+                    addon_type=item.item_type,
+                    addon_id=item.product_id,
+                    option_selected=item.option_selected,  # ✅ Save the selected option
+                    quantity=item.quantity,
+                    price_each=product.price
+                )
+                db.session.add(addon)
+
+            # remove from cart
+            db.session.delete(item)
 
         db.session.commit()
         return jsonify({'success': True, 'message': 'Order placed successfully!'})
+
 
     @app.route('/order')
     @login_required

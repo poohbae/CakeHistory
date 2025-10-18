@@ -86,9 +86,9 @@
 
 <hr>
 
-<!-- SIGNATURE SECTION -->
+<!-- CAKE COLLECTION SECTION -->
 <section class="menu-section">
-    <h2>💎 Signature Series</h2>
+    <h2>💎 Cake Collection Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
             {% if "Signature" in cake.name or "Mix" in cake.name %}
@@ -388,59 +388,123 @@
             const productId = item.dataset.id;
             const qty = parseInt(item.querySelector('.qty-value').textContent);
             const option = item.querySelector('.addon-select')?.value || null;
+            const name = item.dataset.name || '';
+            const type = item.dataset.itemType || 'product';
 
-            // Ask for special request note before adding to cart
-            Swal.fire({
-                title: 'Any Special Request?',
-                input: 'text',
-                inputLabel: 'E.g. add normal candle, birthday message, or short note.',
-                inputPlaceholder: 'Leave blank if none',
-                showCancelButton: true,
-                confirmButtonText: 'Add to Cart',
-                confirmButtonColor: '#ff69b4',
-                cancelButtonText: 'Cancel',
-                cancelButtonColor: '#999',
-                scrollbarPadding: false,
-                customClass: {
-                    popup: 'swal-custom-popup',   // target popup
-                    input: 'swal-custom-input'    // target input
-                },
-                didOpen: () => {
-                    const input = Swal.getInput();
-                    if (input) {
-                        input.style.textAlign = 'center';
-                        input.style.fontSize = '15px';
-                        input.style.padding = '10px';
+            // CASE 1: MIX BOX (choose up to 5 cakes)
+            if (name.includes("Mix")) {
+                Swal.fire({
+                    title: 'Customize Your Mix Box (5 cakes max)',
+                    html: `
+                        <p style="margin-bottom:8px;">Distribute 5 cakes among these flavors:</p>
+                        <div class="mix-box-grid">
+                            <label>Butter: <input type="number" id="butter" min="0" max="5" value="0"></label><br>
+                            <label>Marble: <input type="number" id="marble" min="0" max="5" value="0"></label><br>
+                            <label>Pandan: <input type="number" id="pandan" min="0" max="5" value="0"></label><br>
+                            <label>Orange: <input type="number" id="orange" min="0" max="5" value="0"></label><br>
+                            <label>Fruit: <input type="number" id="fruit" min="0" max="5" value="0"></label><br>
+                        </div>
+                        <small style="color:#777;">Make sure total = 5 before confirming.</small>
+                    `,
+                    confirmButtonText: 'Confirm Selection',
+                    confirmButtonColor: '#ff69b4',
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        const butter = parseInt(document.getElementById('butter').value) || 0;
+                        const marble = parseInt(document.getElementById('marble').value) || 0;
+                        const pandan = parseInt(document.getElementById('pandan').value) || 0;
+                        const orange = parseInt(document.getElementById('orange').value) || 0;
+                        const fruit = parseInt(document.getElementById('fruit').value) || 0;
+                        const total = butter + marble + pandan + orange + fruit;
+                        if (total !== 5) {
+                            Swal.showValidationMessage(`Total must equal 5 (currently ${total})`);
+                            return false;
+                        }
+                        return { butter, marble, pandan, orange, fruit };
                     }
-                }
-            }).then(result => {
-                if (result.isConfirmed) {
-                    const specialRequest = result.value || null;
-                    const type = item.dataset.itemType || 'product';
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        const mix = result.value;
+                        const mixSummary = `Mix Box: Butter ${mix.butter}, Marble ${mix.marble}, Pandan ${mix.pandan}, Orange ${mix.orange}, Fruit ${mix.fruit}`;
 
-                    fetch('/add_to_cart', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        quantity: qty,
-                        option_selected: option,
-                        special_request: specialRequest,
-                        item_type: type
-                    })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        Swal.fire({
-                            icon: data.success ? 'success' : 'error',
-                            title: data.success ? 'Added to Cart!' : 'Oops...',
-                            text: data.message,
-                            confirmButtonColor: '#ff69b4',
-                            scrollbarPadding: false
+                        // send to backend
+                        fetch('/add_to_cart', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                product_id: productId,
+                                quantity: qty,
+                                option_selected: option,
+                                special_request: mixSummary,
+                                item_type: type
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: data.success ? 'success' : 'error',
+                                title: data.success ? 'Added to Cart!' : 'Oops...',
+                                text: data.message,
+                                confirmButtonColor: '#ff69b4',
+                                scrollbarPadding: false
+                            });
                         });
-                    });
-                }
-            });
+                    }
+                });
+            } 
+            
+            // CASE 2: NORMAL PRODUCTS — show special request input
+            else {
+                Swal.fire({
+                    title: 'Any Special Request?',
+                    input: 'text',
+                    inputLabel: 'E.g. add normal candle, birthday message, or short note.',
+                    inputPlaceholder: 'Leave blank if none',
+                    showCancelButton: true,
+                    confirmButtonText: 'Add to Cart',
+                    confirmButtonColor: '#ff69b4',
+                    cancelButtonText: 'Cancel',
+                    cancelButtonColor: '#999',
+                    scrollbarPadding: false,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        input: 'swal-custom-input'
+                    },
+                    didOpen: () => {
+                        const input = Swal.getInput();
+                        if (input) {
+                            input.style.textAlign = 'center';
+                            input.style.fontSize = '15px';
+                            input.style.padding = '10px';
+                        }
+                    }
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        const specialRequest = result.value || null;
+                        fetch('/add_to_cart', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                product_id: productId,
+                                quantity: qty,
+                                option_selected: option,
+                                special_request: specialRequest,
+                                item_type: type
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: data.success ? 'success' : 'error',
+                                title: data.success ? 'Added to Cart!' : 'Oops...',
+                                text: data.message,
+                                confirmButtonColor: '#ff69b4',
+                                scrollbarPadding: false
+                            });
+                        });
+                    }
+                });
+            }
         });
     });
 </script>

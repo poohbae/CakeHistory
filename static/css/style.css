@@ -1060,6 +1060,20 @@ button:hover {
     width: 80% !important;        /* adjust width for better look */
 }
 
+.mix-box-grid label {
+    display: block;
+    margin: 6px 0;
+    font-size: 15px;
+}
+.mix-box-grid input {
+    width: 50px;
+    text-align: center;
+    margin-left: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 2px;
+}
+
 .cake-modal {
     opacity: 0;
     visibility: hidden;

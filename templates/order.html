@@ -26,9 +26,7 @@
 
             {% if order.delivery_method %}
             <div class="delivery-info">
-                <p><strong>Method:</strong> 
-                    {{ order.delivery_method|capitalize }}
-                </p>
+                <p><strong>Method:</strong> {{ order.delivery_method|capitalize }}</p>
 
                 {% if order.delivery_method == 'delivery' %}
                     <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
@@ -36,7 +34,9 @@
                     <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
                 {% endif %}
 
-                <p><strong>Scheduled Date & Time:</strong> {{ order.scheduled_datetime.strftime('%d %b %Y, %I:%M %p') }}</p>
+                <p><strong>Scheduled Date & Time:</strong> 
+                    {{ order.scheduled_datetime.strftime('%d %b %Y, %I:%M %p') }}
+                </p>
             </div>
             {% endif %}
 
@@ -50,6 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- 🧁 Cakes -->
                     {% for item in order.items %}
                     <tr>
                         <td>
@@ -62,8 +63,33 @@
                         <td>{{ "%.2f"|format(item.price_each) }}</td>
                         <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
                     </tr>
-
                     {% endfor %}
+
+                    <!-- 🎁 Add-ons -->
+                    {% if order.addons %}
+                    <tr class="addon-header">
+                        <td colspan="4" style="font-weight:bold; padding-top:10px;">
+                            <i class="fa-solid fa-gift"></i> Add-ons
+                        </td>
+                    </tr>
+                    {% for addon in order.addons %}
+                    <tr class="addon-row">
+                        <td>
+                            {{ addon.addon_type|capitalize }}
+                            {% if addon.option_selected %}
+                                <p class="option-selected">
+                                    <strong>Option:</strong> {{ addon.option_selected }}
+                                </p>
+                            {% endif %}
+                        </td>
+                        <td>{{ addon.quantity }}</td>
+                        <td>{{ "%.2f"|format(addon.price_each) }}</td>
+                        <td>{{ "%.2f"|format(addon.quantity * addon.price_each) }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                    <!-- 💰 Total -->
                     <tr class="order-total-row">
                         <td colspan="3" style="text-align:right; font-weight:bold;">Total Amount:</td>
                         <td style="font-weight:bold;">RM {{ "%.2f"|format(order.total_amount) }}</td>

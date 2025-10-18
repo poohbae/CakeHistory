@@ -35,8 +35,14 @@
                     <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
                     <div class="cart-details">
                         <h3>{{ item.name }}</h3>
+                        
+                        {% if item.option_selected %}
+                            <p><strong>{{ item.option_selected }}</strong></p>
+                        {% endif %}
+                        
                         <p>Quantity: {{ item.quantity }}</p>
                         <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
+                        
                         {% if item.special_request %}
                             <p class="special-request"><strong>Special Request:</strong> {{ item.special_request }}</p>
                         {% endif %}
