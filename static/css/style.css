@@ -606,120 +606,120 @@ button:hover {
 
 /* Floating chat button */
 .chat-btn {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  background-color: #ff69b4;
-  color: white;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  z-index: 1000;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background-color: #ff69b4;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .chat-btn:hover {
-  transform: scale(1.1);
-  background-color: #ff85c1;
+    transform: scale(1.1);
+    background-color: #ff85c1;
 }
 
 /* Chat modal */
 .chat-modal {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
 }
 
 .chat-modal-content {
-  background: #fff;
-  width: 350px;
-  border-radius: 12px;
-  padding: 20px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    background: #fff;
+    width: 350px;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
 
 .close-chat {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  font-size: 24px;
-  color: #888;
-  cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
 }
 
 .close-chat:hover {
-  color: #ff69b4;
+    color: #ff69b4;
 }
 
 /* Chat content styling */
 .chat-options {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin: 15px 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 15px 0;
 }
 
 .chat-option {
-  background: #ffe1ec;
-  color: black;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    background: #ffe1ec;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .chat-option:hover {
-  background: #ffb6c1;
+    background: #ffb6c1;
 }
 
 #chat-input {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 8px;
-  margin-top: 10px;
-  resize: none;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 10px;
+    resize: none;
 }
 
 .send-chat-btn {
-  background-color: #ff69b4;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  margin-top: 10px;
-  padding: 8px 16px;
-  cursor: pointer;
-  width: 100%;
+    background-color: #ff69b4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    width: 100%;
 }
 
 .send-chat-btn:hover {
-  background-color: #ff85c1;
+    background-color: #ff85c1;
 }
 
 /* Chatbot response */
 .chat-response {
-  margin-top: 15px;
-  background: #f5f5f5;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #333;
+    margin-top: 15px;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
 }
 
 /* ==========================
@@ -1028,36 +1028,42 @@ button:hover {
 
 /* Summary (below items) */
 .cart-summary {
-    text-align: right;
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;      /* stack texts and buttons */
+    align-items: stretch;        /* allow buttons row to span full width */
     background: #fff8f0;
     border-radius: 10px;
     padding: 15px;
     font-size: 16px;
+    margin-top: 20px;
 }
 
 .cart-summary p {
     margin: 6px 0;
+    text-align: right;
 }
 
 .cart-summary .grand-total {
     font-size: 18px;
     color: #ff1493;
 }
+
+/* Buttons row */
 .cart-buttons {
     display: flex;
-    justify-content: space-between; /* pushes buttons to far ends */
+    justify-content: space-between; /* push left & right */
     align-items: center;
     width: 100%;
     margin-top: 15px;
 }
 
-/* Ensure each button doesn't stretch */
+/* Prevent stretching */
 .cart-buttons a,
 .cart-buttons button {
     flex: 0 0 auto;
 }
 
+/* Continue Shopping Button */
 .continue-btn {
     background: #f5f5f5;
     color: #555;
@@ -1075,6 +1081,7 @@ button:hover {
     border-color: #ff69b4;
 }
 
+/* Place Order Button */
 .place-order-btn {
     background: #ff69b4;
     color: white;
@@ -1113,8 +1120,24 @@ button:hover {
 
 .order-modal-content h3 {
   color: #ff1493;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: center;
+}
+
+.method-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;              /* space between radio and text */
+    margin-right: 15px;    /* spacing between the two options */
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Ensure radio stays on the left */
+.method-option input[type="radio"] {
+    order: -1;             /* keeps it before text even if styled globally */
+    accent-color: #ff69b4; /* pink radio color for consistency */
+    cursor: pointer;
 }
 
 .close-modal {
