@@ -299,11 +299,16 @@
                 icon: 'info',
                 title: 'Login Required',
                 text: 'Please login to add items to your cart',
-                confirmButtonColor: '#ff69b4',
                 confirmButtonText: 'Login',
+                confirmButtonColor: '#ff69b4',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                cancelButtonColor: '#999',
                 scrollbarPadding: false
             }).then(() => {
-                window.location.href = "{{ url_for('login_user_route') }}";
+                if (result.isConfirmed) {
+                    window.location.href = "{{ url_for('login_user_route') }}";
+                }
             });
         });
     });
