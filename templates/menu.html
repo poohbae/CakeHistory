@@ -2,11 +2,10 @@
 {% block content %}
 <!-- Delivery / Pickup Note -->
 <div class="delivery-note">
-    <p>
-        <strong>Note:</strong> • Self-pickup available at <b>E-Gate, Penang</b> with no additional charge.<br>
-        • Delivery fees may vary depending on Grab’s realtime rate.
-        • Best enjoyed within 3 days from purchase for freshness and flavor.
-    </p>
+    <p><strong>Note:</strong></p>
+    <p>• Self-pickup available at <b>E-Gate, Penang</b> with no additional charge.</p>
+    <p>• Delivery fees may vary depending on Grab’s realtime rate.</p>
+    <p>• Best enjoyed within 3 days from purchase for freshness and flavor.</p>
 </div>
 
 <!-- BUTTER CAKE SERIES -->
@@ -16,6 +15,7 @@
         {% for cake in cakes %}
             {% if "Chiffon" not in cake.name and "Premium" not in cake.name %}
             <div class="menu-item" 
+                data-item-type="product"
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
@@ -54,7 +54,8 @@
         {% for cake in cakes %}
             {% if "Chiffon" in cake.name %}
             <div class="menu-item" 
-                data-id="{{ cake.id }}" 
+                data-id="{{ cake.id }}"
+                data-item-type="product" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
                 data-img="{{ url_for('static', filename='images/' + cake.img) }}"
@@ -92,7 +93,8 @@
         {% for cake in cakes %}
             {% if "Premium" in cake.name %}
             <div class="menu-item" 
-                data-id="{{ cake.id }}" 
+                data-id="{{ cake.id }}"
+                data-item-type="product"
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
                 data-img="{{ url_for('static', filename='images/' + cake.img) }}"
@@ -131,7 +133,8 @@
     <div class="menu-grid">
         <!-- Candles -->
         {% for candle in candles %}
-        <div class="menu-item" 
+        <div class="menu-item"
+            data-item-type="candle"
             data-id="{{ candle.id }}" 
             data-name="{{ candle.name }}" 
             data-description="{{ candle.description }}" 
@@ -178,6 +181,7 @@
         <!-- Cards -->
         {% for card in cards %}
         <div class="menu-item" 
+            data-item-type="card"
             data-id="{{ card.id }}" 
             data-name="{{ card.name }}" 
             data-description="{{ card.description }}" 
@@ -213,6 +217,7 @@
         <!-- Boxes -->
         {% for box in boxes %}
         <div class="menu-item" 
+            data-item-type="box"
             data-id="{{ box.id }}" 
             data-name="{{ box.name }}" 
             data-description="{{ box.description }}" 
@@ -362,16 +367,18 @@
             }).then(result => {
                 if (result.isConfirmed) {
                     const specialRequest = result.value || null;
+                    const type = item.dataset.itemType || 'product';
 
                     fetch('/add_to_cart', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            product_id: productId,
-                            quantity: qty,
-                            option_selected: option,
-                            special_request: specialRequest
-                        })
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        quantity: qty,
+                        option_selected: option,
+                        special_request: specialRequest,
+                        item_type: type
+                    })
                     })
                     .then(res => res.json())
                     .then(data => {

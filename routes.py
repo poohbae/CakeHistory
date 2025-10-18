@@ -31,11 +31,22 @@ def register_routes(app):
         quantity = int(data.get('quantity', 1))
         option_selected = data.get('option_selected', None)
         special_request = data.get('special_request', None)
+        item_type = data.get('item_type', 'product')
 
-        # Validate product
-        product = Product.query.get(product_id)
+        # Select correct model based on item_type
+        if item_type == 'product':
+            product = Product.query.get(product_id)
+        elif item_type == 'candle':
+            product = Candle.query.get(product_id)
+        elif item_type == 'card':
+            product = Card.query.get(product_id)
+        elif item_type == 'box':
+            product = Box.query.get(product_id)
+        else:
+            return jsonify({'success': False, 'message': 'Invalid item type.'}), 400
+
         if not product:
-            return jsonify({'success': False, 'message': 'Product not found.'}), 404
+            return jsonify({'success': False, 'message': 'Item not found.'}), 404
 
         # Check if already in cart (same product + same option + same note)
         existing_item = Cart.query.filter_by(
