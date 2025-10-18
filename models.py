@@ -25,6 +25,18 @@ class Product(db.Model):
     # Relationship — One product can appear in many order items
     order_items = db.relationship('OrderItem', backref='product', lazy=True)
 
+class Cart(db.Model):
+    __tablename__ = 'cart'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    added_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationships (optional)
+    user = db.relationship('User', backref='cart_items', lazy=True)
+    product = db.relationship('Product', backref='cart_entries', lazy=True)
+
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
