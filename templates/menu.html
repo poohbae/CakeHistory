@@ -93,20 +93,23 @@
     const closeModal = document.querySelector('.close-modal');
 
     let hoverTimer;
-
     document.querySelectorAll('.menu-item').forEach(item => {
+        // When mouse hovers in
         item.addEventListener('mouseenter', () => {
             hoverTimer = setTimeout(() => {
-                modal.style.display = 'flex';
-                modalImg.src = item.dataset.img;
+                modal.style.display = 'flex'; // show modal
+                modalImg.src = item.dataset.img; // load image
                 modalTitle.textContent = item.dataset.name;
                 modalDesc.textContent = item.dataset.description;
-            }, 300); // wait 300ms before showing
+            }, 150); // slight delay to avoid flicker
         });
 
+        // When mouse leaves
         item.addEventListener('mouseleave', () => {
-            clearTimeout(hoverTimer);
-            modal.style.display = 'none';
+            clearTimeout(hoverTimer); // cancel pending open if user moves away quickly
+            setTimeout(() => {
+                modal.style.display = 'none'; // smooth hide
+            }, 150);
         });
     });
 
