@@ -11,6 +11,10 @@ def create_app():
         'mysql+mysqlconnector://poohbae:cakehistory@poohbae.mysql.pythonanywhere-services.com/poohbae$CakeHistory'
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_recycle': 280,   # reconnect after 280s (before 300s timeout)
+        'pool_pre_ping': True  # check if connection is alive before query
+    }
 
     db.init_app(app)
 

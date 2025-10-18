@@ -296,7 +296,7 @@ button:hover {
 ================================ */
 /* Hero Banner */
 .hero-banner {
-    background: url('static/images/cake_banner.jpg') center/cover no-repeat;
+    background: url('images/cake_banner.jpg') center/cover no-repeat;
     height: 60vh;
     position: relative;
     display: flex;
