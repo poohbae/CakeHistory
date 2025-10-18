@@ -216,9 +216,15 @@
                     const dateInput = form.querySelector('input[name="datetime"]');
                     if (dateInput) {
                         const now = new Date();
+
+                        // Round DOWN to nearest 5-minute mark
+                        now.setMinutes(Math.floor(now.getMinutes() / 5) * 5);
+                        now.setSeconds(0);
+                        now.setMilliseconds(0);
+
                         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                         dateInput.min = now.toISOString().slice(0, 16);
-                        dateInput.step = 300; // 5 minutes = 300 seconds
+                        dateInput.step = 300;
 
                         dateInput.addEventListener("change", () => {
                             const selected = new Date(dateInput.value);
