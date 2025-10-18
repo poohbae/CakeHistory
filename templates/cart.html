@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h2><i class="fa-solid fa-cart-shopping"></i> Your Cart</h2>
 
 {% if current_user.is_authenticated %}
     {% if cake_items or addon_items %}
+        <h2 class="cart-page"><i class="fa-solid fa-cart-shopping"></i> My Cart</h2>
+
         <div class="cart-container">
             <!-- 🧁 Cakes Section -->
             {% if cake_items %}
@@ -197,7 +198,6 @@
         </script>
     {% else %}
         <div class="empty-cart">
-            <img src="{{ url_for('static', filename='images/empty_cart.png') }}" alt="Empty Cart" class="empty-cart-img">
             <h3>Your cart is empty!</h3>
             <p>Looks like you haven’t added any cakes yet.</p>
             <a href="{{ url_for('menu') }}" class="browse-menu-btn">

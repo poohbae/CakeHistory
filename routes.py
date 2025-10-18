@@ -248,7 +248,6 @@ def register_routes(app):
     @login_required
     def logout():
         logout_user()
-        flash('You have logged out successfully.', 'info')
         return redirect(url_for('home'))
 
     @app.errorhandler(401)
