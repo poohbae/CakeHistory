@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import db, User, Product
+from models import db, User, Product
 
 def register_routes(app):
     @app.route('/')
@@ -17,7 +17,7 @@ def register_routes(app):
     @app.route('/cart')
     @login_required
     def cart():
-        from .models import Cart
+        from models import Cart
         cart_items = Cart.query.filter_by(user_id=current_user.id).all()
         subtotal = sum(item.price * item.quantity for item in cart_items)
         delivery = 5.00 if cart_items else 0.00

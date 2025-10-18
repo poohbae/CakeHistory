@@ -14,14 +14,14 @@ def create_app():
 
     db.init_app(app)   # ✅ this binds db to app
 
-    from .models import User
+    from models import User
     login_manager = LoginManager(app)
 
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    from .routes import register_routes
+    from routes import register_routes
     register_routes(app)
 
     return app
