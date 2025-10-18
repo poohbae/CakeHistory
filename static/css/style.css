@@ -28,7 +28,7 @@ body.auth-page {
 /* Prevent outer html from scrolling too */
 html.auth-page {
     height: 100%;
-    overflow: hidden;             /* 🚫 also disable scroll on html */
+    overflow: hidden;
     display: block;
 }
 
@@ -295,7 +295,7 @@ button:hover {
 ================================ */
 /* Hero Banner */
 .hero-banner {
-    background: url('../images/cake_banner.jpg') center 30%/cover no-repeat;
+    background: url('../images/cake_banner.jpg') center/contain no-repeat;
     height: 50vh;
     display: flex;
     justify-content: center;
@@ -306,6 +306,8 @@ button:hover {
     background: rgba(0, 0, 0, 0.4);
     color: white;
     text-align: center;
+    justify-content: center;
+    align-items: center;
     padding: 30px;
     border-radius: 12px;
 }
@@ -424,6 +426,61 @@ button:hover {
     background: #ff1493;
 }
 
+.addons-section {
+    margin: 60px auto;
+    text-align: center;
+    max-width: 1100px;
+}
+
+.addons-section h2 {
+    color: #ff69b4;
+    font-size: 1.9rem;
+    margin-bottom: 12px;
+}
+
+.addons-section p {
+    max-width: 700px;
+    margin: 0 auto 25px;
+    font-size: 1rem;
+    color: #444;
+}
+
+.addons-grid {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.addon-item {
+    background: #fff8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.addon-item img {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.addon-item h4 {
+    margin-bottom: 6px;
+    color: #ff69b4;
+    font-size: 1.2rem;
+}
+
+.addon-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
 /* Contact Section */
 .contact-section {
     background: #fff8f0;
@@ -506,6 +563,17 @@ button:hover {
 /* ==========================
    MENU PAGE STYLING
 ========================== */
+.menu-section {
+    margin: 40px auto;
+    max-width: 1100px;
+}
+
+.menu-section h2 {
+    margin-bottom: 16px;
+    color: #ff69b4;
+    font-size: 1.8rem;
+}
+
 .menu-grid {
     display: flex;
     justify-content: center;
@@ -519,7 +587,7 @@ button:hover {
     width: 250px;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     padding: 15px;
     transition: all 0.25s ease-in-out;
     position: relative;
@@ -547,6 +615,28 @@ button:hover {
 .menu-item p {
     color: #444;
     font-weight: 500;
+}
+
+.option-section {
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: left;
+}
+
+.option-section label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.addon-select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
 }
 
 /* Quantity & Add button container */
@@ -621,7 +711,8 @@ button:hover {
 }
 
 .cake-modal {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -632,7 +723,14 @@ button:hover {
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(2px);
+    transition: opacity 0.25s ease, visibility 0.25s ease;
     pointer-events: none;
+}
+
+.cake-modal.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .cake-modal-content {

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+
+<h2 class="menu-title"><i class="fa-solid fa-cake-candles"></i> Our Cakes Menu</h2>
+
+<!-- CAKES -->
 <div class="menu-grid">
     {% for cake in cakes %}
     <div class="menu-item" data-id="{{ cake.id }}" data-name="{{ cake.name }}" data-description="{{ cake.description }}" data-img="{{ url_for('static', filename='images/' + cake.img) }}">
@@ -7,14 +11,12 @@
         <h3>{{ cake.name }}</h3>
         <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
-        <!-- Menu actions (not affected by hover) -->
         <div class="menu-actions">
             <div class="quantity">
                 <button class="qty-btn minus">−</button>
                 <span class="qty-value">1</span>
                 <button class="qty-btn plus">+</button>
             </div>
-
             {% if current_user.is_authenticated %}
                 <button class="add-cart-btn">Add to Cart</button>
             {% else %}
@@ -25,14 +27,120 @@
     {% endfor %}
 </div>
 
+<hr>
+
+<!-- CANDLES -->
+<section class="menu-section">
+    <h2><i class="fa-solid fa-fire"></i> Candles</h2>
+    <div class="menu-grid">
+        {% for candle in candles %}
+        <div class="menu-item" 
+            data-id="{{ candle.id }}" 
+            data-name="{{ candle.name }}" 
+            data-description="{{ candle.description }}" 
+            data-img="{{ url_for('static', filename='images/' + candle.img) }}"
+            data-type="{{ candle.type }}">
+            
+            <img src="{{ url_for('static', filename='images/' + candle.img) }}" alt="{{ candle.name }}">
+            <h3>{{ candle.name }}</h3>
+            <p>RM {{ "%.2f"|format(candle.price) }}</p>
+
+            <!-- Candle Options -->
+            <div class="option-section">
+                {% if candle.type == 'alphabet' %}
+                <label for="alphabet-num-{{ candle.id }}">Choose Number:</label>
+                <select id="alphabet-num-{{ candle.id }}" class="addon-select">
+                    {% for n in range(1, 13) %}
+                        <option value="{{ n }}">Number {{ n }}</option>
+                    {% endfor %}
+                </select>
+                {% elif candle.type == 'love' %}
+                <label for="love-color-{{ candle.id }}">Choose Color:</label>
+                <select id="love-color-{{ candle.id }}" class="addon-select">
+                    <option value="Red">Red</option>
+                    <option value="Pink">Pink</option>
+                    <option value="White">White</option>
+                </select>
+                {% endif %}
+            </div>
+
+            {% if current_user.is_authenticated %}
+                <button class="add-cart-btn">Add to Cart</button>
+            {% else %}
+                <button class="add-cart-btn login-prompt">Add to Cart</button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<hr>
+
+<!-- CARDS -->
+<section class="menu-section">
+    <h2><i class="fa-solid fa-envelope-open-text"></i> Cards</h2>
+    <div class="menu-grid">
+        {% for card in cards %}
+        <div class="menu-item" data-id="{{ card.id }}" data-name="{{ card.name }}" data-description="{{ card.description }}" data-img="{{ url_for('static', filename='images/' + card.img) }}">
+            <img src="{{ url_for('static', filename='images/' + card.img) }}" alt="{{ card.name }}">
+            <h3>{{ card.name }}</h3>
+            <p>RM {{ "%.2f"|format(card.price) }}</p>
+            <div class="option-section">
+                <label for="card-design-{{ card.id }}">Choose Design:</label>
+                <select id="card-design-{{ card.id }}" class="addon-select">
+                    <option value="Floral">Floral</option>
+                    <option value="Pastel">Pastel</option>
+                    <option value="Minimalist">Minimalist</option>
+                </select>
+            </div>
+            {% if current_user.is_authenticated %}
+                <button class="add-cart-btn">Add to Cart</button>
+            {% else %}
+                <button class="add-cart-btn login-prompt">Add to Cart</button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="menu-section">
+    <h2><i class="fa-solid fa-box"></i> Boxes</h2>
+    <div class="menu-grid">
+        {% for box in boxes %}
+        <div class="menu-item" data-id="{{ box.id }}" data-name="{{ box.name }}" data-description="{{ box.description }}" data-img="{{ url_for('static', filename='images/' + box.img) }}">
+            <img src="{{ url_for('static', filename='images/' + box.img) }}" alt="{{ box.name }}">
+            <h3>{{ box.name }}</h3>
+            <p>RM {{ "%.2f"|format(box.price) }}</p>
+
+            <!-- Box size selection -->
+            <div class="option-section">
+                <label for="box-size-{{ box.id }}">Choose Size:</label>
+                <select id="box-size-{{ box.id }}" class="addon-select">
+                    <option value="S">Small</option>
+                    <option value="M">Medium</option>
+                    <option value="L">Large</option>
+                </select>
+            </div>
+
+            {% if current_user.is_authenticated %}
+                <button class="add-cart-btn">Add to Cart</button>
+            {% else %}
+                <button class="add-cart-btn login-prompt">Add to Cart</button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
+
 <!-- Modal for cake details -->
 <div id="cakeModal" class="cake-modal">
     <div class="cake-modal-content">
-        <span class="close-modal">&times;</span>
         <img id="modal-img" src="" alt="Cake Image">
         <h3 id="modal-title"></h3>
         <p id="modal-desc"></p>
-  </div>
+    </div>
 </div>
 
 <script>
@@ -90,32 +198,22 @@
     const modalImg = document.getElementById('modal-img');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');
-    const closeModal = document.querySelector('.close-modal');
 
     let hoverTimer;
     document.querySelectorAll('.menu-item').forEach(item => {
-        // When mouse hovers in
         item.addEventListener('mouseenter', () => {
             hoverTimer = setTimeout(() => {
-                modal.style.display = 'flex'; // show modal
-                modalImg.src = item.dataset.img; // load image
+                modal.classList.add('show');
+                modalImg.src = item.dataset.img;
                 modalTitle.textContent = item.dataset.name;
                 modalDesc.textContent = item.dataset.description;
-            }, 150); // slight delay to avoid flicker
-        });
-
-        // When mouse leaves
-        item.addEventListener('mouseleave', () => {
-            clearTimeout(hoverTimer); // cancel pending open if user moves away quickly
-            setTimeout(() => {
-                modal.style.display = 'none'; // smooth hide
             }, 150);
         });
-    });
 
-    closeModal.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', e => {
-        if (e.target === modal) modal.style.display = 'none';
+        item.addEventListener('mouseleave', () => {
+            clearTimeout(hoverTimer);
+            modal.classList.remove('show');
+        });
     });
 
     // Add to cart
@@ -128,11 +226,16 @@
             const productName = item.dataset.name;
             const productId = item.dataset.id || item.getAttribute('data-id');
             const qty = parseInt(item.querySelector('.qty-value').textContent);
+            const option = item.querySelector('.addon-select')?.value || null;
 
             fetch('/add_to_cart', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ product_id: productId, quantity: qty })
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: qty,
+                    option_selected: option
+                })
             })
             .then(res => res.json())
             .then(data => {

@@ -13,44 +13,94 @@ def register_routes(app):
 
     @app.route('/menu')
     def menu():
+        from models import Product, Candle, Card, Box
         cakes = Product.query.all()
-        return render_template('menu.html', cakes=cakes)
-    
+        candles = Candle.query.all()
+        cards = Card.query.all()
+        boxes = Box.query.all()
+        return render_template('menu.html', cakes=cakes, candles=candles, cards=cards, boxes=boxes)
+
     @app.route('/add_to_cart', methods=['POST'])
     @login_required
     def add_to_cart():
         data = request.get_json()
         product_id = data.get('product_id')
         quantity = int(data.get('quantity', 1))
+        option_selected = data.get('option_selected', None)
 
+        # Validate product
         product = Product.query.get(product_id)
         if not product:
             return jsonify({'success': False, 'message': 'Product not found.'}), 404
 
-        existing_item = Cart.query.filter_by(user_id=current_user.id, product_id=product_id).first()
+        # Check if already in cart (same product + same option)
+        existing_item = Cart.query.filter_by(
+            user_id=current_user.id,
+            product_id=product_id,
+            option_selected=option_selected
+        ).first()
+
         if existing_item:
             existing_item.quantity += quantity
         else:
-            new_item = Cart(user_id=current_user.id, product_id=product_id, quantity=quantity)
+            new_item = Cart(
+                user_id=current_user.id,
+                product_id=product_id,
+                quantity=quantity,
+                option_selected=option_selected
+            )
             db.session.add(new_item)
 
-        db.session.commit()
-        return jsonify({'success': True, 'message': f'{product.name} added to cart!'})
+        try:
+            db.session.commit()
+            return jsonify({'success': True, 'message': f'{product.name} added to cart!'})
+        except Exception as e:
+            db.session.rollback()
+            print("Error:", e)
+            return jsonify({'success': False, 'message': 'Database error. Please try again later.'})
 
     @app.route('/cart')
     @login_required
     def cart():
         cart_items = Cart.query.filter_by(user_id=current_user.id).all()
-        subtotal = sum(item.price * item.quantity for item in cart_items)
-        delivery = 5.00 if cart_items else 0.00
-        grand_total = subtotal + delivery
+
+        # Separate cakes and add-ons
+        cake_items = []
+        addon_items = []
+        subtotal = 0
+
+        for item in cart_items:
+            product = item.product
+            if not product:
+                continue  # skip broken references
+
+            total_price = product.price * item.quantity
+            subtotal += total_price
+
+            # Add-on items (candles, cards, boxes) share same structure
+            if "candle" in product.name.lower() or "card" in product.name.lower() or "box" in product.name.lower():
+                addon_items.append({
+                    'name': product.name,
+                    'image': product.img,
+                    'price': product.price,
+                    'quantity': item.quantity,
+                    'total': total_price
+                })
+            else:
+                cake_items.append({
+                    'name': product.name,
+                    'image': product.img,
+                    'price': product.price,
+                    'quantity': item.quantity,
+                    'total': total_price
+                })
+
         return render_template(
             'cart.html',
             user=current_user,
-            cart_items=cart_items,
-            subtotal=subtotal,
-            delivery=delivery,
-            grand_total=grand_total
+            cake_items=cake_items,
+            addon_items=addon_items,
+            subtotal=subtotal
         )
 
     @app.route('/place_order', methods=['POST'])

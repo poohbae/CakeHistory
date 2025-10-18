@@ -24,15 +24,41 @@ class Product(db.Model):
     # Relationship — One product can appear in many order items
     order_items = db.relationship('OrderItem', backref='product', lazy=True)
 
+class Candle(db.Model):
+    __tablename__ = 'candles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    img = db.Column(db.String(120))
+    description = db.Column(db.Text)
+    type = db.Column(db.String(50), nullable=False)
+
+class Card(db.Model):
+    __tablename__ = 'cards'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)  # e.g., Celebration Card
+    price = db.Column(db.Float, nullable=False)
+    img = db.Column(db.String(120))
+    description = db.Column(db.Text)
+    has_design_choice = db.Column(db.Boolean, default=True)
+
+class Box(db.Model):
+    __tablename__ = 'boxes'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)  # e.g., Cake Box
+    price = db.Column(db.Float, nullable=False)
+    img = db.Column(db.String(120))
+    description = db.Column(db.Text)
+    has_size_option = db.Column(db.Boolean, default=True)
+
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
-    added_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    option_selected = db.Column(db.String(50))
 
-    # Relationships (optional)
     user = db.relationship('User', backref='cart_items', lazy=True)
     product = db.relationship('Product', backref='cart_entries', lazy=True)
 

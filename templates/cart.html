@@ -3,99 +3,129 @@
 <h2><i class="fa-solid fa-cart-shopping"></i> Your Cart</h2>
 
 {% if current_user.is_authenticated %}
-    {% if cart_items %}
+    {% if cake_items or addon_items %}
         <div class="cart-container">
-            {% for item in cart_items %}
+            <!-- 🧁 Cakes Section -->
+            {% if cake_items %}
+            <h3 class="cart-section-title"><i class="fa-solid fa-cake-candles"></i> Cakes</h3>
+            {% for item in cake_items %}
             <div class="cart-item">
-                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.product_name }}">
+                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
                 <div class="cart-details">
-                    <h3>{{ item.product_name }}</h3>
+                    <h3>{{ item.name }}</h3>
                     <p>Quantity: {{ item.quantity }}</p>
                     <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
                 </div>
                 <div class="cart-total">
-                    <p>Total: <strong>RM {{ "%.2f"|format(item.price * item.quantity) }}</strong></p>
+                    <p>Total: <strong>RM {{ "%.2f"|format(item.total) }}</strong></p>
                 </div>
             </div>
             {% endfor %}
+            {% endif %}
 
+            <!-- 🎁 Add-ons Section -->
+            {% if addon_items %}
+            <h3 class="cart-section-title"><i class="fa-solid fa-gift"></i> Add-ons</h3>
+            {% for item in addon_items %}
+            <div class="cart-item">
+                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+                <div class="cart-details">
+                    <h3>{{ item.name }}</h3>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
+                </div>
+                <div class="cart-total">
+                    <p>Total: <strong>RM {{ "%.2f"|format(item.total) }}</strong></p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- 💰 Summary -->
             <div class="cart-summary">
                 <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal) }}</p>
-                <p><strong>Delivery:</strong> RM {{ "%.2f"|format(delivery) }}</p>
+                <p id="delivery-fee" style="display:none;"><strong>Delivery Fee:</strong> RM 5.00</p>
                 <hr>
-                <p class="grand-total"><strong>Grand Total:</strong> RM {{ "%.2f"|format(grand_total) }}</p>
-
+                <p class="grand-total"><strong>Total:</strong> RM <span id="grand-total">{{ "%.2f"|format(subtotal) }}</span></p>
                 <button class="place-order-btn"><i class="fa-solid fa-credit-card"></i> Place Order</button>
             </div>
+        </div>
 
-            <!-- Order Modal -->
-            <div id="orderModal" class="order-modal">
+        <!-- 🧾 Order Modal -->
+        <div id="orderModal" class="order-modal">
             <div class="order-modal-content">
                 <span class="close-modal">&times;</span>
                 <h3><i class="fa-solid fa-truck"></i> Place Your Order</h3>
 
                 <form id="orderForm">
-                <label><strong>Choose Method:</strong></label><br>
-                <input type="radio" name="method" value="pickup" checked> Pickup
-                <input type="radio" name="method" value="delivery"> Delivery
-                <br><br>
+                    <label><strong>Choose Method:</strong></label><br>
+                    <input type="radio" name="method" value="pickup" checked> Pickup
+                    <input type="radio" name="method" value="delivery"> Delivery
+                    <br><br>
 
-                <div id="pickup-address" style="display:block;">
-                    <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
-                </div>
+                    <div id="pickup-address" style="display:block;">
+                        <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
+                    </div>
 
-                <div id="delivery-address" style="display:none;">
-                    <input type="text" name="address" placeholder="Enter delivery address">
-                </div>
+                    <div id="delivery-address" style="display:none;">
+                        <input type="text" name="address" placeholder="Enter delivery address">
+                    </div>
 
-                <br>
-                <label><strong>Date & Time:</strong></label><br>
-                <input type="datetime-local" name="datetime" required><br><br>
+                    <br>
+                    <label><strong>Date & Time:</strong></label><br>
+                    <input type="datetime-local" name="datetime" required><br><br>
 
-                <label><strong>Payment Method:</strong></label><br>
-                <select name="payment" required>
-                    <option value="cash">Cash on Delivery</option>
-                    <option value="online">Online Payment</option>
-                </select>
-                <br><br>
+                    <label><strong>Payment Method:</strong></label><br>
+                    <select name="payment" required>
+                        <option value="cash">Cash on Delivery</option>
+                        <option value="online">Online Payment</option>
+                    </select>
+                    <br><br>
 
-                <button type="submit" class="confirm-order-btn">Confirm Order</button>
+                    <button type="submit" class="confirm-order-btn">Confirm Order</button>
                 </form>
             </div>
-            </div>
+        </div>
 
-            <script>
-            const modal = document.getElementById("orderModal");
-            const btn = document.querySelector(".place-order-btn");
-            const closeBtn = document.querySelector(".close-modal");
-            const form = document.getElementById("orderForm");
-            const pickup = document.getElementById("pickup-address");
-            const delivery = document.getElementById("delivery-address");
+        <script>
+        const modal = document.getElementById("orderModal");
+        const btn = document.querySelector(".place-order-btn");
+        const closeBtn = document.querySelector(".close-modal");
+        const form = document.getElementById("orderForm");
+        const pickup = document.getElementById("pickup-address");
+        const delivery = document.getElementById("delivery-address");
+        const deliveryFee = document.getElementById("delivery-fee");
+        const totalEl = document.getElementById("grand-total");
+        const baseTotal = parseFloat(totalEl.textContent);
 
-            btn.addEventListener("click", () => modal.style.display = "flex");
-            closeBtn.addEventListener("click", () => modal.style.display = "none");
-            modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+        // Open/close modal
+        btn.addEventListener("click", () => modal.style.display = "flex");
+        closeBtn.addEventListener("click", () => modal.style.display = "none");
+        modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 
-            // Toggle delivery/pickup fields
-            form.method.forEach(radio => {
+        // Toggle delivery/pickup visibility + fee
+        form.method.forEach(radio => {
             radio.addEventListener("change", () => {
                 if (radio.value === "delivery" && radio.checked) {
-                pickup.style.display = "none";
-                delivery.style.display = "block";
+                    pickup.style.display = "none";
+                    delivery.style.display = "block";
+                    deliveryFee.style.display = "block";
+                    totalEl.textContent = (baseTotal + 5).toFixed(2);
                 } else if (radio.value === "pickup" && radio.checked) {
-                pickup.style.display = "block";
-                delivery.style.display = "none";
+                    pickup.style.display = "block";
+                    delivery.style.display = "none";
+                    deliveryFee.style.display = "none";
+                    totalEl.textContent = baseTotal.toFixed(2);
                 }
             });
-            });
+        });
 
-            // Form submission
-            form.addEventListener("submit", e => {
+        // Form submission
+        form.addEventListener("submit", e => {
             e.preventDefault();
             const formData = new FormData(form);
             const payload = Object.fromEntries(formData.entries());
 
-            // Validate date/time
             const selected = new Date(payload.datetime);
             const now = new Date();
             if (selected <= now) {
@@ -111,17 +141,16 @@
             .then(res => res.json())
             .then(data => {
                 Swal.fire({
-                icon: data.success ? 'success' : 'error',
-                title: data.success ? 'Order Successful!' : 'Oops...',
-                text: data.message,
-                confirmButtonColor: '#ff69b4'
+                    icon: data.success ? 'success' : 'error',
+                    title: data.success ? 'Order Successful!' : 'Oops...',
+                    text: data.message,
+                    confirmButtonColor: '#ff69b4'
                 }).then(() => {
-                if (data.success) window.location.href = "{{ url_for('home') }}";
+                    if (data.success) window.location.href = "{{ url_for('home') }}";
                 });
             });
-            });
-            </script>
-        </div>
+        });
+        </script>
     {% else %}
         <div class="empty-cart">
             <img src="{{ url_for('static', filename='images/empty_cart.png') }}" alt="Empty Cart" class="empty-cart-img">
