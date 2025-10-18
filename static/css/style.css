@@ -586,34 +586,34 @@ button:hover {
 
 .ingredients-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* slightly narrower cards */
-    gap: 6px;           /* 🧭 reduce spacing between cards */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* narrower columns = closer cards */
+    gap: 10px;               /* tighten spacing between cards */
     justify-items: center;
-    align-items: stretch;
-    padding: 0;         /* remove top/bottom padding for tighter grouping */
+    align-items: start;      /* align neatly at top */
+    padding: 0 10px;         /* slight side padding only */
 }
 
 .ingredient-item {
-    background: transparent !important; /* removes white card background */
-    border-radius: 12px;
-    padding: 20px;
+    background: transparent !important;
+    border-radius: 10px;
+    padding: 10px 5px;       /* less padding = tighter look */
     width: 100%;
-    max-width: 300px;
-    box-shadow: none; /* optional: remove shadow if you want it to blend in completely */
+    max-width: 250px;        /* optional: slightly smaller width */
+    box-shadow: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ingredient-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    background: rgba(255,255,255,0.1); /* optional faint glow */
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.08);
 }
 
 .ingredient-item img {
-    width: 100px;
-    height: 100px;
+    width: 140px;            /* increased from 100px → larger image */
+    height: 140px;
     object-fit: contain;
-    margin-bottom: 10px;
+    margin-bottom: 6px;      /* less spacing below image */
 }
 
 .ingredient-item h4 {
