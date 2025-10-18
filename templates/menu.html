@@ -229,7 +229,7 @@
 </div>
 
 <script>
-    // Modal interaction
+    // Modal interaction (trigger only on image hover)
     const modal = document.getElementById('cakeModal');
     const modalImg = document.getElementById('modal-img');
     const modalTitle = document.getElementById('modal-title');
@@ -237,25 +237,20 @@
 
     let hoverTimer;
 
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('mouseenter', e => {
-            // 🧠 Ignore hover if it’s over buttons or selects
-            const target = e.relatedTarget || e.target;
-            if (
-                target.closest('.qty-btn') || 
-                target.closest('.add-cart-btn') || 
-                target.closest('.addon-select')
-            ) return;
+    // 🩷 Only bind hover events to images inside menu items
+    document.querySelectorAll('.menu-item img').forEach(img => {
+        const item = img.closest('.menu-item'); // reference to parent card
 
+        img.addEventListener('mouseenter', () => {
             hoverTimer = setTimeout(() => {
                 modal.classList.add('show');
-                modalImg.src = item.dataset.img; // use main image (img)
+                modalImg.src = item.dataset.img; // show main image
                 modalTitle.textContent = item.dataset.name;
                 modalDesc.textContent = item.dataset.description || "No description available.";
             }, 150);
         });
 
-        item.addEventListener('mouseleave', () => {
+        img.addEventListener('mouseleave', () => {
             clearTimeout(hoverTimer);
             modal.classList.remove('show');
         });
@@ -267,13 +262,13 @@
         const plus = item.querySelector('.plus');
         const value = item.querySelector('.qty-value');
 
-        if (!minus || !plus || !value) return; // skip items without quantity controls
+        if (!minus || !plus || !value) return;
 
         let qty = 1;
         const MAX_QTY = 20;
 
         minus.addEventListener('click', e => {
-            e.stopPropagation(); // prevent modal trigger
+            e.stopPropagation();
             if (qty > 1) qty--;
             value.textContent = qty;
         });
@@ -320,8 +315,7 @@
             e.stopPropagation();
 
             const item = e.target.closest('.menu-item');
-            const productName = item.dataset.name;
-            const productId = item.dataset.id || item.getAttribute('data-id');
+            const productId = item.dataset.id;
             const qty = parseInt(item.querySelector('.qty-value').textContent);
             const option = item.querySelector('.addon-select')?.value || null;
 
