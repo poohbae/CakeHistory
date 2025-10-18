@@ -220,11 +220,14 @@
 </div>
 
 <script>
-    // Quantity control
+    // Quantity control (only applies to items that have the buttons)
     document.querySelectorAll('.menu-item').forEach(item => {
         const minus = item.querySelector('.minus');
         const plus = item.querySelector('.plus');
         const value = item.querySelector('.qty-value');
+
+        if (!minus || !plus || !value) return; // skip items without quantity controls
+
         let qty = 1;
         const MAX_QTY = 20;
 
@@ -250,6 +253,7 @@
             }
         });
     });
+
 
     // Login prompt SweetAlert
     document.querySelectorAll('.login-prompt').forEach(btn => {

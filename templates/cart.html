@@ -76,9 +76,10 @@
                     <input type="datetime-local" name="datetime" required><br><br>
 
                     <label><strong>Payment Method:</strong></label><br>
-                    <select name="payment" required>
-                        <option value="cash">Cash on Delivery</option>
-                        <option value="online">Online Payment</option>
+                    <select name="payment_method_id" required>
+                        {% for method in payment_methods %}
+                            <option value="{{ method.id }}">{{ method.name }}</option>
+                        {% endfor %}
                     </select>
                     <br><br>
 
@@ -136,7 +137,12 @@
             fetch('/place_order', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({
+                    method: formData.get('method'),
+                    address: formData.get('address'),
+                    datetime: formData.get('datetime'),
+                    payment_method_id: formData.get('payment_method_id')
+                })
             })
             .then(res => res.json())
             .then(data => {
@@ -146,7 +152,7 @@
                     text: data.message,
                     confirmButtonColor: '#ff69b4'
                 }).then(() => {
-                    if (data.success) window.location.href = "{{ url_for('home') }}";
+                    if (data.success) window.location.href = "{{ url_for('order') }}";
                 });
             });
         });

@@ -52,6 +52,15 @@ class Box(db.Model):
     description = db.Column(db.Text)
     has_size_option = db.Column(db.Boolean, default=True)
 
+class PaymentMethod(db.Model):
+    __tablename__ = 'payment_methods'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    img = db.Column(db.String(150))
+
+    # Relationship
+    orders = db.relationship('Order', backref='payment_method', lazy=True)
+
 class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
@@ -67,11 +76,13 @@ class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    payment_method_id = db.Column(db.Integer, db.ForeignKey('payment_methods.id'))
     total_amount = db.Column(db.Float, nullable=False)
     order_date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     status = db.Column(db.String(50), default='Pending')
+    delivery_method = db.Column(db.String(20))
+    delivery_address = db.Column(db.String(255), nullable=True)
 
-    # Relationship — one order has many items
     items = db.relationship('OrderItem', backref='order', lazy=True, cascade="all, delete")
 
 class OrderItem(db.Model):
@@ -98,3 +109,16 @@ class OrderAddon(db.Model):
 
     def __repr__(self):
         return f"<OrderAddon {self.addon_type} (x{self.quantity}) - {self.option_selected}>"
+    
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)  # 1–5 stars
+    comments = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    # Relationships
+    user = db.relationship('User', backref='feedbacks', lazy=True)
+    order = db.relationship('Order', backref='feedbacks', lazy=True)

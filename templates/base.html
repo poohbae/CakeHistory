@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CakeHistory</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -18,6 +19,8 @@
             <a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
             <a href="{{ url_for('menu') }}"><i class="fa-solid fa-utensils"></i> Menu</a>
             <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+            <a href="{{ url_for('order') }}"><i class="fa-solid fa-box"></i> Order</a>
+            <a href="{{ url_for('feedback') }}"><i class="fa-solid fa-pen-to-square"></i> Feedback</a>
         </nav>
 
         <div class="auth-buttons">
@@ -48,6 +51,31 @@
         <p>© 2025 CakeHistory. All rights reserved.</p>
     </footer>
 
+    <!-- Floating Chat Button -->
+    <div id="chat-btn" class="chat-btn">
+    <i class="fa-solid fa-comments"></i>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chat-modal" class="chat-modal">
+    <div class="chat-modal-content">
+        <span class="close-chat">&times;</span>
+        <h3><i class="fa-solid fa-message"></i> Chat with CakeHistory</h3>
+        <p>Select a topic to get started:</p>
+        
+        <div class="chat-options">
+        <button class="chat-option" data-topic="Order Status">🍰 Order Status</button>
+        <button class="chat-option" data-topic="Custom Cake">🎂 Custom Cake Inquiry</button>
+        <button class="chat-option" data-topic="Store Info">🏪 Store Information</button>
+        </div>
+
+        <textarea id="chat-input" placeholder="Type your message..." rows="3"></textarea>
+        <button id="send-chat" class="send-chat-btn">Send</button>
+
+        <div id="chat-response" class="chat-response"></div>
+    </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cartLink = document.querySelector('a[href="{{ url_for("cart") }}"]');
@@ -73,6 +101,44 @@
                     });
                 });
             }
+
+            const chatBtn = document.getElementById('chat-btn');
+            const chatModal = document.getElementById('chat-modal');
+            const closeChat = document.querySelector('.close-chat');
+            const chatOptions = document.querySelectorAll('.chat-option');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-chat');
+            const chatResponse = document.getElementById('chat-response');
+
+            // Show modal
+            chatBtn.addEventListener('click', () => {
+                chatModal.style.display = 'flex';
+            });
+
+            // Close modal
+            closeChat.addEventListener('click', () => chatModal.style.display = 'none');
+            chatModal.addEventListener('click', e => {
+                if (e.target === chatModal) chatModal.style.display = 'none';
+            });
+
+            // When user clicks a preset topic
+            chatOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                chatInput.value = `Hi, I’d like to ask about ${opt.dataset.topic}.`;
+                });
+            });
+
+            // Send message (mock AI reply)
+            sendBtn.addEventListener('click', () => {
+                const msg = chatInput.value.trim();
+                if (!msg) return;
+                
+                chatResponse.innerHTML = `<p><strong>You:</strong> ${msg}</p>`;
+                setTimeout(() => {
+                chatResponse.innerHTML += `<p><strong>CakeHistory Bot:</strong> Thanks for reaching out! We’ll get back to you soon 🍰</p>`;
+                }, 1000);
+                chatInput.value = '';
+            });
         });
     </script>
 </body>

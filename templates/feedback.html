@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-wrapper">
+    <div class="login-container">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CakeHistory Logo" class="auth-logo">
+
+        <h2>We Value Your Feedback</h2>
+        <p>Share your thoughts about your recent order 🍰</p>
+
+        <form method="POST" action="{{ url_for('feedback') }}">
+            <!-- Order selection -->
+            <label for="order_id">Select Order:</label>
+            <select name="order_id" id="order_id" required>
+                {% for order in orders %}
+                    <option value="{{ order.id }}">Order #{{ order.id }} — {{ order.status }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Rating -->
+            <label for="rating">Rating:</label>
+            <div class="rating-stars">
+                {% for star in range(5, 0, -1) %}
+                    <input type="radio" name="rating" value="{{ star }}" id="star{{ star }}" required>
+                    <label for="star{{ star }}">⭐</label>
+                {% endfor %}
+            </div>
+
+            <!-- Comment -->
+            <textarea name="comments" rows="4" placeholder="Write your feedback here..." required></textarea>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <a href="{{ url_for('order') }}" class="back-btn">← Back to Orders</a>
+    </div>
+</div>
+
+<!-- Previous Feedback Section -->
+<div class="previous-feedback-section">
+    <h2>🧁 Your Previous Feedback</h2>
+
+    {% if feedbacks %}
+        {% for fb in feedbacks %}
+        <div class="feedback-card">
+            <h3>Order #{{ fb.order.id }}</h3>
+            <p><strong>Date:</strong> {{ fb.order.order_date.strftime('%d %b %Y, %I:%M %p') }}</p>
+            <p><strong>Status:</strong> {{ fb.order.status }}</p>
+            <p><strong>Total Amount:</strong> RM {{ "%.2f"|format(fb.order.total_amount) }}</p>
+
+            {% if fb.order.items %}
+            <div class="order-items-list">
+                <strong>Items:</strong>
+                <ul>
+                    {% for item in fb.order.items %}
+                        <li>{{ item.product.name }} × {{ item.quantity }} 
+                            — RM {{ "%.2f"|format(item.price_each * item.quantity) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="feedback-details">
+                <p><strong>Rating:</strong>
+                    <span class="rating-stars-display">
+                        {% for i in range(fb.rating) %}
+                            ⭐
+                        {% endfor %}
+                    </span>
+                </p>
+                <p><strong>Comment:</strong> "{{ fb.comments }}"</p>
+                <small>Submitted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-feedback">You haven’t submitted any feedback yet. 🥺</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="order-page">
+    <h2><i class="fa-solid fa-box"></i> My Orders</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header">
+                <h3>Order #{{ order.id }}</h3>
+                <span class="order-date">{{ order.order_date.strftime('%d %b %Y, %I:%M %p') }}</span>
+            </div>
+
+            <div class="order-status">
+                <strong>Status:</strong>
+                <span class="status-label {{ order.status|lower }}">{{ order.status }}</span>
+            </div>
+
+            {% if order.payment_method %}
+            <div class="payment-method">
+                <img src="{{ url_for('static', filename='images/' + order.payment_method.img) }}" 
+                     alt="{{ order.payment_method.name }}" class="payment-icon">
+                <span>{{ order.payment_method.name }}</span>
+            </div>
+            {% endif %}
+
+            <table class="order-items">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price (RM)</th>
+                        <th>Subtotal (RM)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ "%.2f"|format(item.price_each) }}</td>
+                        <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="order-footer">
+                <p><strong>Total Amount:</strong> RM {{ "%.2f"|format(order.total_amount) }}</p>
+                {% if order.status == 'Completed' %}
+                    <a href="{{ url_for('feedback', order_id=order.id) }}" class="feedback-btn">
+                        <i class="fa-solid fa-comment-dots"></i> Leave Feedback
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-order">
+            <img src="{{ url_for('static', filename='images/empty_order.png') }}" alt="No Orders" class="empty-order-img">
+            <h3>No Orders Yet!</h3>
+            <p>Looks like you haven’t placed any orders. Start shopping now!</p>
+            <a href="{{ url_for('menu') }}" class="browse-menu-btn">
+                <i class="fa-solid fa-cake-candles"></i> Browse Menu
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

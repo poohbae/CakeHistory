@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, Cart, Order, OrderItem, Product, User
+from models import db, Cart, Feedback, Order, OrderItem, Product, User
 
 def register_routes(app):
     @app.route('/')
@@ -107,12 +107,12 @@ def register_routes(app):
     @login_required
     def place_order():
         data = request.get_json()
-        method = data.get('method')         # pickup or delivery
+        method = data.get('method')
         address = data.get('address', None)
         date_time = data.get('datetime')
-        payment = data.get('payment')
+        payment_method_id = data.get('payment_method_id')
 
-        # validate datetime
+        # Validate datetime
         try:
             selected_dt = datetime.fromisoformat(date_time)
             if selected_dt < datetime.now(timezone.utc):
@@ -124,14 +124,21 @@ def register_routes(app):
         if not cart_items:
             return jsonify({'success': False, 'message': 'Cart is empty.'})
 
-        total = 0
-        for item in cart_items:
-            total += item.product.price * item.quantity
+        # Calculate total
+        total = sum(item.product.price * item.quantity for item in cart_items)
 
-        order = Order(user_id=current_user.id, total_amount=total)
+        # Create order
+        order = Order(
+            user_id=current_user.id,
+            total_amount=total,
+            payment_method_id=payment_method_id,
+            delivery_method=method,
+            delivery_address=address if method == 'delivery' else None
+        )
         db.session.add(order)
         db.session.commit()
 
+        # Add items to OrderItem
         for item in cart_items:
             order_item = OrderItem(
                 order_id=order.id,
@@ -140,10 +147,43 @@ def register_routes(app):
                 price_each=item.product.price
             )
             db.session.add(order_item)
-            db.session.delete(item)
+            db.session.delete(item)  # clear from cart after ordering
 
         db.session.commit()
         return jsonify({'success': True, 'message': 'Order placed successfully!'})
+
+    @app.route('/feedback', methods=['GET', 'POST'])
+    @login_required
+    def feedback():
+        if request.method == 'POST':
+            order_id = request.form.get('order_id')
+            rating = int(request.form.get('rating'))
+            comments = request.form.get('comments')
+
+            # Check if order belongs to the user
+            order = Order.query.filter_by(id=order_id, user_id=current_user.id).first()
+            if not order:
+                flash('Invalid order selected.', 'danger')
+                return redirect(url_for('feedback'))
+
+            # Save feedback
+            new_feedback = Feedback(
+                user_id=current_user.id,
+                order_id=order_id,
+                rating=rating,
+                comments=comments
+            )
+            db.session.add(new_feedback)
+            db.session.commit()
+
+            flash('Thank you for your feedback! 💗', 'success')
+            return redirect(url_for('feedback'))
+
+        # Load data for the page
+        user_orders = Order.query.filter_by(user_id=current_user.id).all()
+        previous_feedback = Feedback.query.filter_by(user_id=current_user.id).order_by(Feedback.created_at.desc()).all()
+
+        return render_template('feedback.html', orders=user_orders, feedbacks=previous_feedback)
 
     @app.route('/login', methods=['GET', 'POST'])
     def login_user_route():
