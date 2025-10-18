@@ -8,6 +8,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(120))
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    subscribed = db.Column(db.Boolean, default=False)
 
     # Relationship — One user can have many orders
     orders = db.relationship('Order', backref='user', lazy=True)

@@ -40,7 +40,7 @@ def register_routes(app):
             user = User.query.filter_by(email=email).first()
             if user and check_password_hash(user.password_hash, password):
                 login_user(user)
-                flash('Login successful! 🍰', 'success')
+                flash('Login successful!', 'success')
                 return redirect(url_for('home'))
             else:
                 flash('Invalid email or password.', 'danger')
@@ -53,6 +53,7 @@ def register_routes(app):
             email = request.form['email']
             password = request.form['password']
             confirm_password = request.form['confirm_password']
+            subscribed = True if request.form.get('subscribed') == 'yes' else False
 
             # Server-side password check
             if password != confirm_password:
@@ -63,7 +64,12 @@ def register_routes(app):
                 flash('Email already registered. Please login.', 'danger')
                 return redirect(url_for('login_user_route'))
 
-            new_user = User(name=name, email=email, password=generate_password_hash(password))
+            new_user = User(
+                name=name,
+                email=email,
+                password=generate_password_hash(password),
+                subscribed=subscribed
+            )
             db.session.add(new_user)
             db.session.commit()
 

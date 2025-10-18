@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Our Cakes Menu <i class="fa-solid fa-cake-candles"></i></h2>
+<h2 style="margin-top: 10px;">Our Cakes Menu <i class="fa-solid fa-cake-candles"></i></h2>
 
 <div class="menu-grid">
     {% for cake in cakes %}
@@ -58,9 +58,10 @@
         });
     });
 
-    // Login prompt
+    // Login prompt SweetAlert
     document.querySelectorAll('.login-prompt').forEach(btn => {
         btn.addEventListener('click', e => {
+            e.preventDefault();
             e.stopPropagation();
             Swal.fire({
                 icon: 'info',
