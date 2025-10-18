@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 style="margin-top: 10px;">Our Cakes Menu <i class="fa-solid fa-cake-candles"></i></h2>
-
 <div class="menu-grid">
     {% for cake in cakes %}
     <div class="menu-item" data-name="{{ cake.name }}" data-description="{{ cake.description }}" data-img="{{ url_for('static', filename='images/' + cake.img) }}">
