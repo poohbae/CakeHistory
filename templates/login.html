@@ -9,10 +9,17 @@
 
         <form method="POST" action="{{ url_for('login_user_route') }}">
             <input type="email" name="email" placeholder="Email Address" required>
-            <input type="password" name="password" placeholder="Password" required>
+
+            <!-- Password input with toggle eye icon -->
+            <div class="input-wrapper">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
+            </div>
+
             <button type="submit">Login</button>
         </form>
 
+        <!-- Flash messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -29,4 +36,22 @@
         <a href="{{ url_for('menu') }}" class="back-btn">← Back to Menu</a>
     </div>
 </div>
+
+<!-- Toggle Password Script -->
+<script>
+document.querySelectorAll('.toggle-password').forEach(icon => {
+    icon.addEventListener('click', () => {
+        const targetId = icon.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+});
+</script>
 {% endblock %}

@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, Cart, Feedback, Order, OrderItem, Product, User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def register_routes(app):
     @app.route('/')
@@ -200,13 +200,16 @@ def register_routes(app):
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
+            
             user = User.query.filter_by(email=email).first()
-            if user and check_password_hash(user.password_hash, password):
+
+            if user and check_password_hash(user.password, password):
                 login_user(user)
                 flash('Login successful!', 'success')
                 return redirect(url_for('home'))
             else:
                 flash('Invalid email or password.', 'danger')
+
         return render_template('login.html')
 
     @app.route('/register', methods=['GET', 'POST'])

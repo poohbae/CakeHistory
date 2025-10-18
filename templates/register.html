@@ -11,14 +11,14 @@
 
             <input type="email" name="email" placeholder="Email Address" required>
 
-            <!-- Password field with toggle -->
-            <div class="password-field">
+            <!-- Password field -->
+            <div class="input-wrapper">
                 <input type="password" id="password" name="password" placeholder="Password" required>
                 <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
             </div>
 
-            <!-- Confirm Password field with toggle -->
-            <div class="password-field">
+            <!-- Confirm Password field -->
+            <div class="input-wrapper">
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
                 <i class="fa-solid fa-eye toggle-password" data-target="confirm_password"></i>
             </div>
@@ -33,7 +33,6 @@
             <button type="submit">Register</button>
         </form>
 
-        <!-- Flash message area -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -59,7 +58,6 @@ function validateForm() {
     const nameError = document.getElementById("name-error");
     const passwordError = document.getElementById("password-error");
 
-    // Name validation: letters and spaces only
     const namePattern = /^[A-Za-z\s]+$/;
 
     if (!namePattern.test(name)) {
@@ -69,7 +67,6 @@ function validateForm() {
         nameError.style.display = "none";
     }
 
-    // Password match check
     if (password !== confirmPassword) {
         passwordError.style.display = "block";
         return false;
@@ -80,7 +77,7 @@ function validateForm() {
     return true;
 }
 
-// 🧁 Toggle password visibility
+// Toggle password visibility
 document.querySelectorAll('.toggle-password').forEach(icon => {
     icon.addEventListener('click', () => {
         const targetId = icon.getAttribute('data-target');
@@ -88,12 +85,10 @@ document.querySelectorAll('.toggle-password').forEach(icon => {
 
         if (input.type === "password") {
             input.type = "text";
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
         } else {
             input.type = "password";
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
         }
     });
 });
