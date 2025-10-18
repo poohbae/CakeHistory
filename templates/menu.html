@@ -396,15 +396,44 @@
                 Swal.fire({
                     title: 'Customize Your Mix Box (5 cakes max)',
                     html: `
-                        <p style="margin-bottom:8px;">Distribute 5 cakes among these flavors:</p>
-                        <div class="mix-box-grid">
-                            <label>Butter: <input type="number" id="butter" min="0" max="5" value="0"></label><br>
-                            <label>Marble: <input type="number" id="marble" min="0" max="5" value="0"></label><br>
-                            <label>Pandan: <input type="number" id="pandan" min="0" max="5" value="0"></label><br>
-                            <label>Orange: <input type="number" id="orange" min="0" max="5" value="0"></label><br>
-                            <label>Fruit: <input type="number" id="fruit" min="0" max="5" value="0"></label><br>
+                        <p style="margin-bottom:10px;">Distribute 5 cakes among these flavors:</p>
+                        <div class="mix-box-grid" 
+                            style="display:flex; flex-direction:column; gap:8px; text-align:left;">
+                            
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>Butter:</span>
+                                <input type="number" id="butter" min="0" max="5" value="0" 
+                                    style="width:60px; padding:4px; text-align:center;">
+                            </label>
+
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>Marble:</span>
+                                <input type="number" id="marble" min="0" max="5" value="0" 
+                                    style="width:60px; padding:4px; text-align:center;">
+                            </label>
+
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>Pandan:</span>
+                                <input type="number" id="pandan" min="0" max="5" value="0" 
+                                    style="width:60px; padding:4px; text-align:center;">
+                            </label>
+
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>Orange:</span>
+                                <input type="number" id="orange" min="0" max="5" value="0" 
+                                    style="width:60px; padding:4px; text-align:center;">
+                            </label>
+
+                            <label style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>Fruit:</span>
+                                <input type="number" id="fruit" min="0" max="5" value="0" 
+                                    style="width:60px; padding:4px; text-align:center;">
+                            </label>
                         </div>
-                        <small style="color:#777;">Make sure total = 5 before confirming.</small>
+
+                        <small style="color:#777; display:block; margin-top:8px;">
+                            Make sure total = 5 before confirming.
+                        </small>
                     `,
                     confirmButtonText: 'Confirm Selection',
                     confirmButtonColor: '#ff69b4',
@@ -427,7 +456,6 @@
                         const mix = result.value;
                         const mixSummary = `Mix Box: Butter ${mix.butter}, Marble ${mix.marble}, Pandan ${mix.pandan}, Orange ${mix.orange}, Fruit ${mix.fruit}`;
 
-                        // send to backend
                         fetch('/add_to_cart', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -445,13 +473,12 @@
                                 icon: data.success ? 'success' : 'error',
                                 title: data.success ? 'Added to Cart!' : 'Oops...',
                                 text: data.message,
-                                confirmButtonColor: '#ff69b4',
-                                scrollbarPadding: false
+                                confirmButtonColor: '#ff69b4'
                             });
                         });
                     }
                 });
-            } 
+            }
             
             // CASE 2: NORMAL PRODUCTS — show special request input
             else {

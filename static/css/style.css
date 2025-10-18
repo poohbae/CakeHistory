@@ -909,11 +909,11 @@ button:hover {
 
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 per row max */
-    max-width: 950px;       /* keeps grid neatly contained */
-    margin: 0 auto;         /* ✅ centers the grid container itself */
-    justify-items: center;  /* ✅ centers each card within its grid cell */
-    align-items: start;     /* aligns tops evenly */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* up to 3 per row */
+    max-width: 950px;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: start;
     gap: 25px;
     padding: 30px;
 }
@@ -927,6 +927,12 @@ button:hover {
     transition: all 0.25s ease-in-out;
     position: relative;
     text-align: center;
+
+    /* ✅ Make all cards the same height */
+    height: 400px;             /* adjust to your preference */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* keeps spacing consistent */
 }
 
 /* Float-up hover animation */
@@ -935,25 +941,28 @@ button:hover {
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
 
-/* Image styling */
+/* ✅ Image styling - consistent size for all */
 .menu-item img {
     width: 100%;
-    height: 220px;
+    height: 220px;            /* consistent fixed height */
     border-radius: 10px;
     object-fit: cover;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     display: block;
 }
 
-/* Name + price */
+/* ✅ Name + price styling */
 .menu-item h3 {
     margin: 8px 0 5px 0;
     color: #ff1493;
+    font-size: 18px;
+    min-height: 44px; /* ensures consistent text area height */
 }
 
 .menu-item p {
     color: #444;
     font-weight: 500;
+    margin-bottom: 10px;
 }
 
 .option-section {
@@ -1060,20 +1069,6 @@ button:hover {
     font-size: 15px !important;
     padding: 10px !important;
     width: 80% !important;        /* adjust width for better look */
-}
-
-.mix-box-grid label {
-    display: block;
-    margin: 6px 0;
-    font-size: 15px;
-}
-.mix-box-grid input {
-    width: 50px;
-    text-align: center;
-    margin-left: 6px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 2px;
 }
 
 .cake-modal {
