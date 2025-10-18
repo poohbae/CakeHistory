@@ -45,8 +45,6 @@
                 <!-- 💰 Summary -->
                 <div class="cart-summary">
                     <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal) }}</p>
-                    <p id="delivery-fee" style="display:none;"><strong>Delivery Fee:</strong> RM 5.00</p>
-                    <hr>
                     <p class="grand-total"><strong>Total:</strong> RM 
                         <span id="grand-total">{{ "%.2f"|format(subtotal) }}</span>
                     </p>
@@ -69,7 +67,7 @@
                     <h3><i class="fa-solid fa-truck"></i> Place Your Order</h3>
 
                     <form id="orderForm">
-                        <label><strong>Choose Method:</strong></label><br>
+                        <label><strong>Choose Method:</strong></label>
                         <label class="method-option">
                             <input type="radio" name="method" value="pickup" checked> Pickup
                         </label>
@@ -87,22 +85,22 @@
                         </div>
 
                         <br>
-                        <label><strong>Date & Time:</strong></label><br>
-                        <input type="datetime-local" name="datetime" required step="300"><br><br>
+                        <label><strong>Date & Time:</strong></label>
+                        <input type="datetime-local" name="datetime" required step="300">
 
-                        <label><strong>Payment Method:</strong></label><br>
+                       <label><strong>Payment Method:</strong></label>
                         <select id="payment-category" name="payment_category" required>
                             <option value="">-- Select Payment Method --</option>
                             <option value="tng">Touch 'n Go eWallet</option>
                             <option value="online">Online Banking</option>
                         </select>
 
-                        <!-- This is the dropdown for banks -->
-                        <div id="bank-options" style="display:none; margin-top:10px;">
-                            <label><strong>Select Bank:</strong></label><br>
+                        <!-- Online banking options -->
+                        <div id="bank-options" style="display:none; margin-top:20px;">
+                            <label><strong>Select Bank:</strong></label>
                             <select id="payment_method_id" name="payment_method_id">
                                 {% for method in payment_methods %}
-                                    {% if 'bank' in method.name|lower %}
+                                    {% if 'bank' in method.name.lower() %}
                                         <option value="{{ method.id }}">{{ method.name }}</option>
                                     {% endif %}
                                 {% endfor %}
@@ -111,7 +109,7 @@
 
                         <!-- Store the TnG ID in a hidden input -->
                         {% for method in payment_methods %}
-                            {% if 'Touch' in method.name %}
+                            {% if 'touch' in method.name.lower() %}
                                 <input type="hidden" id="tng_id" value="{{ method.id }}">
                             {% endif %}
                         {% endfor %}
@@ -139,12 +137,12 @@
                     const bankSelect = document.getElementById('payment_method_id');
                     const tngId = document.getElementById('tng_id')?.value || '';
 
-                    // 🩷 Open & close modal
+                    // Open & close modal
                     btn.addEventListener("click", () => modal.style.display = "flex");
                     closeBtn.addEventListener("click", () => modal.style.display = "none");
                     modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 
-                    // 🩷 Delivery/pickup toggle
+                    // Delivery/pickup toggle
                     form.method.forEach(radio => {
                         radio.addEventListener("change", () => {
                             if (radio.value === "delivery" && radio.checked) {
@@ -161,7 +159,7 @@
                         });
                     });
 
-                    // 🩷 Payment method selection logic
+                    // Payment method selection logic
                     paymentCategory.addEventListener('change', () => {
                         const category = paymentCategory.value;
 
@@ -182,15 +180,19 @@
                         }
                     });
 
-                    // 🩷 Validate datetime (disable past)
+                    //  Validate datetime (disable past + restrict to 1PM–5PM)
                     const dateInput = form.querySelector('input[name="datetime"]');
                     if (dateInput) {
                         const now = new Date();
                         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                         dateInput.min = now.toISOString().slice(0, 16);
+                        dateInput.step = 300; // 5-minute intervals
 
                         dateInput.addEventListener("change", () => {
                             const selected = new Date(dateInput.value);
+                            const hour = selected.getHours();
+
+                            // Check for past date/time
                             if (selected <= new Date()) {
                                 Swal.fire({
                                     icon: 'warning',
@@ -198,12 +200,26 @@
                                     text: 'Please choose a future date and time.',
                                     confirmButtonColor: '#ff69b4'
                                 });
-                                dateInput.value = dateInput.min;
+                                dateInput.value = '';
+                                return;
+                            }
+
+                            // Check operating hours: 1PM (13:00) to 5PM (17:00)
+                            if (hour < 13 || hour >= 17) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Outside Operating Hours',
+                                    text: 'Please select a time between 1:00 PM and 5:00 PM.',
+                                    confirmButtonColor: '#ff69b4'
+                                });
+                                dateInput.value = '';
+                                return;
                             }
                         });
                     }
 
-                    // 🩷 Form submit
+
+                    // Form submit
                     form.addEventListener("submit", e => {
                         e.preventDefault();
                         const formData = new FormData(form);

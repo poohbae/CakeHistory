@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="auth-wrapper">
-    <div class="login-container">
+    <div class="feedback-container">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CakeHistory Logo" class="auth-logo">
 
         <h2>We Value Your Feedback</h2>
@@ -9,15 +9,19 @@
 
         <form method="POST" action="{{ url_for('feedback') }}">
             <!-- Order selection -->
-            <label for="order_id">Select Order:</label>
+            <label for="order_id"><strong>Select Order:</strong></label>
             <select name="order_id" id="order_id" required>
-                {% for order in orders %}
-                    <option value="{{ order.id }}">Order #{{ order.id }} — {{ order.status }}</option>
-                {% endfor %}
+                {% if orders and orders|length > 0 %}
+                    {% for order in orders %}
+                        <option value="{{ order.id }}">Order #{{ order.id }} — {{ order.status }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="">No orders available</option>
+                {% endif %}
             </select>
 
             <!-- Rating -->
-            <label for="rating">Rating:</label>
+            <label for="rating"><strong>Rating:</strong></label>
             <div class="rating-stars">
                 {% for star in range(5, 0, -1) %}
                     <input type="radio" name="rating" value="{{ star }}" id="star{{ star }}" required>
