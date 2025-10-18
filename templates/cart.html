@@ -108,7 +108,8 @@
                         <input type="datetime-local" name="datetime" required step="300">
                         <br>
 
-                       <label><strong>Payment Method:</strong></label>
+                       <!-- Payment Method -->
+                        <label><strong>Payment Method:</strong></label>
                         <select id="payment-category" name="payment_category" required>
                             <option value="">-- Select Payment Method --</option>
                             <option value="tng">Touch 'n Go eWallet</option>
@@ -118,7 +119,7 @@
                         <!-- Online banking options -->
                         <div id="bank-options" style="display:none; margin-top:20px;">
                             <label><strong>Select Bank:</strong></label>
-                            <select id="payment_method_id" name="payment_method_id">
+                            <select id="bank_select">
                                 {% for method in payment_methods %}
                                     {% set name = (method.name | string | lower) %}
                                     {% if 'bank' in name %}
@@ -128,7 +129,10 @@
                             </select>
                         </div>
 
-                        <!-- Store the TnG ID in a hidden input -->
+                        <!-- Hidden field to store the final method ID (always submitted) -->
+                        <input type="hidden" name="payment_method_id" id="payment_method_id">
+
+                        <!-- Store the TnG ID (for JS use only) -->
                         {% for method in payment_methods %}
                             {% if 'touch' in method.name.lower() %}
                                 <input type="hidden" id="tng_id" value="{{ method.id }}">
@@ -189,28 +193,36 @@
                         }
                     });
 
-                    // Payment selection
+                    // 💳 Payment selection logic
                     const paymentCategory = document.getElementById('payment-category');
                     const bankOptions = document.getElementById('bank-options');
-                    const bankSelect = document.getElementById('payment_method_id');
+                    const bankSelect = document.getElementById('bank_select');
                     const tngId = document.getElementById('tng_id')?.value || '';
+                    const paymentIdInput = document.getElementById('payment_method_id');
 
+                    // Update hidden payment_method_id based on selection
                     paymentCategory.addEventListener('change', () => {
                         const category = paymentCategory.value;
+
                         if (category === 'online') {
                             bankOptions.style.display = 'block';
-                            bankSelect.required = true;
-                            bankSelect.selectedIndex = 0; // default to first bank automatically
+                            paymentIdInput.value = bankSelect.value;      // use first bank by default
                         } else if (category === 'tng') {
                             bankOptions.style.display = 'none';
-                            bankSelect.required = false;
-                            bankSelect.value = tngId;
+                            paymentIdInput.value = tngId;                 // set to Touch ’n Go ID
                         } else {
                             bankOptions.style.display = 'none';
-                            bankSelect.required = false;
-                            bankSelect.value = '';
+                            paymentIdInput.value = '';                    // reset
                         }
                     });
+
+                    // Keep hidden field synced when user picks another bank
+                    bankSelect.addEventListener('change', () => {
+                        if (paymentCategory.value === 'online') {
+                            paymentIdInput.value = bankSelect.value;
+                        }
+                    });
+
 
                     // Date & time validation (only 1–5 PM, future only, 5-min increments)
                     const dateInput = form.querySelector('input[name="datetime"]');

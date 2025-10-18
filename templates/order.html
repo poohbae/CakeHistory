@@ -18,6 +18,7 @@
 
             {% if order.payment_method %}
             <div class="payment-method">
+                <strong>Payment via: </strong>
                 <img src="{{ url_for('static', filename='images/' + order.payment_method.img) }}" 
                      alt="{{ order.payment_method.name }}" class="payment-icon">
                 <span>{{ order.payment_method.name }}</span>
@@ -31,7 +32,7 @@
                 {% if order.delivery_method == 'delivery' %}
                     <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
                 {% else %}
-                    <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
+                    <p><strong>Pickup Location:</strong> E-gate Commercial Centre, Lebuh Tunku Kudin 1, 11700 Gelugor, Pulau Pinang</p>
                 {% endif %}
 
                 <p><strong>Scheduled Date & Time:</strong> 
@@ -56,6 +57,7 @@
                         <td>
                             {{ item.product.name }}
                             {% if item.special_request %}
+                                <br>
                                 <p class="special-request"><strong>Note:</strong> {{ item.special_request }}</p>
                             {% endif %}
                         </td>
@@ -75,11 +77,10 @@
                     {% for addon in order.addons %}
                     <tr class="addon-row">
                         <td>
-                            {{ addon.addon_type|capitalize }}
+                            {{ addon.name }}
                             {% if addon.option_selected %}
-                                <p class="special-request">
-                                    <strong>Option:</strong> {{ addon.option_selected }}
-                                </p>
+                                <br>
+                                <p class="special-request"><strong>Option:</strong> {{ addon.option_selected }}</p>
                             {% endif %}
                         </td>
                         <td>{{ addon.quantity }}</td>
