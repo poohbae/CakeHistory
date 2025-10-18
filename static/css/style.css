@@ -592,7 +592,7 @@ button:hover {
 
 .ingredients-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* slightly narrower cards */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* slightly narrower cards */
     gap: 6px;           /* 🧭 reduce spacing between cards */
     justify-items: center;
     align-items: stretch;
@@ -1209,10 +1209,9 @@ button:hover {
 }
 
 .special-request {
-    padding: 4px 8px;
     margin-top: 4px;
     border-radius: 4px;
-    font-size: 10px;
+    font-size: 14px;
     color: gray;
     display: inline-block;
 }
@@ -1543,11 +1542,13 @@ button:hover {
 
 .feedback-auth-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center;     /* horizontal center */
+    align-items: center;         /* vertical center */
     flex-direction: column;
-    height: 70vh;
+    min-height: 100vh;           /* ensure full screen height */
     background: #fff8f0;
+    margin: 0;                   /* remove possible browser default spacing */
+    padding: 0;
 }
 
 .feedback-container {
@@ -1555,10 +1556,13 @@ button:hover {
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     width: 340px;
-    height: 400px;
+    height: 420px;               /* fixed height */
     padding: 40px 30px;
     text-align: center;
-    align-items: center;
+    display: flex;               /* allow inner content alignment if needed */
+    flex-direction: column;
+    justify-content: center;     /* center inner elements vertically */
+    align-items: center;         /* center inner elements horizontally */
     position: relative;
 }
 
