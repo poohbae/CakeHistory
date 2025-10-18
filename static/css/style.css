@@ -835,6 +835,7 @@ button:hover {
 .cake-modal {
     opacity: 0;
     visibility: hidden;
+    display: flex; /* ✅ enables flexbox centering */
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -849,30 +850,29 @@ button:hover {
     pointer-events: none;
 }
 
+/* When visible */
 .cake-modal.show {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto;
+    pointer-events: all;
 }
 
+/* ✅ Centered modal box styling */
 .cake-modal-content {
     background: #fff;
+    padding: 25px 30px;
     border-radius: 12px;
-    padding: 20px;
-    width: 350px;
-    max-width: 90%;
+    max-width: 420px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     animation: fadeIn 0.3s ease;
 }
 
 .cake-modal-content img {
-    width: 80%;
-    height: 200px;
+    width: 100%;
+    height: auto;
     border-radius: 10px;
-    object-fit: cover;
-    margin-bottom: 10px;
-    display: block;
+    margin-bottom: 15px;
 }
 
 .cake-modal-content h3 {
@@ -883,6 +883,11 @@ button:hover {
 .cake-modal-content p {
     color: #555;
     font-size: 14px;
+}
+
+@keyframes fadeIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 .close-modal {
