@@ -133,33 +133,33 @@
     <div class="menu-grid">
         <!-- 🌟 Slices -->
         {% for cake in cakes %}
-        {% if cake.img3 %}
-        <div class="menu-item"
-            data-item-type="product"
-            data-id="{{ cake.id }}" 
-            data-name="{{ cake.name }}" 
-            data-description="{{ cake.description }}" 
-            data-img="{{ url_for('static', filename='images/' + cake.img3) }}"
-            data-img3="{{ url_for('static', filename='images/' + cake.img3) }}">
-            
-            <img src="{{ url_for('static', filename='images/' + cake.img3) }}" alt="{{ cake.name }}">
-            <h3>{{ cake.name }}</h3>
-            <p>RM {{ "%.2f"|format(cake.price) }}</p>
+            {% if cake.img3 and 1 <= cake.id <= 5 %}
+            <div class="menu-item"
+                data-item-type="product"
+                data-id="{{ cake.id }}" 
+                data-name="{{ cake.name }}" 
+                data-description="{{ cake.description }}" 
+                data-img="{{ url_for('static', filename='images/' + cake.img3) }}"
+                data-img3="{{ url_for('static', filename='images/' + cake.img3) }}">
+                
+                <img src="{{ url_for('static', filename='images/' + cake.img3) }}" alt="{{ cake.name }}">
+                <h3>{{ cake.name }}</h3>
+                <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
-            <div class="menu-actions">
-                <div class="quantity">
-                    <button class="qty-btn minus">−</button>
-                    <span class="qty-value">1</span>
-                    <button class="qty-btn plus">+</button>
+                <div class="menu-actions">
+                    <div class="quantity">
+                        <button class="qty-btn minus">−</button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn plus">+</button>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                        <button class="add-cart-btn">Add to Cart</button>
+                    {% else %}
+                        <button class="add-cart-btn login-prompt">Add to Cart</button>
+                    {% endif %}
                 </div>
-                {% if current_user.is_authenticated %}
-                    <button class="add-cart-btn">Add to Cart</button>
-                {% else %}
-                    <button class="add-cart-btn login-prompt">Add to Cart</button>
-                {% endif %}
             </div>
-        </div>
-        {% endif %}
+            {% endif %}
         {% endfor %}
 
         <!-- Candles -->

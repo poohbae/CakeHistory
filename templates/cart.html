@@ -50,9 +50,9 @@
 
                 <!-- Summary -->
                 <div class="cart-summary">
-                    <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal) }}</p>
+                    <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal|float) }}</p>
                     <p class="grand-total"><strong>Total:</strong> RM 
-                        <span id="grand-total">{{ "%.2f"|format(subtotal) }}</span>
+                        <span id="grand-total">{{ "%.2f"|format(subtotal|float) }}</span>
                     </p>
 
                     <div class="cart-buttons">
