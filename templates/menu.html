@@ -42,6 +42,7 @@
         const plus = item.querySelector('.plus');
         const value = item.querySelector('.qty-value');
         let qty = 1;
+        const MAX_QTY = 20;
 
         minus.addEventListener('click', e => {
             e.stopPropagation(); // prevent modal trigger
@@ -51,10 +52,20 @@
 
         plus.addEventListener('click', e => {
             e.stopPropagation();
-            qty++;
-            value.textContent = qty;
+            if (qty < MAX_QTY) {
+                qty++;
+                value.textContent = qty;
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Limit Reached',
+                    text: 'Maximum quantity is 20 per item.',
+                    confirmButtonColor: '#ff69b4'
+                });
+            }
         });
     });
+
 
     // Login prompt SweetAlert
     document.querySelectorAll('.login-prompt').forEach(btn => {
@@ -80,12 +91,21 @@
     const modalDesc = document.getElementById('modal-desc');
     const closeModal = document.querySelector('.close-modal');
 
+    let hoverTimer;
+
     document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            modal.style.display = 'flex';
-            modalImg.src = item.dataset.img;
-            modalTitle.textContent = item.dataset.name;
-            modalDesc.textContent = item.dataset.description;
+        item.addEventListener('mouseenter', () => {
+            hoverTimer = setTimeout(() => {
+                modal.style.display = 'flex';
+                modalImg.src = item.dataset.img;
+                modalTitle.textContent = item.dataset.name;
+                modalDesc.textContent = item.dataset.description;
+            }, 300); // wait 300ms before showing
+        });
+
+        item.addEventListener('mouseleave', () => {
+            clearTimeout(hoverTimer);
+            modal.style.display = 'none';
         });
     });
 
