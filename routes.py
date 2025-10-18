@@ -7,7 +7,7 @@ def register_routes(app):
     @app.route('/')
     def home():
         cakes = Product.query.all()
-        return render_template('menu.html', cakes=cakes)
+        return render_template('home.html', cakes=cakes)
 
     @app.route('/menu')
     def menu():
