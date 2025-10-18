@@ -52,11 +52,17 @@
                 <tbody>
                     {% for item in order.items %}
                     <tr>
-                        <td>{{ item.product.name }}</td>
+                        <td>
+                            {{ item.product.name }}
+                            {% if item.special_request %}
+                                <p class="special-note"><strong>Note:</strong> {{ item.special_request }}</p>
+                            {% endif %}
+                        </td>
                         <td>{{ item.quantity }}</td>
                         <td>{{ "%.2f"|format(item.price_each) }}</td>
                         <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
                     </tr>
+
                     {% endfor %}
                     <tr class="order-total-row">
                         <td colspan="3" style="text-align:right; font-weight:bold;">Total Amount:</td>

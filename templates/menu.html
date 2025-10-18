@@ -353,24 +353,43 @@
             const qty = parseInt(item.querySelector('.qty-value').textContent);
             const option = item.querySelector('.addon-select')?.value || null;
 
-            fetch('/add_to_cart', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: qty,
-                    option_selected: option
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                Swal.fire({
-                    icon: data.success ? 'success' : 'error',
-                    title: data.success ? 'Added to Cart!' : 'Oops...',
-                    text: data.message,
-                    confirmButtonColor: '#ff69b4',
-                    scrollbarPadding: false
-                });
+            // Ask for special request/allergy note before adding to cart
+            Swal.fire({
+                title: 'Any Special Request?',
+                input: 'text',
+                inputLabel: 'E.g. No nuts, less sugar, allergy to dairy, etc.',
+                inputPlaceholder: 'Leave blank if none',
+                showCancelButton: true,
+                confirmButtonText: 'Add to Cart',
+                confirmButtonColor: '#ff69b4',
+                cancelButtonText: 'Cancel',
+                cancelButtonColor: '#999',
+                scrollbarPadding: false
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const specialRequest = result.value || null;
+
+                    fetch('/add_to_cart', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: qty,
+                            option_selected: option,
+                            special_request: specialRequest
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        Swal.fire({
+                            icon: data.success ? 'success' : 'error',
+                            title: data.success ? 'Added to Cart!' : 'Oops...',
+                            text: data.message,
+                            confirmButtonColor: '#ff69b4',
+                            scrollbarPadding: false
+                        });
+                    });
+                }
             });
         });
     });

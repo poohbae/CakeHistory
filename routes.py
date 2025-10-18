@@ -30,17 +30,19 @@ def register_routes(app):
         product_id = data.get('product_id')
         quantity = int(data.get('quantity', 1))
         option_selected = data.get('option_selected', None)
+        special_request = data.get('special_request', None)
 
         # Validate product
         product = Product.query.get(product_id)
         if not product:
             return jsonify({'success': False, 'message': 'Product not found.'}), 404
 
-        # Check if already in cart (same product + same option)
+        # Check if already in cart (same product + same option + same note)
         existing_item = Cart.query.filter_by(
             user_id=current_user.id,
             product_id=product_id,
-            option_selected=option_selected
+            option_selected=option_selected,
+            special_request=special_request
         ).first()
 
         if existing_item:
@@ -50,7 +52,8 @@ def register_routes(app):
                 user_id=current_user.id,
                 product_id=product_id,
                 quantity=quantity,
-                option_selected=option_selected
+                option_selected=option_selected,
+                special_request=special_request
             )
             db.session.add(new_item)
 
@@ -86,7 +89,8 @@ def register_routes(app):
                     'image': product.img,
                     'price': product.price,
                     'quantity': item.quantity,
-                    'total': total_price
+                    'total': total_price,
+                    'special_request': item.special_request
                 })
             else:
                 cake_items.append({
@@ -94,7 +98,8 @@ def register_routes(app):
                     'image': product.img,
                     'price': product.price,
                     'quantity': item.quantity,
-                    'total': total_price
+                    'total': total_price,
+                    'special_request': item.special_request
                 })
 
         payment_methods = PaymentMethod.query.all()
@@ -113,7 +118,7 @@ def register_routes(app):
     def place_order():
         data = request.get_json()
         method = data.get('method')
-        address_data = data.get('address', None)  # format: "Area|Fee"
+        address_data = data.get('address', None)
         date_time = data.get('datetime')
         payment_method_id = data.get('payment_method_id')
         delivery_fee = float(data.get('delivery_fee', 0))
@@ -141,7 +146,6 @@ def register_routes(app):
             except ValueError:
                 delivery_address = address_data
 
-        # Add delivery fee to total
         total += delivery_fee
 
         # Create order
@@ -156,20 +160,21 @@ def register_routes(app):
         db.session.add(order)
         db.session.commit()
 
+        # 🧁 Transfer each cart item into OrderItem (including special_request)
         for item in cart_items:
             order_item = OrderItem(
                 order_id=order.id,
                 product_id=item.product_id,
                 quantity=item.quantity,
-                price_each=item.product.price
+                price_each=item.product.price,
+                special_request=item.special_request
             )
             db.session.add(order_item)
-            db.session.delete(item)
+            db.session.delete(item)  # clear cart after order placed
 
         db.session.commit()
         return jsonify({'success': True, 'message': 'Order placed successfully!'})
 
-    
     @app.route('/order')
     @login_required
     def order():

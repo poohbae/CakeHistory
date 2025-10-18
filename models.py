@@ -66,6 +66,7 @@ class Cart(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     option_selected = db.Column(db.String(50))
+    special_request = db.Column(db.String(255))
 
     user = db.relationship('User', backref='cart_items', lazy=True)
     product = db.relationship('Product', backref='cart_entries', lazy=True)
@@ -92,6 +93,7 @@ class OrderItem(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     price_each = db.Column(db.Float, nullable=False)
+    special_request = db.Column(db.String(255))
 
 class OrderAddon(db.Model):
     __tablename__ = 'order_addons'
