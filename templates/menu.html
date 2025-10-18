@@ -125,9 +125,9 @@
             <p>RM {{ "%.2f"|format(candle.price) }}</p>
 
             <div class="option-section">
-                {% if candle.type == 'alphabet' %}
-                <label for="alphabet-num-{{ candle.id }}">Choose Number:</label>
-                <select id="alphabet-num-{{ candle.id }}" class="addon-select">
+                {% if candle.type == 'number' %}
+                <label for="number-num-{{ candle.id }}">Choose Number:</label>
+                <select id="number-num-{{ candle.id }}" class="addon-select">
                     {% for n in range(1, 13) %}
                         <option value="Number {{ n }}">{{ n }}</option>
                     {% endfor %}
