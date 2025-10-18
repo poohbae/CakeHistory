@@ -47,7 +47,7 @@ body.swal2-shown {
     justify-content: space-between;
     align-items: center;
     background-color: #ffb6c1;
-    color: #ff69b4;
+    color: black;
     padding: 10px 30px;
     flex-wrap: wrap;
 }
@@ -64,7 +64,7 @@ body.swal2-shown {
 }
 
 .logo h1 {
-    color: #ffb6c1;
+    color: black;
     font-size: 24px;
     margin: 0;
     font-weight: 700;
@@ -74,7 +74,7 @@ body.swal2-shown {
 .nav-links a {
     position: relative;
     margin: 0 10px;
-    color: #ff69b4;
+    color: black;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
@@ -86,7 +86,7 @@ body.swal2-shown {
 /* Separator bar between items */
 .nav-links a:not(:last-child)::after {
     content: "|";
-    color: #fd5cad;
+    color: black;
     position: absolute;
     right: -12px;
     top: 50%;
@@ -108,17 +108,6 @@ body.swal2-shown {
     border-radius: 8px;
 }
 
-.nav-links a:hover {
-    background: white;
-    color: #ff1493;
-    box-shadow: 0 3px 0 #ff1493;
-}
-
-/* Optional smooth hover animation */
-.nav-links a {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
 /* Auth Buttons (Login / Register / Logout) */
 .auth-buttons {
     display: flex;
@@ -129,9 +118,9 @@ body.swal2-shown {
 
 /* Link style */
 .auth-buttons a {
-    color: #ff69b4;            /* 🎀 soft pink */
-    font-style: italic;        /* ✅ italic text */
-    font-weight: 500;          /* slightly lighter for elegant feel */
+    color: black;
+    font-style: italic;
+    font-weight: 500;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -141,12 +130,11 @@ body.swal2-shown {
 
 /* Hover effect — darker pink + underline */
 .auth-buttons a:hover {
-    color: #ff1493;            /* 💗 darker pink on hover */
+    color: white;
     text-decoration: underline;
     transform: translateY(-1px);
 }
 
-/* Optional: make the greeting text (Hi, user) neutral gray */
 .auth-buttons span {
     color: #f5f5f5;
     font-style: normal;
@@ -155,7 +143,7 @@ body.swal2-shown {
 
 /* Greeting text for logged-in users */
 .auth-buttons span {
-    color: #fff;
+    color: black;
     font-weight: 600;
     margin-right: 5px;
     font-size: 15px;
@@ -307,7 +295,7 @@ button:hover {
 ================================ */
 /* Hero Banner */
 .hero-banner {
-    background: url('../images/cake_banner.jpg') center/cover no-repeat;
+    background: url('../images/cake_banner.jpg') center/contain no-repeat;
     height: 60vh;
     position: relative;
     display: flex;
@@ -515,7 +503,6 @@ button:hover {
     font-style: italic;
     color: #666;
 }
-
 
 /* ==========================
    MENU PAGE STYLING
