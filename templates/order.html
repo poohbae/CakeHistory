@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 🧁 Cakes -->
+                    <!-- Cakes -->
                     {% for item in order.items %}
                     <tr>
                         <td>
@@ -65,7 +65,7 @@
                     </tr>
                     {% endfor %}
 
-                    <!-- 🎁 Add-ons -->
+                    <!-- Add-ons -->
                     {% if order.addons %}
                     <tr class="addon-header">
                         <td colspan="4" style="font-weight:bold; padding-top:10px;">
@@ -77,7 +77,7 @@
                         <td>
                             {{ addon.addon_type|capitalize }}
                             {% if addon.option_selected %}
-                                <p class="option-selected">
+                                <p class="special-request">
                                     <strong>Option:</strong> {{ addon.option_selected }}
                                 </p>
                             {% endif %}
