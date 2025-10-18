@@ -908,83 +908,46 @@ button:hover {
 }
 
 .menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* up to 3 per row */
-    max-width: 950px;
-    margin: 0 auto;
-    justify-items: center;
-    align-items: start;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 25px;
     padding: 30px;
 }
 
 /* Cake card */
 .menu-item {
+    width: 250px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     padding: 15px;
     transition: all 0.25s ease-in-out;
     position: relative;
-    text-align: center;
-
-    /* ✅ Make all cards the same height */
-    height: 400px;             /* adjust to your preference */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* keeps spacing consistent */
 }
 
 /* Float-up hover animation */
 .menu-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* ✅ Image styling - consistent size for all */
+/* Image styling */
 .menu-item img {
     width: 100%;
-    height: 220px;            /* consistent fixed height */
     border-radius: 10px;
-    object-fit: cover;
     margin-bottom: 10px;
-    display: block;
 }
 
-/* ✅ Name + price styling */
+/* Name + price */
 .menu-item h3 {
     margin: 8px 0 5px 0;
     color: #ff1493;
-    font-size: 18px;
-    min-height: 44px; /* ensures consistent text area height */
 }
 
 .menu-item p {
     color: #444;
     font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.option-section {
-    margin: 10px 0;
-    font-size: 14px;
-    text-align: left;
-}
-
-.option-section label {
-    font-weight: 500;
-    display: block;
-    margin-bottom: 5px;
-    color: #444;
-}
-
-.addon-select {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fff;
-    font-size: 14px;
 }
 
 /* Quantity & Add button container */
@@ -1042,7 +1005,7 @@ button:hover {
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 6px 14px;
+    padding: 6px 14px;        /* ✅ shorter & cleaner */
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
@@ -1056,6 +1019,28 @@ button:hover {
 .add-cart-btn:hover {
     background: #ff1493;
     transform: translateY(-1px);
+}
+
+.option-section {
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: left;
+}
+
+.option-section label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.addon-select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
 }
 
 .swal-custom-popup {
