@@ -1059,30 +1059,60 @@ button:hover {
 }
 
 .swal-custom-popup {
-    text-align: center !important; /* centers label + title */
+    text-align: center !important;
+}
+
+.swal2-input-label {
+    margin-bottom: 12px !important; /* adjust value for more/less space */
+    color: #555; /* optional - softer text */
+    font-size: 15px;
 }
 
 .swal-custom-input {
     display: block;
-    margin: 0 auto !important;    /* centers horizontally */
+    margin: 0 auto !important;
     text-align: center !important;
     font-size: 15px !important;
     padding: 10px !important;
-    width: 80% !important;        /* adjust width for better look */
+    width: 80% !important;
 }
 
-.mix-box-grid label {
-    display: block;
-    margin: 6px 0;
-    font-size: 15px;
+/* Container for the mix box */
+.mix-box-grid {
+    display: flex;                  /* ✅ puts all label-input pairs in one row */
+    flex-wrap: wrap;                /* ✅ allows wrapping to next line if too narrow */
+    gap: 12px;                      /* spacing between each pair */
+    justify-content: center;        /* centers the whole row */
+    align-items: center;            /* vertically aligns inputs nicely */
+    margin: 8px 0 12px;
 }
+
+/* Each flavor label */
+.mix-box-grid label {
+    display: flex;                  /* ✅ keeps label text and input inline */
+    align-items: center;
+    font-size: 15px;
+    background: #fff5fa;            /* optional: light pink background */
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* The number input */
 .mix-box-grid input {
     width: 50px;
     text-align: center;
     margin-left: 6px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 2px;
+    padding: 3px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.mix-box-grid input:focus {
+    border-color: #ff69b4;          /* pink highlight on focus */
 }
 
 .cake-modal {
