@@ -407,7 +407,7 @@ button:hover {
 .vm-container div {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     padding: 20px;
     width: 280px;
 }
@@ -433,7 +433,7 @@ button:hover {
     width: 250px;
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     padding: 15px;
     transition: transform 0.3s ease;
 }
@@ -977,7 +977,7 @@ button:hover {
     margin: 30px auto;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     padding: 20px 30px;
 }
 
@@ -1044,12 +1044,18 @@ button:hover {
     font-size: 18px;
     color: #ff1493;
 }
-
 .cart-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* pushes buttons to far ends */
     align-items: center;
+    width: 100%;
     margin-top: 15px;
+}
+
+/* Ensure each button doesn't stretch */
+.cart-buttons a,
+.cart-buttons button {
+    flex: 0 0 auto;
 }
 
 .continue-btn {
@@ -1154,7 +1160,7 @@ button:hover {
 .order-card {
     background: #fffafc;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     padding: 20px;
     margin-bottom: 25px;
     text-align: left;
@@ -1268,7 +1274,7 @@ button:hover {
     background: #fffafc;
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     text-align: center;
 }
 
