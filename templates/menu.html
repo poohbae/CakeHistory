@@ -204,7 +204,7 @@
         item.addEventListener('mouseenter', () => {
             hoverTimer = setTimeout(() => {
                 modal.classList.add('show');
-                modalImg.src = item.dataset.img;
+                modalImg.src = item.dataset.img2;
                 modalTitle.textContent = item.dataset.name;
                 modalDesc.textContent = item.dataset.description;
             }, 150);

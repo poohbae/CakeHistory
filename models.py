@@ -80,3 +80,20 @@ class OrderItem(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     price_each = db.Column(db.Float, nullable=False)
+
+class OrderAddon(db.Model):
+    __tablename__ = 'order_addons'
+
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    addon_type = db.Column(db.Enum('candle', 'card', 'box'), nullable=False)
+    addon_id = db.Column(db.Integer, nullable=False)
+    option_selected = db.Column(db.String(50))  # e.g. "Red", "Size M", "Number 5"
+    quantity = db.Column(db.Integer, default=1)
+    price_each = db.Column(db.Float, nullable=False)
+
+    # Relationship (optional)
+    order = db.relationship('Order', backref=db.backref('addons', cascade='all, delete-orphan', lazy=True))
+
+    def __repr__(self):
+        return f"<OrderAddon {self.addon_type} (x{self.quantity}) - {self.option_selected}>"
