@@ -1482,17 +1482,27 @@ button:hover {
 }
 
 .order-page h2 {
-    color: #ff69b4;
-    margin-bottom: 30px;
+  color: #ff69b4;
+  margin-bottom: 30px;
+}
+
+/* Flex container to hold the cards */
+.order-container {
+  display: flex;
+  flex-wrap: wrap;              /* allow wrapping to next line */
+  gap: 20px;                    /* space between cards */
+  justify-content: center;      /* optional: center the row */
 }
 
 .order-card {
-    background: #fffafc;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    padding: 20px;
-    margin-bottom: 25px;
-    text-align: left;
+  background: #fffafc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  padding: 20px;
+  margin-bottom: 25px;
+  text-align: left;
+  flex: 1 1 calc(50% - 20px);   /* 2 per row (minus gap space) */
+  box-sizing: border-box;
 }
 
 .order-header {
