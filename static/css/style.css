@@ -27,9 +27,22 @@ main {
     flex-wrap: wrap;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* space between logo and text */
+}
+
+.logo-img {
+    height: 50px;          /* adjust size as needed */
+    width: auto;
+}
+
 .logo h1 {
-    margin: 0;
     color: white;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 700;
 }
 
 /* Base nav link styling */
