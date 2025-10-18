@@ -79,7 +79,7 @@
                         <br>
 
                         <div id="pickup-address" style="display:block;">
-                            <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
+                            <p><strong>Pickup Location:</strong> E-gate Commercial Centre, Lebuh Tunku Kudin 1, 11700 Gelugor, Pulau Pinang</p>
                         </div>
 
                         <div id="delivery-address" style="display:none;">
@@ -88,7 +88,7 @@
 
                         <br>
                         <label><strong>Date & Time:</strong></label><br>
-                        <input type="datetime-local" name="datetime" required><br><br>
+                        <input type="datetime-local" name="datetime" required step="300"><br><br>
 
                         <label><strong>Payment Method:</strong></label><br>
                         <select id="payment-category" name="payment_category" required>
@@ -102,7 +102,7 @@
                             <label><strong>Select Bank:</strong></label><br>
                             <select id="payment_method_id" name="payment_method_id">
                                 {% for method in payment_methods %}
-                                    {% if 'Bank' in method.name %}
+                                    {% if 'bank' in method.name|lower %}
                                         <option value="{{ method.id }}">{{ method.name }}</option>
                                     {% endif %}
                                 {% endfor %}

@@ -1029,13 +1029,15 @@ button:hover {
 /* Summary (below items) */
 .cart-summary {
     display: flex;
-    flex-direction: column;      /* stack texts and buttons */
-    align-items: stretch;        /* allow buttons row to span full width */
+    flex-direction: column;
+    justify-content: space-between; /* keep buttons at bottom */
     background: #fff8f0;
     border-radius: 10px;
-    padding: 15px;
+    padding: 15px 20px;
     font-size: 16px;
     margin-top: 20px;
+    min-height: 180px; /* ensures enough height for spacing */
+    box-sizing: border-box;
 }
 
 .cart-summary p {
@@ -1051,16 +1053,22 @@ button:hover {
 /* Buttons row */
 .cart-buttons {
     display: flex;
-    justify-content: space-between; /* push left & right */
+    justify-content: space-between; /* pushes to far left/right */
     align-items: center;
+    margin-top: auto; /* keeps buttons at bottom */
     width: 100%;
-    margin-top: 15px;
+    gap: 15px; /* spacing between the two buttons if screen shrinks */
+    padding-top: 10px;
 }
 
-/* Prevent stretching */
+/* Prevent button stretching */
 .cart-buttons a,
 .cart-buttons button {
     flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* adds space between icon and text */
 }
 
 /* Continue Shopping Button */
@@ -1068,11 +1076,11 @@ button:hover {
     background: #f5f5f5;
     color: #555;
     text-decoration: none;
-    padding: 10px 18px;
+    padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
-    transition: all 0.2s ease;
     border: 1px solid #ddd;
+    transition: all 0.2s ease;
 }
 
 .continue-btn:hover {
@@ -1086,7 +1094,7 @@ button:hover {
     background: #ff69b4;
     color: white;
     border: none;
-    padding: 10px 18px;
+    padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
@@ -1095,6 +1103,11 @@ button:hover {
 
 .place-order-btn:hover {
     background: #ff1493;
+}
+
+/* Optional: make icons slightly smaller for balance */
+.cart-buttons i {
+    font-size: 15px;
 }
 
 .order-modal {
@@ -1151,20 +1164,23 @@ button:hover {
     color: #444;
 }
 
-.method-option {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;              /* space between radio and text */
-    margin-right: 15px;    /* spacing between the two options */
+/* Force proper alignment for radio options */
+.order-modal-content .method-option {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    margin-right: 15px !important;
     font-size: 15px;
     cursor: pointer;
 }
 
-/* Ensure radio stays on the left */
-.method-option input[type="radio"] {
-    order: -1;             /* keeps it before text even if styled globally */
-    accent-color: #ff69b4; /* pink radio color for consistency */
-    cursor: pointer;
+.order-modal-content .method-option input[type="radio"] {
+    order: -1;
+    accent-color: #ff69b4;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
 }
 
 .close-modal {
