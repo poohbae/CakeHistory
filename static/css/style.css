@@ -38,6 +38,12 @@ body.auth-page footer {
     display: none;
 }
 
+.centered-input {
+    text-align: center !important;
+    font-size: 15px !important;
+    padding: 10px !important;
+}
+
 body.swal2-shown {
     padding-right: 0 !important; /* prevent double compensation */
 }
@@ -1200,6 +1206,15 @@ button:hover {
     margin: 3px 0;
     color: #555;
     font-weight: 500;
+}
+
+.special-request {
+    padding: 4px 8px;
+    margin-top: 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    color: gray;
+    display: inline-block;
 }
 
 /* Total on the right */

@@ -2,8 +2,6 @@
 {% block content %}
 <div class="feedback-auth-wrapper">
     <div class="feedback-container">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CakeHistory Logo" class="auth-logo">
-
         <h2>We Value Your Feedback</h2>
         <p>Share your thoughts about your recent order 🍰</p>
 
@@ -30,7 +28,7 @@
             </div>
             <br>
             <!-- Comment -->
-            <textarea name="comments" rows="4" placeholder="Write your feedback here..." required></textarea>
+            <textarea name="comments" rows="3" placeholder="Write your feedback here..." required></textarea>
 
             <button type="submit">Submit Feedback</button>
         </form>
