@@ -236,11 +236,20 @@
     const modalDesc = document.getElementById('modal-desc');
 
     let hoverTimer;
+
     document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('mouseenter', () => {
+        item.addEventListener('mouseenter', e => {
+            // 🧠 Ignore hover if it’s over buttons or selects
+            const target = e.relatedTarget || e.target;
+            if (
+                target.closest('.qty-btn') || 
+                target.closest('.add-cart-btn') || 
+                target.closest('.addon-select')
+            ) return;
+
             hoverTimer = setTimeout(() => {
                 modal.classList.add('show');
-                modalImg.src = item.dataset.img; // 🩷 use main image (img)
+                modalImg.src = item.dataset.img; // use main image (img)
                 modalTitle.textContent = item.dataset.name;
                 modalDesc.textContent = item.dataset.description || "No description available.";
             }, 150);
@@ -252,7 +261,7 @@
         });
     });
 
-    // Quantity control (only applies to items that have the buttons)
+    // Quantity control
     document.querySelectorAll('.menu-item').forEach(item => {
         const minus = item.querySelector('.minus');
         const plus = item.querySelector('.plus');
