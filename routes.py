@@ -52,17 +52,25 @@ def register_routes(app):
             name = request.form['name']
             email = request.form['email']
             password = request.form['password']
+            confirm_password = request.form['confirm_password']
+
+            # Server-side password check
+            if password != confirm_password:
+                flash('Passwords do not match. Please try again.', 'danger')
+                return redirect(url_for('register'))
 
             if User.query.filter_by(email=email).first():
                 flash('Email already registered. Please login.', 'danger')
                 return redirect(url_for('login_user_route'))
 
-            new_user = User(name=name, email=email, password_hash=generate_password_hash(password))
+            new_user = User(name=name, email=email, password=generate_password_hash(password))
             db.session.add(new_user)
             db.session.commit()
+
             flash('Registration successful! Please login.', 'success')
             return redirect(url_for('login_user_route'))
-        return render_template('register.html')
+
+        return render_template('register.html', show_nav=True)
 
     @app.route('/logout')
     @login_required

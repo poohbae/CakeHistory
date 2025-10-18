@@ -5,10 +5,14 @@
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CakeHistory Logo" class="auth-logo">
 
         <h2>Create Your Account</h2>
-        <form method="POST" action="{{ url_for('register') }}">
+        <form method="POST" action="{{ url_for('register') }}" onsubmit="return validatePasswordMatch()">
             <input type="text" name="name" placeholder="Full Name" required>
             <input type="email" name="email" placeholder="Email Address" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+
+            <p id="password-error" style="color: red; font-size: 14px; display: none;">Passwords do not match.</p>
+
             <button type="submit">Register</button>
         </form>
 
@@ -18,4 +22,21 @@
         </p>
     </div>
 </div>
+
+<!-- Password match validation script -->
+<script>
+function validatePasswordMatch() {
+    const password = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirm_password").value.trim();
+    const errorText = document.getElementById("password-error");
+
+    if (password !== confirmPassword) {
+        errorText.style.display = "block";
+        return false; // prevent form submission
+    } else {
+        errorText.style.display = "none";
+        return true;
+    }
+}
+</script>
 {% endblock %}
