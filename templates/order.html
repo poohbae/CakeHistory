@@ -24,6 +24,22 @@
             </div>
             {% endif %}
 
+            {% if order.delivery_method %}
+            <div class="delivery-info">
+                <p><strong>Method:</strong> 
+                    {{ order.delivery_method|capitalize }}
+                </p>
+
+                {% if order.delivery_method == 'delivery' %}
+                    <p><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+                {% else %}
+                    <p><strong>Pickup Location:</strong> CakeHistory Shop, Penang, Malaysia</p>
+                {% endif %}
+
+                <p><strong>Scheduled Date & Time:</strong> {{ order.scheduled_datetime.strftime('%d %b %Y, %I:%M %p') }}</p>
+            </div>
+            {% endif %}
+
             <table class="order-items">
                 <thead>
                     <tr>
@@ -42,13 +58,16 @@
                         <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
                     </tr>
                     {% endfor %}
+                    <tr class="order-total-row">
+                        <td colspan="3" style="text-align:right; font-weight:bold;">Total Amount:</td>
+                        <td style="font-weight:bold;">RM {{ "%.2f"|format(order.total_amount) }}</td>
+                    </tr>
                 </tbody>
             </table>
 
             <div class="order-footer">
-                <p><strong>Total Amount:</strong> RM {{ "%.2f"|format(order.total_amount) }}</p>
                 {% if order.status == 'Completed' %}
-                    <a href="{{ url_for('feedback', order_id=order.id) }}" class="feedback-btn">
+                    <a href="{{ url_for('feedback') }}" class="feedback-btn">
                         <i class="fa-solid fa-comment-dots"></i> Leave Feedback
                     </a>
                 {% endif %}
@@ -57,7 +76,6 @@
         {% endfor %}
     {% else %}
         <div class="empty-order">
-            <img src="{{ url_for('static', filename='images/empty_order.png') }}" alt="No Orders" class="empty-order-img">
             <h3>No Orders Yet!</h3>
             <p>Looks like you haven’t placed any orders. Start shopping now!</p>
             <a href="{{ url_for('menu') }}" class="browse-menu-btn">

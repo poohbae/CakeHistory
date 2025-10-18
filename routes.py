@@ -124,21 +124,20 @@ def register_routes(app):
         if not cart_items:
             return jsonify({'success': False, 'message': 'Cart is empty.'})
 
-        # Calculate total
         total = sum(item.product.price * item.quantity for item in cart_items)
 
-        # Create order
+        # Create order and include datetime
         order = Order(
             user_id=current_user.id,
             total_amount=total,
             payment_method_id=payment_method_id,
             delivery_method=method,
-            delivery_address=address if method == 'delivery' else None
+            delivery_address=address if method == 'delivery' else None,
+            scheduled_datetime=selected_dt
         )
         db.session.add(order)
         db.session.commit()
 
-        # Add items to OrderItem
         for item in cart_items:
             order_item = OrderItem(
                 order_id=order.id,
@@ -147,10 +146,21 @@ def register_routes(app):
                 price_each=item.product.price
             )
             db.session.add(order_item)
-            db.session.delete(item)  # clear from cart after ordering
+            db.session.delete(item)
 
         db.session.commit()
         return jsonify({'success': True, 'message': 'Order placed successfully!'})
+    
+    @app.route('/order')
+    @login_required
+    def order_page():
+        orders = (
+            Order.query
+            .filter_by(user_id=current_user.id)
+            .order_by(Order.order_date.desc())
+            .all()
+        )
+        return render_template('order.html', orders=orders)
 
     @app.route('/feedback', methods=['GET', 'POST'])
     @login_required

@@ -960,6 +960,92 @@ button:hover {
     to { opacity: 1; transform: scale(1); }
 }
 
+.order-page {
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.order-page h2 {
+    color: #ff69b4;
+    margin-bottom: 30px;
+}
+
+.order-card {
+    background: #fffafc;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-date {
+    color: #888;
+    font-size: 14px;
+}
+
+.status-label {
+    padding: 5px 12px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.status-label.pending { background: #ffa500; }
+.status-label.completed { background: #28a745; }
+.status-label.canceled { background: #dc3545; }
+
+.order-items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.order-items th, .order-items td {
+    padding: 10px;
+    border-bottom: 1px solid #f0c8da;
+    text-align: center;
+}
+
+.order-footer {
+    text-align: right;
+    font-weight: 600;
+}
+
+.order-total-row td {
+    border-top: 2px solid #ff69b4;
+    background: #fff0f6;
+    padding-top: 10px;
+}
+
+.feedback-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background: #ffb6c1;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.feedback-btn:hover {
+    background: #ff1493;
+}
+
+.empty-order {
+    text-align: center;
+    margin-top: 50px;
+}
+
 .payment-method {
     display: flex;
     align-items: center;

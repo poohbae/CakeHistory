@@ -72,6 +72,8 @@ class Cart(db.Model):
     user = db.relationship('User', backref='cart_items', lazy=True)
     product = db.relationship('Product', backref='cart_entries', lazy=True)
 
+from datetime import datetime, timezone
+
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
@@ -80,10 +82,13 @@ class Order(db.Model):
     total_amount = db.Column(db.Float, nullable=False)
     order_date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     status = db.Column(db.String(50), default='Pending')
-    delivery_method = db.Column(db.String(20))
+    delivery_method = db.Column(db.String(20))  # 'pickup' or 'delivery'
     delivery_address = db.Column(db.String(255), nullable=True)
+    scheduled_datetime = db.Column(db.DateTime, nullable=False)  # NEW COLUMN
 
+    # Relationships
     items = db.relationship('OrderItem', backref='order', lazy=True, cascade="all, delete")
+    payment_method = db.relationship('PaymentMethod', backref='orders', lazy=True)
 
 class OrderItem(db.Model):
     __tablename__ = 'order_items'
