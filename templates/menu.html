@@ -1,38 +1,117 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- BUTTER CAKE SERIES -->
+<section class="menu-section">
+    <h2><i class="fa-solid fa-cookie"></i> Butter Cake Series</h2>
+    <div class="menu-grid">
+        {% for cake in cakes %}
+            {% if "Chiffon" not in cake.name and "Premium" not in cake.name %}
+            <div class="menu-item" 
+                data-id="{{ cake.id }}" 
+                data-name="{{ cake.name }}" 
+                data-description="{{ cake.description }}" 
+                data-img="{{ url_for('static', filename='images/' + cake.img) }}">
+                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                <h3>{{ cake.name }}</h3>
+                <p>RM {{ "%.2f"|format(cake.price) }}</p>
 
-<h2 class="menu-title"><i class="fa-solid fa-cake-candles"></i> Our Cakes Menu</h2>
-
-<!-- CAKES -->
-<div class="menu-grid">
-    {% for cake in cakes %}
-    <div class="menu-item" data-id="{{ cake.id }}" data-name="{{ cake.name }}" data-description="{{ cake.description }}" data-img="{{ url_for('static', filename='images/' + cake.img) }}">
-        <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
-        <h3>{{ cake.name }}</h3>
-        <p>RM {{ "%.2f"|format(cake.price) }}</p>
-
-        <div class="menu-actions">
-            <div class="quantity">
-                <button class="qty-btn minus">−</button>
-                <span class="qty-value">1</span>
-                <button class="qty-btn plus">+</button>
+                <div class="menu-actions">
+                    <div class="quantity">
+                        <button class="qty-btn minus">−</button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn plus">+</button>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                        <button class="add-cart-btn">Add to Cart</button>
+                    {% else %}
+                        <button class="add-cart-btn login-prompt">Add to Cart</button>
+                    {% endif %}
+                </div>
             </div>
-            {% if current_user.is_authenticated %}
-                <button class="add-cart-btn">Add to Cart</button>
-            {% else %}
-                <button class="add-cart-btn login-prompt">Add to Cart</button>
             {% endif %}
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+</section>
 
 <hr>
 
-<!-- CANDLES -->
+<!-- CHIFFON CAKE SERIES -->
 <section class="menu-section">
-    <h2><i class="fa-solid fa-fire"></i> Candles</h2>
+    <h2><i class="fa-solid fa-cloud"></i> Chiffon Cake Series</h2>
     <div class="menu-grid">
+        {% for cake in cakes %}
+            {% if "Chiffon" in cake.name %}
+            <div class="menu-item" 
+                data-id="{{ cake.id }}" 
+                data-name="{{ cake.name }}" 
+                data-description="{{ cake.description }}" 
+                data-img="{{ url_for('static', filename='images/' + cake.img) }}">
+                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                <h3>{{ cake.name }}</h3>
+                <p>RM {{ "%.2f"|format(cake.price) }}</p>
+
+                <div class="menu-actions">
+                    <div class="quantity">
+                        <button class="qty-btn minus">−</button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn plus">+</button>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                        <button class="add-cart-btn">Add to Cart</button>
+                    {% else %}
+                        <button class="add-cart-btn login-prompt">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+<hr>
+
+<!-- PREMIUM COMBO SECTION -->
+<section class="menu-section">
+    <h2><i class="fa-solid fa-gem"></i> Premium Combo Series</h2>
+    <div class="menu-grid">
+        {% for cake in cakes %}
+            {% if "Premium" in cake.name %}
+            <div class="menu-item" 
+                data-id="{{ cake.id }}" 
+                data-name="{{ cake.name }}" 
+                data-description="{{ cake.description }}" 
+                data-img="{{ url_for('static', filename='images/' + cake.img) }}">
+                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                <h3>{{ cake.name }}</h3>
+                <p>RM {{ "%.2f"|format(cake.price) }}</p>
+
+                <div class="menu-actions">
+                    <div class="quantity">
+                        <button class="qty-btn minus">−</button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn plus">+</button>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                        <button class="add-cart-btn">Add to Cart</button>
+                    {% else %}
+                        <button class="add-cart-btn login-prompt">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+<hr>
+
+<!-- ADD-ONS SECTION -->
+<section class="menu-section">
+    <h2><i class="fa-solid fa-gift"></i> Add-ons</h2>
+    <p>Customize your order with candles, cards, and boxes 🎁</p>
+
+    <div class="menu-grid">
+        <!-- Candles -->
         {% for candle in candles %}
         <div class="menu-item" 
             data-id="{{ candle.id }}" 
@@ -45,13 +124,12 @@
             <h3>{{ candle.name }}</h3>
             <p>RM {{ "%.2f"|format(candle.price) }}</p>
 
-            <!-- Candle Options -->
             <div class="option-section">
                 {% if candle.type == 'alphabet' %}
                 <label for="alphabet-num-{{ candle.id }}">Choose Number:</label>
                 <select id="alphabet-num-{{ candle.id }}" class="addon-select">
                     {% for n in range(1, 13) %}
-                        <option value="{{ n }}">Number {{ n }}</option>
+                        <option value="{{ n }}">{{ n }}</option>
                     {% endfor %}
                 </select>
                 {% elif candle.type == 'love' %}
@@ -59,7 +137,8 @@
                 <select id="love-color-{{ candle.id }}" class="addon-select">
                     <option value="Red">Red</option>
                     <option value="Pink">Pink</option>
-                    <option value="White">White</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
                 </select>
                 {% endif %}
             </div>
@@ -71,26 +150,25 @@
             {% endif %}
         </div>
         {% endfor %}
-    </div>
-</section>
 
-<hr>
-
-<!-- CARDS -->
-<section class="menu-section">
-    <h2><i class="fa-solid fa-envelope-open-text"></i> Cards</h2>
-    <div class="menu-grid">
+        <!-- Cards -->
         {% for card in cards %}
-        <div class="menu-item" data-id="{{ card.id }}" data-name="{{ card.name }}" data-description="{{ card.description }}" data-img="{{ url_for('static', filename='images/' + card.img) }}">
+        <div class="menu-item" 
+            data-id="{{ card.id }}" 
+            data-name="{{ card.name }}" 
+            data-description="{{ card.description }}" 
+            data-img="{{ url_for('static', filename='images/' + card.img) }}">
+            
             <img src="{{ url_for('static', filename='images/' + card.img) }}" alt="{{ card.name }}">
             <h3>{{ card.name }}</h3>
             <p>RM {{ "%.2f"|format(card.price) }}</p>
             <div class="option-section">
                 <label for="card-design-{{ card.id }}">Choose Design:</label>
                 <select id="card-design-{{ card.id }}" class="addon-select">
-                    <option value="Floral">Floral</option>
-                    <option value="Pastel">Pastel</option>
-                    <option value="Minimalist">Minimalist</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Appreciation">Appreciation</option>
+                    <option value="Get Well Soon">Get Well Soon</option>
+                    <option value="Congratulations">Congratulations</option>
                 </select>
             </div>
             {% if current_user.is_authenticated %}
@@ -100,19 +178,19 @@
             {% endif %}
         </div>
         {% endfor %}
-    </div>
-</section>
 
-<section class="menu-section">
-    <h2><i class="fa-solid fa-box"></i> Boxes</h2>
-    <div class="menu-grid">
+        <!-- Boxes -->
         {% for box in boxes %}
-        <div class="menu-item" data-id="{{ box.id }}" data-name="{{ box.name }}" data-description="{{ box.description }}" data-img="{{ url_for('static', filename='images/' + box.img) }}">
+        <div class="menu-item" 
+            data-id="{{ box.id }}" 
+            data-name="{{ box.name }}" 
+            data-description="{{ box.description }}" 
+            data-img="{{ url_for('static', filename='images/' + box.img) }}">
+            
             <img src="{{ url_for('static', filename='images/' + box.img) }}" alt="{{ box.name }}">
             <h3>{{ box.name }}</h3>
             <p>RM {{ "%.2f"|format(box.price) }}</p>
 
-            <!-- Box size selection -->
             <div class="option-section">
                 <label for="box-size-{{ box.id }}">Choose Size:</label>
                 <select id="box-size-{{ box.id }}" class="addon-select">
