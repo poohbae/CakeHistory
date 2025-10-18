@@ -83,10 +83,11 @@
                         <div id="delivery-address" style="display:none;">
                             <input type="text" name="address" placeholder="Enter delivery address">
                         </div>
-
                         <br>
+
                         <label><strong>Date & Time:</strong></label>
                         <input type="datetime-local" name="datetime" required step="300">
+                        <br>
 
                        <label><strong>Payment Method:</strong></label>
                         <select id="payment-category" name="payment_category" required>
@@ -100,7 +101,8 @@
                             <label><strong>Select Bank:</strong></label>
                             <select id="payment_method_id" name="payment_method_id">
                                 {% for method in payment_methods %}
-                                    {% if 'bank' in method.name.lower() %}
+                                    {% set name = method.name|string|lower %}
+                                    {% if 'bank' in name %}
                                         <option value="{{ method.id }}">{{ method.name }}</option>
                                     {% endif %}
                                 {% endfor %}

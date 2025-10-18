@@ -20,12 +20,12 @@
                 {% endif %}
             </select>
 
-            <!-- Rating -->
+           <!-- ⭐ Rating -->
             <label for="rating"><strong>Rating:</strong></label>
             <div class="rating-stars">
                 {% for star in range(5, 0, -1) %}
                     <input type="radio" name="rating" value="{{ star }}" id="star{{ star }}" required>
-                    <label for="star{{ star }}">⭐</label>
+                    <label for="star{{ star }}"><i class="fa-solid fa-star"></i></label>
                 {% endfor %}
             </div>
 

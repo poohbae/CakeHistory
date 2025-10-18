@@ -1051,24 +1051,35 @@ button:hover {
 }
 
 /* Buttons row */
+/* Buttons row */
 .cart-buttons {
     display: flex;
-    justify-content: space-between; /* pushes to far left/right */
+    justify-content: space-between; /* pushes buttons to opposite ends */
     align-items: center;
-    margin-top: auto; /* keeps buttons at bottom */
+    margin-top: auto;
     width: 100%;
-    gap: 15px; /* spacing between the two buttons if screen shrinks */
+    gap: 15px;
     padding-top: 10px;
 }
 
-/* Prevent button stretching */
+/* Make both buttons same size */
 .cart-buttons a,
 .cart-buttons button {
-    flex: 0 0 auto;
+    flex: 1; /* equal width */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* adds space between icon and text */
+    gap: 8px;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Add some spacing between them */
+.cart-buttons a {
+    margin-right: 10px;
 }
 
 /* Continue Shopping Button */
@@ -1076,9 +1087,6 @@ button:hover {
     background: #f5f5f5;
     color: #555;
     text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
     border: 1px solid #ddd;
     transition: all 0.2s ease;
 }
@@ -1094,20 +1102,11 @@ button:hover {
     background: #ff69b4;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .place-order-btn:hover {
     background: #ff1493;
-}
-
-/* Optional: make icons slightly smaller for balance */
-.cart-buttons i {
-    font-size: 15px;
 }
 
 .order-modal {
@@ -1341,6 +1340,7 @@ button:hover {
     width: 340px;
     padding: 40px 30px;
     text-align: center;
+    align-items: center;
     position: relative;
 }
 
@@ -1393,7 +1393,7 @@ button:hover {
 }
 
 .feedback-container textarea {
-    width: 100%;
+    width: 90%;
     height: 100px;
     padding: 10px;
     border-radius: 10px;
