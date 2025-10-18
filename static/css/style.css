@@ -918,17 +918,6 @@ button:hover {
     padding: 30px;
 }
 
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* up to 3 per row */
-    max-width: 950px;
-    margin: 0 auto;
-    justify-items: center;
-    align-items: start;
-    gap: 25px;
-    padding: 30px;
-}
-
 /* Cake card */
 .menu-item {
     background: #fff;
@@ -998,50 +987,75 @@ button:hover {
     font-size: 14px;
 }
 
-/* ✅ Button + quantity wrapper stays fixed at bottom */
+/* Quantity & Add button container */
 .menu-actions {
-    margin-top: auto; /* pushes actions to bottom */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 12px;
 }
 
-/* quantity controls */
+/* Quantity counter */
 .quantity {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 6px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 4px 8px;
 }
 
 .qty-btn {
-    background: #ff1493;
-    color: #fff;
+    background: #ffe6ef;
+    color: #ff1493;
     border: none;
     border-radius: 6px;
-    padding: 5px 10px;
-    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
     cursor: pointer;
-    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;  /* ✅ perfectly center icon */
+    transition: background 0.2s ease;
 }
 
 .qty-btn:hover {
-    background: #e01382;
+    background: #ffb6c1;
 }
 
-/* Add to cart button */
+.qty-value {
+    font-weight: 600;
+    font-size: 16px;
+    color: #444;
+    width: 30px;              /* consistent width */
+    text-align: center;       /* ✅ horizontally centered */
+    display: flex;
+    justify-content: center;  /* ✅ center horizontally */
+    align-items: center;      /* ✅ center vertically */
+}
+
+/* Add to Cart button */
 .add-cart-btn {
-    background: #32cd32;
+    background: #ff69b4;
     color: white;
     border: none;
-    border-radius: 6px;
-    padding: 8px 14px;
+    border-radius: 8px;
+    padding: 6px 14px;
     font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100px;
 }
 
 .add-cart-btn:hover {
-    background: #28a428;
+    background: #ff1493;
+    transform: translateY(-1px);
 }
 
 .swal-custom-popup {
@@ -1055,6 +1069,20 @@ button:hover {
     font-size: 15px !important;
     padding: 10px !important;
     width: 80% !important;        /* adjust width for better look */
+}
+
+.mix-box-grid label {
+    display: block;
+    margin: 6px 0;
+    font-size: 15px;
+}
+.mix-box-grid input {
+    width: 50px;
+    text-align: center;
+    margin-left: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 2px;
 }
 
 .cake-modal {
