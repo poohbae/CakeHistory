@@ -13,6 +13,16 @@
             <button type="submit">Login</button>
         </form>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-message-container">
+                    {% for category, message in messages %}
+                        <p class="flash-message {{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <p class="register-link">
             Don’t have an account?
             <a href="{{ url_for('register') }}">Register here</a>

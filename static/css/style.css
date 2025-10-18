@@ -842,7 +842,7 @@ button:hover {
     z-index: 9999;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 80%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(2px);
@@ -875,7 +875,7 @@ button:hover {
 
 /* Image inside modal — always uniform */
 .cake-modal-content img {
-    width: 100%;
+    width: 80%;
     height: 250px;
     object-fit: cover;
     border-radius: 10px;
