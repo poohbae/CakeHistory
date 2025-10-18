@@ -78,27 +78,38 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const cartLink = document.querySelector('a[href="{{ url_for("cart") }}"]');
             const isAuthenticated = "{{ 'true' if current_user.is_authenticated else 'false' }}" === "true";
 
-            if (!isAuthenticated && cartLink) {
-                cartLink.addEventListener('click', e => {
-                    e.preventDefault(); // stop direct navigation
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Login Required',
-                        text: 'Please login to view your cart or place an order.',
-                        confirmButtonText: 'Login',
-                        confirmButtonColor: '#ff69b4',
-                        showCancelButton: true,
-                        cancelButtonText: 'Cancel',
-                        cancelButtonColor: '#999',
-                        scrollbarPadding: false
-                    }).then(result => {
-                        if (result.isConfirmed) {
-                            window.location.href = "{{ url_for('login_user_route') }}";
-                        }
-                    });
+            // Define all restricted links here
+            const protectedLinks = [
+                { selector: 'a[href="{{ url_for("cart") }}"]', label: 'Cart' },
+                { selector: 'a[href="{{ url_for("order_page") }}"]', label: 'Order' },
+                { selector: 'a[href="{{ url_for("feedback") }}"]', label: 'Feedback' }
+            ];
+
+            if (!isAuthenticated) {
+                protectedLinks.forEach(linkData => {
+                    const link = document.querySelector(linkData.selector);
+                    if (link) {
+                        link.addEventListener('click', e => {
+                            e.preventDefault();
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Login Required',
+                                text: `Please login to access your ${linkData.label.toLowerCase()}.`,
+                                confirmButtonText: 'Login',
+                                confirmButtonColor: '#ff69b4',
+                                showCancelButton: true,
+                                cancelButtonText: 'Cancel',
+                                cancelButtonColor: '#999',
+                                scrollbarPadding: false
+                            }).then(result => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "{{ url_for('login_user_route') }}";
+                                }
+                            });
+                        });
+                    }
                 });
             }
 
