@@ -12,7 +12,7 @@ def create_app():
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    db.init_app(app)   # ✅ this binds db to app
+    db.init_app(app)
 
     from models import User
     login_manager = LoginManager(app)

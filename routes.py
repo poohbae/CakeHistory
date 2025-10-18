@@ -6,7 +6,8 @@ from models import db, User, Product
 def register_routes(app):
     @app.route('/')
     def home():
-        cakes = Product.query.all()
+        # Load top 3 featured products from the database
+        cakes = Product.query.limit(3).all()
         return render_template('home.html', cakes=cakes)
 
     @app.route('/menu')

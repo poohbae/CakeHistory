@@ -53,7 +53,7 @@ body.auth-page footer {
 }
 
 .logo-img {
-    height: 50px;          /* adjust size as needed */
+    height: 60px;          /* adjust size as needed */
     width: auto;
 }
 
@@ -145,7 +145,7 @@ body.auth-page footer {
 .auth-buttons span {
     color: #fff;
     font-weight: 600;
-    margin-right: 10px;
+    margin-right: 5px;
     font-size: 15px;
 }
 
@@ -274,7 +274,7 @@ button:hover {
 /* Hero Banner */
 .hero-banner {
     background: url('static/images/cake_banner.jpg') center/cover no-repeat;
-    height: 70vh;
+    height: 60vh;
     position: relative;
     display: flex;
     justify-content: center;
@@ -297,7 +297,7 @@ button:hover {
 
 .hero-overlay p {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .hero-btn {
@@ -405,42 +405,82 @@ button:hover {
 
 /* Contact Section */
 .contact-section {
-    padding: 60px 20px;
     background: #fff8f0;
+    padding: 60px 20px;
+    text-align: center;
 }
 
 .contact-section h2 {
     color: #ff1493;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .contact-section p {
+    color: #444;
     margin-bottom: 20px;
 }
 
+/* Social links */
 .social-links {
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .social-links a {
     font-size: 22px;
     color: #ff69b4;
-    text-decoration: none;
-    transition: transform 0.2s ease, color 0.2s ease;
+    background: #fff;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
 .social-links a:hover {
+    background: #ff1493;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* QR code area */
+.qr-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.qr-item {
+    text-align: center;
+}
+
+.qr-item img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+}
+
+.qr-item p {
     color: #ff1493;
-    transform: translateY(-2px);
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .contact-note {
+    margin-top: 25px;
     font-style: italic;
-    color: #555;
+    color: #666;
 }
+
 
 /* ==========================
    MENU PAGE STYLING

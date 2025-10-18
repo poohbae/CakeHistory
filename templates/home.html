@@ -34,20 +34,16 @@
     <!-- Menu Preview Section -->
     <section class="home-menu-preview">
         <h2>Our Signature Cakes</h2>
+
         <div class="home-menu-grid">
+            {% for cake in cakes %}
             <div class="home-menu-item">
-                <img src="{{ url_for('static', filename='images/choco_cake.jpg') }}" alt="Chocolate Heaven">
-                <h4>Chocolate Heaven</h4>
+                <img src="{{ url_for('static', filename='images/' + cake.img) }}" alt="{{ cake.name }}">
+                <h4>{{ cake.name }}</h4>
             </div>
-            <div class="home-menu-item">
-                <img src="{{ url_for('static', filename='images/strawberry_cake.jpg') }}" alt="Strawberry Dream">
-                <h4>Strawberry Dream</h4>
-            </div>
-            <div class="home-menu-item">
-                <img src="{{ url_for('static', filename='images/vanilla_cake.jpg') }}" alt="Vanilla Classic">
-                <h4>Vanilla Classic</h4>
-            </div>
+            {% endfor %}
         </div>
+
         <a href="{{ url_for('menu') }}" class="home-menu-btn">View Full Menu</a>
     </section>
 
@@ -55,12 +51,26 @@
     <section class="contact-section">
         <h2>Get in Touch</h2>
         <p>We’d love to connect with you! Follow us for the latest cake designs and seasonal offers.</p>
+
+        <!-- Social icons -->
         <div class="social-links">
-            <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1EaAnJ2wVh/?mibextid=wwXlfr" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/_cakehistory_?igsh=cGlpZ2RkaTJ0NG8w&utm_source=qr" target="_blank"><i class="fa-brands fa-instagram"></i></a>
         </div>
+
+        <!-- QR code display -->
+        <div class="qr-container">
+            <div class="qr-item">
+                <img src="{{ url_for('static', filename='images/fb_qr.jpg') }}" alt="Facebook QR">
+                <p>Facebook</p>
+            </div>
+            <div class="qr-item">
+                <img src="{{ url_for('static', filename='images/insta_qr.jpg') }}" alt="Instagram QR">
+                <p>Instagram</p>
+            </div>
+        </div>
+
         <p class="contact-note">📍 Based in Penang, Malaysia — serving smiles one slice at a time.</p>
     </section>
-
 </div>
 {% endblock %}
