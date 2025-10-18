@@ -37,7 +37,7 @@
                         <h3>{{ item.name }}</h3>
                         
                         {% if item.option_selected %}
-                            <p class="special-request"><strong>Option: </strong>{{ item.option_selected }}</p>
+                            <p><strong>Option: </strong>{{ item.option_selected }}</p>
                         {% endif %}
                         
                         <p>Quantity: {{ item.quantity }}</p>
@@ -218,7 +218,7 @@
                         const now = new Date();
                         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                         dateInput.min = now.toISOString().slice(0, 16);
-                        dateInput.step = 300;
+                        dateInput.step = 500;
 
                         dateInput.addEventListener("change", () => {
                             const selected = new Date(dateInput.value);
