@@ -1229,17 +1229,29 @@ button:hover {
     padding-top: 10px;
 }
 
-/* Force equal size */
 .cart-buttons a,
 .cart-buttons button {
-    display: flex; /* change from inline-flex */
+    flex: 1;
+    text-align: center;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+    gap: 8px;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
     height: 48px;
-    padding: 0 0; /* rely on height only */
-    line-height: 1; /* eliminate baseline differences */
-    border: 1px solid transparent; /* normalize border height */
+    box-sizing: border-box;
+    line-height: 1;            /* normalize line height */
+    vertical-align: middle;    /* prevent inline baseline offset */
+    border: none;              /* unify baseline between <a> & <button> */
+}
+
+.cart-buttons a {
+    display: inline-flex;       /* ensure same flex layout */
+    border: 1px solid #ddd;     /* restore your border */
+    background-clip: padding-box; /* prevents pixel shift from border */
 }
 
 /* Continue Shopping Button */
@@ -1333,6 +1345,25 @@ button:hover {
 .order-modal-content form > label,
 .order-modal-content form > div {
     margin-top: 10px;
+}
+
+/* Make all select and datetime inputs equal width */
+.order-modal-content select,
+.order-modal-content input[type="datetime-local"] {
+    width: 100%;
+}
+
+/* Blur invalid (empty) datetime field for better UX */
+.order-modal-content input[type="datetime-local"]:invalid {
+    filter: blur(1px);
+    opacity: 0.7;
+}
+
+/* When datetime is focused or valid, remove blur */
+.order-modal-content input[type="datetime-local"]:focus,
+.order-modal-content input[type="datetime-local"]:valid {
+    filter: none;
+    opacity: 1;
 }
 
 /* Spacing for pickup/delivery address paragraphs */

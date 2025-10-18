@@ -154,7 +154,7 @@
                             if (radio.value === "delivery" && radio.checked) {
                                 pickup.style.display = "none";
                                 delivery.style.display = "block";
-                                deliveryArea.value = ""; // reset selection
+                                deliveryArea.value = "";
                                 totalEl.textContent = baseTotal.toFixed(2);
                             } else if (radio.value === "pickup" && radio.checked) {
                                 pickup.style.display = "block";
@@ -177,7 +177,7 @@
                         }
                     });
 
-                    // Payment selection (unchanged)
+                    // Payment selection
                     const paymentCategory = document.getElementById('payment-category');
                     const bankOptions = document.getElementById('bank-options');
                     const bankSelect = document.getElementById('payment_method_id');
@@ -188,7 +188,7 @@
                         if (category === 'online') {
                             bankOptions.style.display = 'block';
                             bankSelect.required = true;
-                            bankSelect.value = '';
+                            bankSelect.selectedIndex = 0; // default to first bank automatically
                         } else if (category === 'tng') {
                             bankOptions.style.display = 'none';
                             bankSelect.required = false;
@@ -200,13 +200,47 @@
                         }
                     });
 
+                    // Date & time validation (only 1–5 PM, future only)
+                    const dateInput = form.querySelector('input[name="datetime"]');
+                    if (dateInput) {
+                        const now = new Date();
+                        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                        dateInput.min = now.toISOString().slice(0, 16);
+                        dateInput.step = 300;
+
+                        dateInput.addEventListener("change", () => {
+                            const selected = new Date(dateInput.value);
+                            const hour = selected.getHours();
+
+                            if (selected <= new Date()) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Invalid Date/Time',
+                                    text: 'Please choose a future date and time.',
+                                    confirmButtonColor: '#ff69b4'
+                                });
+                                dateInput.value = '';
+                                return;
+                            }
+
+                            if (hour < 13 || hour >= 17) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Outside Operating Hours',
+                                    text: 'Please select a time between 1:00 PM and 5:00 PM.',
+                                    confirmButtonColor: '#ff69b4'
+                                });
+                                dateInput.value = '';
+                                return;
+                            }
+                        });
+                    }
+
                     // Submit form
                     form.addEventListener("submit", e => {
                         e.preventDefault();
                         const formData = new FormData(form);
                         const payload = Object.fromEntries(formData.entries());
-
-                        // Include delivery fee in payload
                         payload.delivery_fee = deliveryFee;
 
                         fetch('/place_order', {
