@@ -42,6 +42,12 @@ body.swal2-shown {
     padding-right: 0 !important; /* prevent double compensation */
 }
 
+.swal-center-input {
+    text-align: center !important;
+    font-size: 15px;
+    padding: 10px;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -594,17 +600,19 @@ button:hover {
 }
 
 .ingredient-item {
+    background: transparent !important; /* removes white card background */
     border-radius: 12px;
     padding: 20px;
-    width: 100%; /* let grid control width instead of fixed 200px */
-    max-width: 300px; /* prevent oversizing on wide screens */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 300px;
+    box-shadow: none; /* optional: remove shadow if you want it to blend in completely */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ingredient-item:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.1); /* optional faint glow */
 }
 
 .ingredient-item img {

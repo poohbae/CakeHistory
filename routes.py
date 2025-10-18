@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from flask import flash, jsonify, redirect, render_template, request, url_for
+from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderItem, PaymentMethod, Product, User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -229,6 +229,7 @@ def register_routes(app):
 
             if user and check_password_hash(user.password, password):
                 login_user(user)
+                flash('Login successful!', 'success')
                 return redirect(url_for('home'))
             else:
                 flash('Invalid email or password.', 'danger')
@@ -271,7 +272,8 @@ def register_routes(app):
     @login_required
     def logout():
         logout_user()
-        return redirect(url_for('home'))
+        session.clear()  # clears flash messages and session data
+        return redirect(url_for('login_user_route'))
 
     @app.errorhandler(401)
     def unauthorized(e):

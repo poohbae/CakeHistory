@@ -344,18 +344,21 @@
             const qty = parseInt(item.querySelector('.qty-value').textContent);
             const option = item.querySelector('.addon-select')?.value || null;
 
-            // Ask for special request/allergy note before adding to cart
+            // Ask for special request note before adding to cart
             Swal.fire({
                 title: 'Any Special Request?',
                 input: 'text',
-                inputLabel: 'E.g. No nuts, less sugar, allergy to dairy, etc.',
+                inputLabel: 'E.g. add normal candle, birthday message, or short note.',
                 inputPlaceholder: 'Leave blank if none',
                 showCancelButton: true,
                 confirmButtonText: 'Add to Cart',
                 confirmButtonColor: '#ff69b4',
                 cancelButtonText: 'Cancel',
                 cancelButtonColor: '#999',
-                scrollbarPadding: false
+                scrollbarPadding: false,
+                customClass: {
+                    input: 'swal-center-input'
+                }
             }).then(result => {
                 if (result.isConfirmed) {
                     const specialRequest = result.value || null;
