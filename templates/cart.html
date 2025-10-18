@@ -212,18 +212,20 @@
                         }
                     });
 
-                    // Date & time validation (only 1–5 PM, future only)
+                    // Date & time validation (only 1–5 PM, future only, 5-min increments)
                     const dateInput = form.querySelector('input[name="datetime"]');
                     if (dateInput) {
                         const now = new Date();
                         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                         dateInput.min = now.toISOString().slice(0, 16);
-                        dateInput.step = 500;
+                        dateInput.step = 300; // 5 minutes = 300 seconds
 
                         dateInput.addEventListener("change", () => {
                             const selected = new Date(dateInput.value);
                             const hour = selected.getHours();
+                            const minute = selected.getMinutes();
 
+                            // 1️⃣ Must be future
                             if (selected <= new Date()) {
                                 Swal.fire({
                                     icon: 'warning',
@@ -235,11 +237,24 @@
                                 return;
                             }
 
+                            // 2️⃣ Must be within 1–5 PM
                             if (hour < 13 || hour >= 17) {
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Outside Operating Hours',
                                     text: 'Please select a time between 1:00 PM and 5:00 PM.',
+                                    confirmButtonColor: '#ff69b4'
+                                });
+                                dateInput.value = '';
+                                return;
+                            }
+
+                            // 3️⃣ Must be multiple of 5 minutes
+                            if (minute % 5 !== 0) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Invalid Time Interval',
+                                    text: 'Please select a time in 5-minute increments (e.g. 13:00, 13:05, 13:10, etc.).',
                                     confirmButtonColor: '#ff69b4'
                                 });
                                 dateInput.value = '';

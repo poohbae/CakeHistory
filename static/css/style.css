@@ -935,6 +935,8 @@ button:hover {
 /* Image styling */
 .menu-item img {
     width: 100%;
+    height: 200px;              /* set a fixed height (adjust to your design) */
+    object-fit: cover;          /* crops image nicely to fill the area */
     border-radius: 10px;
     margin-bottom: 10px;
 }
