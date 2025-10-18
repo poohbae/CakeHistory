@@ -1,5 +1,5 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #fff8f0;
     color: #333;
     text-align: center;
@@ -16,6 +16,21 @@ html, body {
 main {
     flex: 1;
     padding-bottom: 40px;
+}
+
+/* Centered layout only for login/register pages */
+body.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background: #fff8f0;
+}
+
+body.auth-page header,
+body.auth-page footer {
+    display: none; /* hide navbar + footer on login/register */
 }
 
 .header {
@@ -120,20 +135,22 @@ footer {
     margin-top: auto;
 }
 
+/* White card style for login & register */
 .login-container, .register-container {
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 350px;
-    margin: 50px auto;
-    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 380px;
+    padding: 40px 30px;     /* ⬅️ more vertical & horizontal padding */
+    text-align: center;
 }
 
+/* Input fields and button spacing */
 input, button {
     display: block;
     width: 90%;
-    margin: 10px auto;
-    padding: 10px;
+    margin: 14px auto;
+    padding: 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
 }
@@ -143,10 +160,12 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 button:hover {
     background-color: #ff1493;
+    transform: translateY(-2px);
 }
 
 .flash-messages li {

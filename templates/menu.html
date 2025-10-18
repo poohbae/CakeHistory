@@ -51,9 +51,9 @@
             Swal.fire({
                 icon: 'info',
                 title: 'Login Required',
-                text: 'Please login to add items to your cart 🍰',
+                text: 'Please login to add items to your cart',
                 confirmButtonColor: '#ff69b4',
-                confirmButtonText: 'Go to Login'
+                confirmButtonText: 'Login'
             }).then(() => {
                 window.location.href = "{{ url_for('login_user_route') }}";
             });
