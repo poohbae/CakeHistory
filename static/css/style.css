@@ -258,39 +258,29 @@ button:hover {
 }
 
 /* Subscription checkbox alignment */
+.subscribe-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 300px;
+    text-align: left;
+    font-size: 14px;
+    color: black;
+    line-height: 1.4;
+}
+
 .subscribe-box input[type="checkbox"] {
-    appearance: none;              /* remove default style */
-    -webkit-appearance: none;
-    -moz-appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #ff69b4;     /* pink border */
-    border-radius: 4px;            /* rounded edges */
     cursor: pointer;
-    position: relative;
-    background-color: transparent; /* keep background clear */
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-/* When checked, show pink tick only */
-.subscribe-box input[type="checkbox"]:checked::after {
-    content: "✔";
-    color: #ff69b4;                /* pink tick */
-    font-size: 14px;
-    position: absolute;
-    top: 0px;
-    left: 2px;
-}
-
-/* Optional hover effect */
-.subscribe-box input[type="checkbox"]:hover {
-    border-color: #ff1493;         /* deeper pink on hover */
-    transform: scale(1.05);
 }
 
 .input-wrapper {
     position: relative;
+    display: inline-block;  /* ✅ Ensures icon overlays input correctly */
     width: 100%;
     margin-bottom: 10px;
 }
@@ -301,7 +291,7 @@ button:hover {
     box-sizing: border-box;
 }
 
-.toggle-password {
+.input-wrapper .toggle-password {
     position: absolute;
     right: 12px;
     top: 50%;
@@ -312,7 +302,7 @@ button:hover {
     transition: color 0.2s;
 }
 
-.toggle-password:hover {
+.input-wrapper .toggle-password:hover {
     color: #ff69b4;
 }
 
