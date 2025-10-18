@@ -1,11 +1,4 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fff8f0;
-    color: #333;
-    text-align: center;
-    margin: 0;
-}
-
+/* Default layout for normal pages */
 html, body {
     height: 100%;
     margin: 0;
@@ -20,17 +13,23 @@ main {
 
 /* Centered layout only for login/register pages */
 body.auth-page {
+    min-height: 100vh;            /* take full height */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    justify-content: center;      /* center horizontally */
+    align-items: center;          /* center vertically */
     background: #fff8f0;
+    flex-direction: column;
+}
+
+/* Make sure html doesn’t interfere */
+html.auth-page {
+    display: block;
+    height: 100%;
 }
 
 body.auth-page header,
 body.auth-page footer {
-    display: none; /* hide navbar + footer on login/register */
+    display: none; /* hide navbar & footer on login/register */
 }
 
 .header {
@@ -108,26 +107,6 @@ body.auth-page footer {
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.auth-buttons a {
-    margin-left: 10px;
-    background-color: #fff;
-    color: #ff69b4;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.auth-buttons a:hover {
-    background-color: #ffe6ec;
-}
-
-.auth-buttons span {
-    color: white;
-    font-weight: 500;
-    margin-right: 8px;
-}
-
 footer {
     background-color: #ffb6c1;
     padding: 10px;
@@ -135,17 +114,35 @@ footer {
     margin-top: auto;
 }
 
-/* White card style for login & register */
+/* Wrapper to center logo + form */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background: #fff8f0;
+}
+
+/* CakeHistory logo above form */
+.auth-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+/* Make login/register card stand out */
 .login-container, .register-container {
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     width: 380px;
-    padding: 40px 30px;     /* ⬅️ more vertical & horizontal padding */
+    padding: 40px 30px;
     text-align: center;
+    position: relative;
 }
 
-/* Input fields and button spacing */
+/* Text fields & buttons */
 input, button {
     display: block;
     width: 90%;
@@ -166,6 +163,37 @@ button {
 button:hover {
     background-color: #ff1493;
     transform: translateY(-2px);
+}
+
+/* Back to Menu button */
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: 600;
+    color: #ff69b4;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    color: #ff1493;
+    transform: translateY(-2px);
+}
+
+/* Links under form */
+.register-link, .login-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.register-link a, .login-link a {
+    color: #ff69b4;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link a:hover, .login-link a:hover {
+    text-decoration: underline;
 }
 
 .flash-messages li {
@@ -234,7 +262,11 @@ button:hover {
 .quantity {
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 8px;
+    background: #fff0f6;
+    border-radius: 8px;
+    padding: 4px 8px;
 }
 
 .qty-btn {
@@ -242,11 +274,14 @@ button:hover {
     color: #ff1493;
     border: none;
     border-radius: 6px;
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     font-size: 18px;
     cursor: pointer;
-    transition: background 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;  /* ✅ perfectly center icon */
+    transition: background 0.2s ease;
 }
 
 .qty-btn:hover {
@@ -255,7 +290,13 @@ button:hover {
 
 .qty-value {
     font-weight: 600;
-    min-width: 18px;
+    font-size: 16px;
+    color: #444;
+    width: 30px;              /* consistent width */
+    text-align: center;       /* ✅ horizontally centered */
+    display: flex;
+    justify-content: center;  /* ✅ center horizontally */
+    align-items: center;      /* ✅ center vertically */
 }
 
 /* Add to Cart button */
@@ -264,15 +305,18 @@ button:hover {
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 6px 10px;
+    padding: 6px 14px;        /* ✅ shorter & cleaner */
     font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 6px;
+    min-width: 100px;
 }
 
 .add-cart-btn:hover {
     background: #ff1493;
+    transform: translateY(-1px);
 }

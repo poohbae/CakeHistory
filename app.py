@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 
 app = Flask(__name__)
+app.secret_key = '42866344300694f99fd79971e88cbb48'
 
 # Database config
 app.config['SQLALCHEMY_DATABASE_URI'] = (
