@@ -144,9 +144,9 @@ body.swal2-shown {
 /* Greeting text for logged-in users */
 .auth-buttons span {
     color: black;
-    font-weight: 600;
+    font-weight: bold;
     margin-right: 5px;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 /* Make it responsive */
@@ -319,11 +319,13 @@ button:hover {
 
 .flash-message {
     color: #cc0044;
-    padding: 8px 12px;
+    background: transparent;
+    padding: 4px 8px;
     border-radius: 6px;
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     display: inline-block;
+    text-align: center;
 }
 
 /* ================================
