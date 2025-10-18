@@ -586,40 +586,44 @@ button:hover {
 
 .ingredients-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* narrower columns = closer cards */
-    gap: 10px;               /* tighten spacing between cards */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* narrower columns for tighter fit */
+    gap: 4px;                     /* almost no space between cards */
     justify-items: center;
-    align-items: start;      /* align neatly at top */
-    padding: 0 10px;         /* slight side padding only */
+    align-items: start;
+    padding: 0;
 }
 
 .ingredient-item {
     background: transparent !important;
     border-radius: 10px;
-    padding: 10px 5px;       /* less padding = tighter look */
+    padding: 5px;                 /* minimal padding */
     width: 100%;
-    max-width: 250px;        /* optional: slightly smaller width */
+    max-width: 200px;             /* smaller max width = closer layout */
     box-shadow: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;           /* center image + text */
 }
 
 .ingredient-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     background: rgba(255,255,255,0.08);
 }
 
 .ingredient-item img {
-    width: 140px;            /* increased from 100px → larger image */
-    height: 140px;
-    object-fit: contain;
-    margin-bottom: 6px;      /* less spacing below image */
+    width: 100%;
+    height: 150px;                /* make the image fill most of the card */
+    object-fit: cover;            /* image fills the entire area */
+    border-radius: 8px;
+    margin-bottom: 4px;           /* small gap before text */
 }
 
+.ingredient-item p,
+.ingredient-item span,
 .ingredient-item h4 {
-    font-size: 15px;
-    color: #333;
+    font-size: 13px;              /* smaller text to give more image space */
     margin: 0;
+    color: #333;                  /* adjust to match your background */
 }
 
 .addons-section {
