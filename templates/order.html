@@ -57,8 +57,7 @@
                         <td>
                             {{ item.product.name }}
                             {% if item.special_request %}
-                                <br>
-                                <p class="special-request"><strong>Note:</strong> {{ item.special_request }}</p>
+                                <p class="special"><strong>Note:</strong> {{ item.special_request }}</p>
                             {% endif %}
                         </td>
                         <td>{{ item.quantity }}</td>
@@ -79,8 +78,7 @@
                         <td>
                             {{ addon.addon_name }}
                             {% if addon.option_selected %}
-                                <br>
-                                <p class="special-request"><strong>Option:</strong> {{ addon.option_selected }}</p>
+                                <p class="special"><strong>Option:</strong> {{ addon.option_selected }}</p>
                             {% endif %}
                         </td>
                         <td>{{ addon.quantity }}</td>
@@ -99,7 +97,7 @@
             </table>
 
             <div class="order-footer">
-                {% if order.status == 'Completed' %}
+                {% if order.status %}
                     <a href="{{ url_for('feedback') }}" class="feedback-btn">
                         <i class="fa-solid fa-comment-dots"></i> Leave Feedback
                     </a>

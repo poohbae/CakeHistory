@@ -1539,6 +1539,14 @@ button:hover {
     font-style: italic;
 }
 
+.special {
+    margin: 0;           /* remove extra spacing */
+    margin-top: 2px;     /* small gap */
+    display: block;      /* ensures it’s on the next line */
+    font-size: 14px;
+    color: gray;
+}
+
 .order-footer {
     text-align: right;
     font-weight: 600;
@@ -1578,10 +1586,11 @@ button:hover {
 }
 
 .payment-method img.payment-icon {
-    width:50px;
+    width:40px;
     height: 40px;
-    border: none;
+    border-radius: 20%;
     object-fit: cover;
+    border: 1px solid #ffb6c1;
     background: #fff;
 }
 
