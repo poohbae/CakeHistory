@@ -564,14 +564,12 @@ button:hover {
     text-align: center;
     padding: 50px 20px;
     background: #fffaf7;
-    border-top: 2px solid #ffe4ec;
-    border-bottom: 2px solid #ffe4ec;
 }
 
 .ingredients-section h2 {
-    color: #ff69b4;
+    color: #ff1493;
     font-size: 26px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .ingredients-description {
@@ -588,24 +586,25 @@ button:hover {
 
 .ingredients-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* bigger cards */
+    gap: 12px; /* smaller spacing between cards */
     justify-items: center;
-    align-items: center;
+    align-items: stretch;
+    padding: 10px 0;
 }
 
 .ingredient-item {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    width: 180px;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%; /* let grid control width instead of fixed 200px */
+    max-width: 300px; /* prevent oversizing on wide screens */
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ingredient-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(255, 105, 180, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
 .ingredient-item img {
@@ -680,7 +679,7 @@ button:hover {
 
 /* Contact Section */
 .contact-section {
-    background: #fff8f0;
+    background: #fff;
     padding: 60px 20px;
     text-align: center;
 }
@@ -760,8 +759,8 @@ button:hover {
 /* Floating chat button */
 .chat-btn {
     position: fixed;
-    bottom: 40px;
-    right: 40px;
+    bottom: 60px;
+    right: 60px;
     background-color: #ff69b4;
     color: white;
     width: 60px;
@@ -1233,18 +1232,14 @@ button:hover {
 /* Force equal size */
 .cart-buttons a,
 .cart-buttons button {
-    flex: 1; /* equal width */
-    text-align: center;
-    display: inline-flex;
+    display: flex; /* change from inline-flex */
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px 0; /* uniform vertical padding only */
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 16px;
-    height: 48px; /* fixed height ensures same visual size */
     box-sizing: border-box;
+    height: 48px;
+    padding: 0 0; /* rely on height only */
+    line-height: 1; /* eliminate baseline differences */
+    border: 1px solid transparent; /* normalize border height */
 }
 
 /* Continue Shopping Button */
@@ -1536,11 +1531,11 @@ button:hover {
     border-color: #ff69b4;
 }
 
-/* ⭐ Star rating container */
+/* Star rating container */
 .rating-stars {
     display: flex;
     flex-direction: row-reverse; /* ensures the stars fill from left to right */
-    justify-content: flex-start;
+    justify-content: center;
     gap: 5px;
 }
 
@@ -1578,7 +1573,7 @@ button:hover {
     outline: none;
     font-size: 14px;
     background-color: #fafafa;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .feedback-container button {

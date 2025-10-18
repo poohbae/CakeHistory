@@ -3,14 +3,15 @@
 <!-- Delivery / Pickup Note -->
 <div class="delivery-note">
     <p>
-        <strong>Note:</strong> Self-pickup available at <b>E-Gate, Penang</b> with no additional charge.<br>
+        <strong>Note:</strong> • Self-pickup available at <b>E-Gate, Penang</b> with no additional charge.<br>
         • Delivery fees may vary depending on Grab’s realtime rate.
+        • Best enjoyed within 3 days from purchase for freshness and flavor.
     </p>
 </div>
 
 <!-- BUTTER CAKE SERIES -->
 <section class="menu-section">
-    <h2><i class="fa-solid fa-cookie"></i> Butter Cake Series</h2>
+    <h2>🧈 Butter Cake Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
             {% if "Chiffon" not in cake.name and "Premium" not in cake.name %}
@@ -48,7 +49,7 @@
 
 <!-- CHIFFON CAKE SERIES -->
 <section class="menu-section">
-    <h2><i class="fa-solid fa-cloud"></i> Chiffon Cake Series</h2>
+    <h2>☁️ Chiffon Cake Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
             {% if "Chiffon" in cake.name %}
@@ -86,7 +87,7 @@
 
 <!-- PREMIUM SECTION -->
 <section class="menu-section">
-    <h2><i class="fa-solid fa-gem"></i> Premium Series</h2>
+    <h2>💎 Premium Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
             {% if "Premium" in cake.name %}
@@ -124,8 +125,8 @@
 
 <!-- ADD-ONS SECTION -->
 <section class="menu-section">
-    <h2><i class="fa-solid fa-gift"></i> Add-ons</h2>
-    <p>Customize your order with candles, cards, and boxes 🎁</p>
+    <h2>🎁 Add-ons</h2>
+    <p>Customize your order with candles, cards, and boxes</p>
 
     <div class="menu-grid">
         <!-- Candles -->
