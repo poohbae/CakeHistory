@@ -13,7 +13,7 @@
     <h2>🧈 Butter Cake Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
-            {% if "Chiffon" not in cake.name and "Premium" not in cake.name %}
+            {% if "Chiffon" not in cake.name and "Signature" not in cake.name and "Mix" not in cake.name %}
             <div class="menu-item" 
                 data-item-type="product"
                 data-id="{{ cake.id }}" 
@@ -86,12 +86,12 @@
 
 <hr>
 
-<!-- PREMIUM SECTION -->
+<!-- SIGNATURE SECTION -->
 <section class="menu-section">
-    <h2>💎 Premium Series</h2>
+    <h2>💎 Signature Series</h2>
     <div class="menu-grid">
         {% for cake in cakes %}
-            {% if "Premium" in cake.name %}
+            {% if "Signature" in cake.name or "Mix" in cake.name %}
             <div class="menu-item" 
                 data-id="{{ cake.id }}"
                 data-item-type="product"
@@ -304,7 +304,7 @@
                 if (item.dataset.img3) {
                     modalImg.src = item.dataset.img3;
                 } 
-                // Otherwise use the regular img (for butter/chiffon/premium)
+                // Otherwise use the regular img (for butter/chiffon/signature/mix)
                 else {
                     modalImg.src = item.dataset.img;
                 }
