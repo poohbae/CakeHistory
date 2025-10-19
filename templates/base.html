@@ -142,14 +142,16 @@
             const chatWindow = document.getElementById('chat-window');
             const chatOptions = document.getElementById('chat-options');
 
-            // Open & close modal
+            let currentTopic = null; // 🧭 remember which category user is in
+
+            // --- open / close modal ---
             chatBtn.addEventListener('click', () => chatModal.style.display = 'flex');
             closeChat.addEventListener('click', () => chatModal.style.display = 'none');
             chatModal.addEventListener('click', e => {
                 if (e.target === chatModal) chatModal.style.display = 'none';
             });
 
-            // Helper to add messages
+            // --- add chat messages ---
             function addMessage(sender, text) {
                 const msg = document.createElement('div');
                 msg.classList.add(sender === 'bot' ? 'bot-msg' : 'user-msg');
@@ -158,19 +160,43 @@
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
 
-            // Show questions for a selected topic
-            function showQuestions(topicKey) {
-                const questions = faqs[topicKey];
+            // --- show main categories ---
+            function showMainTopics() {
+                currentTopic = null;
                 chatOptions.innerHTML = '';
+                addMessage('bot', "Alright! You can choose another topic below 👇");
 
-                addMessage('user', `I want to know about ${topicKey.replace(/^\w/, c => c.toUpperCase())}.`);
+                const topics = {
+                general: "🧁 General",
+                ordering: "🛍️ Ordering & Payment",
+                delivery: "🚚 Delivery & Pickup",
+                customization: "🎉 Add-ons & Customization",
+                support: "☎️ Support & Issues"
+                };
+
+                Object.entries(topics).forEach(([key, label]) => {
+                const btn = document.createElement('button');
+                btn.classList.add('chat-option');
+                btn.textContent = label;
+                btn.addEventListener('click', () => startTopic(key, label));
+                chatOptions.appendChild(btn);
+                });
+            }
+
+            // --- start a new topic (show questions once) ---
+            function startTopic(topicKey, label) {
+                currentTopic = topicKey;
+                const questions = faqs[topicKey];
+
+                chatOptions.innerHTML = '';
+                addMessage('user', `I want to know about ${label}.`);
                 addMessage('bot', "Sure! Here are some things you can ask me about:");
 
                 questions.forEach((item, i) => {
                 const btn = document.createElement('button');
                 btn.classList.add('chat-option');
                 btn.textContent = item.q;
-                btn.addEventListener('click', () => showAnswer(topicKey, i));
+                btn.addEventListener('click', () => showAnswer(i));
                 chatOptions.appendChild(btn);
                 });
 
@@ -181,11 +207,10 @@
                 chatOptions.appendChild(backBtn);
             }
 
-            // Show specific answer
-            function showAnswer(topicKey, index) {
-                const { q, a } = faqs[topicKey][index];
+            // --- show answer only (no repeating intro) ---
+            function showAnswer(index) {
+                const { q, a } = faqs[currentTopic][index];
                 addMessage('user', q);
-
                 chatOptions.innerHTML = '';
                 addMessage('bot', '<em>typing...</em>');
 
@@ -194,34 +219,34 @@
                 if (typing) typing.remove();
                 addMessage('bot', a);
 
-                // Show more questions under same category
-                showQuestions(topicKey);
+                // After answer, show the same topic's questions again (without repeating intro)
+                showQuestionsOnly();
                 }, 900);
             }
 
-            // Back to main menu
-            function showMainTopics() {
+            // --- just show question buttons again (no intro text) ---
+            function showQuestionsOnly() {
+                const questions = faqs[currentTopic];
                 chatOptions.innerHTML = '';
-                addMessage('bot', "Alright! You can choose another topic below 👇");
-                const topics = {
-                general: "🧁 General",
-                ordering: "🛍️ Ordering & Payment",
-                delivery: "🚚 Delivery & Pickup",
-                customization: "🎉 Add-ons & Customization",
-                support: "☎️ Support & Issues"
-                };
-                Object.entries(topics).forEach(([key, label]) => {
+
+                questions.forEach((item, i) => {
                 const btn = document.createElement('button');
                 btn.classList.add('chat-option');
-                btn.textContent = label;
-                btn.addEventListener('click', () => showQuestions(key));
+                btn.textContent = item.q;
+                btn.addEventListener('click', () => showAnswer(i));
                 chatOptions.appendChild(btn);
                 });
+
+                const backBtn = document.createElement('button');
+                backBtn.classList.add('back-btn');
+                backBtn.textContent = '⬅ Back to Topics';
+                backBtn.addEventListener('click', showMainTopics);
+                chatOptions.appendChild(backBtn);
             }
 
-            // First render (main topics)
+            // --- initial setup ---
             document.querySelectorAll('.chat-option').forEach(btn => {
-                btn.addEventListener('click', () => showQuestions(btn.dataset.topic));
+                btn.addEventListener('click', () => startTopic(btn.dataset.topic, btn.textContent));
             });
         });
     </script>
