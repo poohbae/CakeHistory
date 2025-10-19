@@ -346,32 +346,36 @@ def register_routes(app):
             db.session.add(new_user)
             db.session.commit()
 
-            # --- Send HTML welcome email with images ---
-            try:
-                msg = Message(
-                    subject="Welcome to CakeHistory!",
-                    recipients=[email]
-                )
+            # --- Send HTML welcome email ONLY if subscribed ---
+            if subscribed:
+                try:
+                    msg = Message(
+                        subject="🎂 Welcome to CakeHistory!",
+                        recipients=[email]
+                    )
 
-                # Render the HTML version
-                msg.html = render_template('email.html', name=name)
+                    # Render HTML email
+                    msg.html = render_template('email.html', name=name)
 
-                # Embed logo and QR images inline
-                with app.open_resource("static/images/logo.png") as logo:
-                    msg.attach("logo.png", "image/png", logo.read(), 'inline', headers=[['Content-ID','<logo>']])
+                    # Embed logo and QR images inline
+                    with app.open_resource("static/images/logo.png") as logo:
+                        msg.attach("logo.png", "image/png", logo.read(), 'inline', headers=[['Content-ID','<logo>']])
 
-                with app.open_resource("static/images/fb_qr.png") as fb_qr:
-                    msg.attach("fb_qr.jpg", "image/png", fb_qr.read(), 'inline', headers=[['Content-ID','<fb_qr>']])
+                    with app.open_resource("static/images/fb_qr.jpg") as fb_qr:
+                        msg.attach("fb_qr.png", "image/png", fb_qr.read(), 'inline', headers=[['Content-ID','<fb_qr>']])
 
-                with app.open_resource("static/images/insta_qr.png") as insta_qr:
-                    msg.attach("insta_qr.png", "image/png", insta_qr.read(), 'inline', headers=[['Content-ID','<insta_qr>']])
+                    with app.open_resource("static/images/insta_qr.png") as insta_qr:
+                        msg.attach("insta_qr.png", "image/png", insta_qr.read(), 'inline', headers=[['Content-ID','<insta_qr>']])
 
-                mail.send(msg)
-                flash('Registration successful! A welcome email has been sent.', 'success')
+                    mail.send(msg)
+                    flash('Registration successful! A welcome email has been sent.', 'success')
 
-            except Exception as e:
-                print(f"Email sending failed: {e}")
-                flash('Registration successful, but we could not send the welcome email.', 'warning')
+                except Exception as e:
+                    print(f"Email sending failed: {e}")
+                    flash('Registration successful, but we could not send the welcome email.', 'warning')
+
+            else:
+                flash('Registration successful! (No email sent — user did not subscribe.)', 'info')
 
             return redirect(url_for('login_user_route'))
 
