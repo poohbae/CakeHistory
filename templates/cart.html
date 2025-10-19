@@ -208,15 +208,18 @@
                                                     let currentTotal = parseFloat(totalEl.textContent);
                                                     let newTotal = currentTotal - itemTotal;
                                                     if (newTotal < 0) newTotal = 0;
+
+                                                    // Update total
                                                     totalEl.textContent = newTotal.toFixed(2);
                                                     totalEl.style.transition = "color 0.3s ease";
                                                     totalEl.style.color = "#ff69b4";
                                                     setTimeout(() => totalEl.style.color = "", 500);
 
-
-                                                    // Also update Subtotal text
-                                                    const subtotalEl = document.querySelector('.cart-summary p strong');
-                                                    if (subtotalEl) subtotalEl.textContent = `Subtotal: RM ${newTotal.toFixed(2)}`;
+                                                    // Update subtotal paragraph correctly
+                                                    const subtotalP = document.querySelector('.cart-summary p'); // not the <strong>
+                                                    if (subtotalP) {
+                                                        subtotalP.innerHTML = `<strong>Subtotal:</strong> RM ${newTotal.toFixed(2)}`;
+                                                    }
                                                 }, 300);
                                             }
                                         });
