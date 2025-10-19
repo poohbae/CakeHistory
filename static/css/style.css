@@ -806,6 +806,33 @@ button:hover {
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
 
+.chat-topic, .back-btn {
+    background-color: #ff69b4;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.chat-topic:hover, .back-btn:hover {
+    background-color: #ff85c1;
+}
+
+.qa-item {
+    background: #fff8fa;
+    border: 1px solid #ffe0ec;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+}
+
+.q { color: #333; margin: 0; }
+.a { color: #555; margin: 4px 0 0 0; }
+
 .close-chat {
     position: absolute;
     top: 10px;

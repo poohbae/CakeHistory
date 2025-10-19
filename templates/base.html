@@ -50,25 +50,59 @@
 
     <!-- Chat Modal -->
     <div id="chat-modal" class="chat-modal">
-    <div class="chat-modal-content">
-        <span class="close-chat">&times;</span>
-        <h3><i class="fa-solid fa-message"></i> Chat with CakeHistory</h3>
-        <p>Select a topic to get started:</p>
-        
-        <div class="chat-options">
-        <button class="chat-option" data-topic="Order Status">🍰 Order Status</button>
-        <button class="chat-option" data-topic="Custom Cake">🎂 Custom Cake Inquiry</button>
-        <button class="chat-option" data-topic="Store Info">🏪 Store Information</button>
+        <div class="chat-modal-content">
+            <span class="close-chat">&times;</span>
+            <h3><i class="fa-solid fa-message"></i> Chat with CakeHistory</h3>
+
+            <div id="chat-stage">
+            <!-- Stage 1: Category selection -->
+            <div id="chat-topics">
+                <p>Select a topic to get started:</p>
+                <button class="chat-topic" data-topic="general">🧁 General</button>
+                <button class="chat-topic" data-topic="ordering">🛍️ Ordering & Payment</button>
+                <button class="chat-topic" data-topic="delivery">🚚 Delivery & Pickup</button>
+                <button class="chat-topic" data-topic="customization">🎉 Add-ons & Customization</button>
+                <button class="chat-topic" data-topic="support">☎️ Support & Issues</button>
+            </div>
+
+            <!-- Stage 2: Question & Answer list -->
+            <div id="chat-qa" style="display:none;">
+                <div id="qa-list"></div>
+                <button id="back-to-topics" class="back-btn">⬅ Back</button>
+            </div>
+            </div>
         </div>
-
-        <textarea id="chat-input" placeholder="Type your message..." rows="3"></textarea>
-        <button id="send-chat" class="send-chat-btn">Send</button>
-
-        <div id="chat-response" class="chat-response"></div>
-    </div>
     </div>
 
     <script>
+        const faqs = {
+            general: [
+                { q: "What types of cakes do you sell?", a: "We offer Pandan Chiffon, Orange Chiffon, Butter Cake, Marble Cake, and Butter Fruit Cake — all freshly baked with premium ingredients." },
+                { q: "Are your cakes freshly baked daily?", a: "Yes! Every cake is baked fresh on the day of your order to ensure the best texture and flavor." },
+                { q: "How long can the cakes be stored after purchase?", a: "Our cakes are best enjoyed fresh on the same day. You may keep them up to 2–3 days in an airtight container or refrigerate and reheat lightly before serving." }
+            ],
+            ordering: [
+                { q: "How do I place an order online?", a: "Simply browse our products, add cakes to the cart, and proceed to checkout. You’ll receive a confirmation email after payment." },
+                { q: "Can I schedule my order in advance?", a: "Of course! Choose your preferred delivery or pickup date during checkout." },
+                { q: "What payment methods do you accept?", a: "We accept online banking and e-wallets like Touch ’n Go." }
+            ],
+            delivery: [
+                { q: "Do you provide delivery?", a: "Yes, we deliver across selected areas. Delivery fees depend on your location and appear at checkout." },
+                { q: "Can I self-pickup my order?", a: "Yes, self-pickup is available at our bakery — select 'Self Pickup' at checkout." },
+                { q: "What if I miss my delivery?", a: "Please contact us right away. We’ll re-arrange delivery or keep your cake for same-day collection." }
+            ],
+            customization: [
+                { q: "Can I add candles or a birthday card?", a: "Yes! We offer number candles, heart-shaped candles, and birthday cards as add-ons." },
+                { q: "Can I write a message on the cake or card?", a: "Absolutely — just include your message in the 'Special Requests' box during checkout." },
+                { q: "Can I request special packaging?", a: "Our standard marble-patterned boxes are already included for all orders." }
+            ],
+            support: [
+                { q: "Who do I contact for order issues?", a: "You can reach our support via WhatsApp or email from the 'Contact Us' section." },
+                { q: "What should I do if my cake arrives damaged?", a: "Please take a photo and contact us within 1 hour — we’ll review and assist promptly." },
+                { q: "Do you offer refunds or replacements?", a: "Yes, if a verified quality or delivery issue occurs, we’ll provide a replacement or refund." }
+            ]
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             const isAuthenticated = "{{ 'true' if current_user.is_authenticated else 'false' }}" === "true";
 
@@ -108,39 +142,42 @@
             const chatBtn = document.getElementById('chat-btn');
             const chatModal = document.getElementById('chat-modal');
             const closeChat = document.querySelector('.close-chat');
-            const chatOptions = document.querySelectorAll('.chat-option');
-            const chatInput = document.getElementById('chat-input');
-            const sendBtn = document.getElementById('send-chat');
-            const chatResponse = document.getElementById('chat-response');
+            const topics = document.querySelectorAll('.chat-topic');
+            const qaContainer = document.getElementById('chat-qa');
+            const topicContainer = document.getElementById('chat-topics');
+            const qaList = document.getElementById('qa-list');
+            const backBtn = document.getElementById('back-to-topics');
 
-            // Show modal
-            chatBtn.addEventListener('click', () => {
-                chatModal.style.display = 'flex';
-            });
-
-            // Close modal
+            // Open & close modal
+            chatBtn.addEventListener('click', () => chatModal.style.display = 'flex');
             closeChat.addEventListener('click', () => chatModal.style.display = 'none');
             chatModal.addEventListener('click', e => {
                 if (e.target === chatModal) chatModal.style.display = 'none';
             });
 
-            // When user clicks a preset topic
-            chatOptions.forEach(opt => {
-                opt.addEventListener('click', () => {
-                chatInput.value = `Hi, I’d like to ask about ${opt.dataset.topic}.`;
+            // Show questions for selected category
+            topics.forEach(btn => {
+                btn.addEventListener('click', () => {
+                const cat = btn.dataset.topic;
+                qaList.innerHTML = "";
+                faqs[cat].forEach((item, i) => {
+                    const div = document.createElement('div');
+                    div.classList.add('qa-item');
+                    div.innerHTML = `
+                    <p class="q"><strong>Q${i + 1}:</strong> ${item.q}</p>
+                    <p class="a"><strong>A:</strong> ${item.a}</p>
+                    `;
+                    qaList.appendChild(div);
+                });
+                topicContainer.style.display = 'none';
+                qaContainer.style.display = 'block';
                 });
             });
 
-            // Send message (mock AI reply)
-            sendBtn.addEventListener('click', () => {
-                const msg = chatInput.value.trim();
-                if (!msg) return;
-                
-                chatResponse.innerHTML = `<p><strong>You:</strong> ${msg}</p>`;
-                setTimeout(() => {
-                chatResponse.innerHTML += `<p><strong>CakeHistory Bot:</strong> Thanks for reaching out! We’ll get back to you soon 🍰</p>`;
-                }, 1000);
-                chatInput.value = '';
+            // Back button
+            backBtn.addEventListener('click', () => {
+                qaContainer.style.display = 'none';
+                topicContainer.style.display = 'block';
             });
         });
     </script>
