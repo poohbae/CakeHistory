@@ -848,7 +848,7 @@ button:hover {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.chat-topic, .back-btn {
+.chat-topic {
     background-color: #ff69b4;
     color: #fff;
     border: none;
@@ -860,7 +860,7 @@ button:hover {
     transition: 0.3s;
 }
 
-.chat-topic:hover, .back-btn:hover {
+.chat-topic:hover {
     background-color: #ff85c1;
 }
 
@@ -874,6 +874,24 @@ button:hover {
 
 .q { color: #333; margin: 0; }
 .a { color: #555; margin: 4px 0 0 0; }
+
+.chat-back-btn {
+    background: transparent;        /* no pink background */
+    color: #ff69b4;                 /* use your theme pink */
+    border: 1px solid #ff69b4;      /* subtle outline for visibility */
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.chat-back-btn:hover {
+    background: #ff69b4;
+    color: #fff;
+}
+
 
 .close-chat {
     position: absolute;
