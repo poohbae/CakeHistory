@@ -92,4 +92,46 @@
         <p class="no-feedback">You haven’t submitted any feedback yet. 🥺</p>
     {% endif %}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form[action="{{ url_for("feedback") }}"]');
+    if (!form) return;
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch('{{ url_for("feedback") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            Swal.fire({
+                icon: data.success ? 'success' : 'error',
+                title: data.success ? 'Feedback Submitted!' : 'Oops...',
+                text: data.message,
+                confirmButtonColor: '#ff69b4'
+            }).then(() => {
+                if (data.success) {
+                    // Optional: reload to show updated feedback list
+                    window.location.reload();
+                }
+            });
+        })
+        .catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Something went wrong. Please try again.',
+                confirmButtonColor: '#ff69b4'
+            });
+            console.error(err);
+        });
+    });
+});
+</script>
+
 {% endblock %}

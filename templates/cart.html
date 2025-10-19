@@ -191,11 +191,33 @@
                                             confirmButtonColor: '#ff69b4'
                                         }).then(() => {
                                             if (data.success) {
-                                                // Remove item from DOM without reloading
                                                 const itemDiv = btn.closest('.cart-item');
+                                                const itemTotal = parseFloat(
+                                                    itemDiv.querySelector('.cart-total strong').textContent.replace('RM', '').trim()
+                                                );
+
+                                                // Animate remove
                                                 itemDiv.style.transition = "opacity 0.3s ease";
                                                 itemDiv.style.opacity = "0";
-                                                setTimeout(() => itemDiv.remove(), 300);
+
+                                                setTimeout(() => {
+                                                    itemDiv.remove();
+
+                                                    // ✅ Recalculate subtotal after removal
+                                                    const totalEl = document.getElementById('grand-total');
+                                                    let currentTotal = parseFloat(totalEl.textContent);
+                                                    let newTotal = currentTotal - itemTotal;
+                                                    if (newTotal < 0) newTotal = 0;
+                                                    totalEl.textContent = newTotal.toFixed(2);
+                                                    totalEl.style.transition = "color 0.3s ease";
+                                                    totalEl.style.color = "#ff69b4";
+                                                    setTimeout(() => totalEl.style.color = "", 500);
+
+
+                                                    // Also update Subtotal text
+                                                    const subtotalEl = document.querySelector('.cart-summary p strong');
+                                                    if (subtotalEl) subtotalEl.textContent = `Subtotal: RM ${newTotal.toFixed(2)}`;
+                                                }, 300);
                                             }
                                         });
                                     });

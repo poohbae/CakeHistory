@@ -1293,7 +1293,6 @@ button:hover {
 .delete-item-btn {
     background-color: transparent !important;  /* force no background */
     border: none;
-    padding: 6px;
     border-radius: 50%;
     font-size: 16px;
     cursor: pointer;
@@ -1854,13 +1853,13 @@ button:hover {
 
     .header {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column;   /* Stack vertically */
+        align-items: center;      /* Center horizontally */
         justify-content: center;
-        text-align: center;
         background-color: #ffb6c1;
         padding: 15px 0;
-        gap: 10px; /* vertical spacing between rows */
+        gap: 10px;                /* Space between rows */
+        text-align: center;
     }
 
     /* Row 1: Logo + Title */
@@ -1882,17 +1881,18 @@ button:hover {
         margin: 0;
     }
 
-    /* Row 2: Navigation */
+    /* Row 2: Navigation links */
     .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        align-items: center;
         gap: 6px;
         width: 100%;
     }
 
     .nav-links a {
-        padding: 5px 8px;
+        padding: 5px 10px;
         font-size: 15px;
         color: black;
         text-decoration: none;
@@ -1902,24 +1902,24 @@ button:hover {
         background: #ff69b4;
         color: white;
         border-radius: 8px;
-        padding: 5px 10px;
+        padding: 5px 12px;
     }
 
     .nav-links a:not(:last-child)::after {
         content: "|";
         color: black;
-        margin: 0 4px;
+        margin: 0 6px;
         position: static;
     }
 
-    /* Row 3: Auth buttons */
+    /* Row 3: Auth buttons (Login / Register) */
     .auth-buttons {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         width: 100%;
-        margin-top: 0;
+        margin-top: 5px;
     }
 
     .auth-buttons a {
@@ -1927,6 +1927,9 @@ button:hover {
         font-size: 15px;
         font-weight: 600;
         text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
     }
 
     .auth-buttons a:hover {
@@ -1938,7 +1941,7 @@ button:hover {
         font-weight: 600;
         font-size: 15px;
     }
-
+    
     /* Hero Banner */
     .hero-banner {
         height: 35vh;

@@ -341,13 +341,10 @@ def register_routes(app):
             rating = int(request.form.get('rating'))
             comments = request.form.get('comments')
 
-            # Check if order belongs to the user
             order = Order.query.filter_by(id=order_id, user_id=current_user.id).first()
             if not order:
-                flash('Invalid order selected.', 'danger')
-                return redirect(url_for('feedback'))
+                return jsonify({'success': False, 'message': 'Invalid order selected.'}), 400
 
-            # Save feedback
             new_feedback = Feedback(
                 user_id=current_user.id,
                 order_id=order_id,
@@ -357,10 +354,8 @@ def register_routes(app):
             db.session.add(new_feedback)
             db.session.commit()
 
-            flash('Thank you for your feedback! 💗', 'success')
-            return redirect(url_for('feedback'))
+            return jsonify({'success': True, 'message': 'Thank you for your feedback! 💗'})
 
-        # Load data for the page
         user_orders = (
             Order.query
             .options(
@@ -370,7 +365,11 @@ def register_routes(app):
             .filter_by(user_id=current_user.id)
             .all()
         )
-        previous_feedback = Feedback.query.filter_by(user_id=current_user.id).order_by(Feedback.created_at.desc()).all()
+        previous_feedback = (
+            Feedback.query.filter_by(user_id=current_user.id)
+            .order_by(Feedback.created_at.desc())
+            .all()
+        )
 
         return render_template('feedback.html', orders=user_orders, feedbacks=previous_feedback)
 
