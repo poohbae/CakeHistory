@@ -289,8 +289,7 @@ def register_routes(app):
             Order.query
             .options(
                 joinedload(Order.items),
-                joinedload(Order.addons),
-                joinedload(Order.payment_method)
+                joinedload(Order.addons)
             )
             .filter_by(user_id=current_user.id)
             .all()

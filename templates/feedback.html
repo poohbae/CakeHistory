@@ -59,6 +59,22 @@
             </div>
             {% endif %}
 
+            {% if fb.order.addons %}
+            <div class="order-addons-list" style="margin-top:10px;">
+                <strong>Add-ons:</strong>
+                {% for addon in fb.order.addons %}
+                    <div class="order-item-row">
+                        {{ addon.addon_name }}
+                        {% if addon.option_selected %}
+                            ({{ addon.option_selected }})
+                        {% endif %}
+                        × {{ addon.quantity }}
+                        — RM {{ "%.2f"|format(addon.price_each * addon.quantity) }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
             <div class="feedback-details">
                 <p><strong>Rating:</strong>
                     <span class="rating-stars-display">
