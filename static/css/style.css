@@ -1802,3 +1802,242 @@ button:hover {
     color: #777;
     font-style: italic;
 }
+
+/* ================================
+   📱 MOBILE RESPONSIVE STYLES
+   For screens 480px and below
+================================ */
+@media (max-width: 480px) {
+
+  /* General layout */
+  body, html {
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  .header {
+    flex-direction: column;
+    padding: 10px 15px;
+    text-align: center;
+  }
+
+  .logo-img {
+    height: 45px;
+  }
+
+  .logo h1 {
+    font-size: 20px;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .nav-links a {
+    display: block;
+    margin: 6px 0;
+    font-size: 15px;
+  }
+
+  .nav-links a:not(:last-child)::after {
+    display: none; /* remove separators on mobile */
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    margin: 10px 0;
+    gap: 8px;
+  }
+
+  footer {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  /* Auth Pages (Login / Register) */
+  .login-container, .register-container {
+    width: 90%;
+    padding: 25px 15px;
+  }
+
+  .auth-logo {
+    width: 80px;
+  }
+
+  input, button {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  /* Subscribe box */
+  .subscribe-box {
+    flex-direction: row;
+    width: 100%;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  /* Homepage hero */
+  .hero-banner {
+    height: 40vh;
+  }
+
+  .hero-overlay h1 {
+    font-size: 28px;
+  }
+
+  .hero-overlay p {
+    font-size: 14px;
+  }
+
+  .hero-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  /* Founders & Team cards */
+  .founder-card, .team-card {
+    width: 85%;
+    margin: auto;
+  }
+
+  /* Menu cards */
+  .menu-item {
+    width: 90%;
+    padding: 12px;
+  }
+
+  .menu-item img {
+    height: 180px;
+  }
+
+  .menu-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Cart & Order Pages */
+  .cart-container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cart-item img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 8px;
+  }
+
+  .cart-details {
+    margin-left: 0;
+  }
+
+  .cart-summary {
+    font-size: 15px;
+    padding: 15px;
+  }
+
+  .cart-buttons {
+    flex-direction: column;
+  }
+
+  .cart-buttons a,
+  .cart-buttons button {
+    width: 100%;
+  }
+
+  /* Chat Button & Modal */
+  .chat-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+  }
+
+  .chat-modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .chat-window {
+    height: 280px;
+  }
+
+  .bot-msg, .user-msg {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  /* Feedback Page */
+  .feedback-container {
+    width: 90%;
+    height: auto;
+    padding: 25px 20px;
+  }
+
+  .feedback-container textarea {
+    width: 100%;
+    height: 80px;
+  }
+
+  .previous-feedback-section {
+    width: 95%;
+    padding: 20px;
+  }
+
+  /* Contact & QR section */
+  .qr-container {
+    gap: 20px;
+  }
+
+  .qr-item img {
+    width: 90px;
+    height: 90px;
+  }
+
+  /* About Page */
+  .about-page {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .founders-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .team-container {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ingredients & Addons */
+  .ingredients-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .ingredient-item img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .addon-item {
+    width: 90%;
+  }
+
+  /* Modal Adjustments */
+  .cake-modal-content,
+  .order-modal-content {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+  }
+}
