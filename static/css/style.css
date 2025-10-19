@@ -1291,7 +1291,7 @@ button:hover {
 
 /* 🗑️ Transparent icon-only delete button */
 .delete-item-btn {
-    background-color: transparent;   /* no background */
+    background-color: transparent !important;  /* force no background */
     border: none;
     padding: 6px;
     border-radius: 50%;
@@ -1310,12 +1310,17 @@ button:hover {
 }
 
 /* hover + active states */
+.delete-item-btn:hover {
+    background-color: transparent !important;  /* cancel global pink hover */
+}
+
 .delete-item-btn:hover i {
     color: #444;                     /* darker grey on hover */
 }
 
 .delete-item-btn:active {
-    transform: scale(0.9);           /* subtle click feedback */
+    transform: scale(0.9);
+    background-color: transparent !important;  /* prevent click color flash */
 }
 
 /* Total on the right */
@@ -1849,14 +1854,13 @@ button:hover {
 
     .header {
         display: flex;
-        flex-direction: column;        /* stack 3 rows */
-        align-items: center;           /* center horizontally */
-        justify-content: center;       /* center vertically */
-        height: auto;                  /* adjust to content height */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        padding: 15px 0;
         background-color: #ffb6c1;
-        gap: 10px;                     /* space between rows */
+        padding: 15px 0;
+        gap: 10px; /* vertical spacing between rows */
     }
 
     /* Row 1: Logo + Title */
@@ -1865,6 +1869,7 @@ button:hover {
         align-items: center;
         justify-content: center;
         gap: 8px;
+        width: 100%;
     }
 
     .logo-img {
@@ -1883,6 +1888,7 @@ button:hover {
         flex-wrap: wrap;
         justify-content: center;
         gap: 6px;
+        width: 100%;
     }
 
     .nav-links a {
@@ -1911,8 +1917,9 @@ button:hover {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 8px;
-        margin-top: 2px;
+        gap: 10px;
+        width: 100%;
+        margin-top: 0;
     }
 
     .auth-buttons a {
