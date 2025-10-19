@@ -50,35 +50,25 @@
 
     <!-- Chat Modal -->
     <div id="chat-modal" class="chat-modal">
-    <div class="chat-modal-content">
-        <span class="close-chat">&times;</span>
-        <h3><i class="fa-solid fa-message"></i> Chat with CakeHistory</h3>
+        <div class="chat-modal-content">
+            <span class="close-chat">&times;</span>
+            <h3><i class="fa-solid fa-message"></i> CakeHistory Assistant</h3>
 
-        <div id="chat-stage">
-        <!-- Step 1: Category selection -->
-        <div id="chat-topics">
-            <p>Select a topic to get started:</p>
-            <button class="chat-topic" data-topic="general">🧁 General</button>
-            <button class="chat-topic" data-topic="ordering">🛍️ Ordering & Payment</button>
-            <button class="chat-topic" data-topic="delivery">🚚 Delivery & Pickup</button>
-            <button class="chat-topic" data-topic="customization">🎉 Add-ons & Customization</button>
-            <button class="chat-topic" data-topic="support">☎️ Support & Issues</button>
-        </div>
+            <!-- Chat area -->
+            <div id="chat-window" class="chat-window">
+            <div class="bot-msg">👋 Hi there! I’m your CakeHistory assistant.<br>
+            Please select a topic to get started:</div>
+            </div>
 
-        <!-- Step 2: Question selection -->
-        <div id="chat-questions" style="display:none;">
-            <h4 id="category-title"></h4>
-            <div id="question-list"></div>
-            <button id="back-to-categories" class="back-btn">⬅ Back</button>
+            <!-- Options area -->
+            <div id="chat-options" class="chat-options">
+            <button class="chat-option" data-topic="general">🧁 General</button>
+            <button class="chat-option" data-topic="ordering">🛍️ Ordering & Payment</button>
+            <button class="chat-option" data-topic="delivery">🚚 Delivery & Pickup</button>
+            <button class="chat-option" data-topic="customization">🎉 Add-ons & Customization</button>
+            <button class="chat-option" data-topic="support">☎️ Support & Issues</button>
+            </div>
         </div>
-
-        <!-- Step 3: Answer display -->
-        <div id="chat-answer" style="display:none;">
-            <div id="answer-content"></div>
-            <button id="back-to-questions" class="back-btn">⬅ Back to Questions</button>
-        </div>
-        </div>
-    </div>
     </div>
 
     <script>
@@ -149,17 +139,8 @@
             const chatBtn = document.getElementById('chat-btn');
             const chatModal = document.getElementById('chat-modal');
             const closeChat = document.querySelector('.close-chat');
-
-            const topicContainer = document.getElementById('chat-topics');
-            const questionContainer = document.getElementById('chat-questions');
-            const answerContainer = document.getElementById('chat-answer');
-
-            const categoryTitle = document.getElementById('category-title');
-            const questionList = document.getElementById('question-list');
-            const answerContent = document.getElementById('answer-content');
-
-            const backToCategories = document.getElementById('back-to-categories');
-            const backToQuestions = document.getElementById('back-to-questions');
+            const chatWindow = document.getElementById('chat-window');
+            const chatOptions = document.getElementById('chat-options');
 
             // Open & close modal
             chatBtn.addEventListener('click', () => chatModal.style.display = 'flex');
@@ -168,43 +149,79 @@
                 if (e.target === chatModal) chatModal.style.display = 'none';
             });
 
-            // Handle topic selection
-            document.querySelectorAll('.chat-topic').forEach(btn => {
-                btn.addEventListener('click', () => {
-                const topic = btn.dataset.topic;
-                const items = faqs[topic];
-                categoryTitle.textContent = btn.textContent;
-                questionList.innerHTML = '';
+            // Helper to add messages
+            function addMessage(sender, text) {
+                const msg = document.createElement('div');
+                msg.classList.add(sender === 'bot' ? 'bot-msg' : 'user-msg');
+                msg.innerHTML = text;
+                chatWindow.appendChild(msg);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
 
-                items.forEach((item, i) => {
-                    const qBtn = document.createElement('button');
-                    qBtn.classList.add('chat-topic');
-                    qBtn.textContent = `Q${i + 1}: ${item.q}`;
-                    qBtn.addEventListener('click', () => {
-                    answerContent.innerHTML = `
-                        <p><strong>Q:</strong> ${item.q}</p>
-                        <p><strong>A:</strong> ${item.a}</p>
-                    `;
-                    questionContainer.style.display = 'none';
-                    answerContainer.style.display = 'block';
-                    });
-                    questionList.appendChild(qBtn);
+            // Show questions for a selected topic
+            function showQuestions(topicKey) {
+                const questions = faqs[topicKey];
+                chatOptions.innerHTML = '';
+
+                addMessage('user', `I want to know about ${topicKey.replace(/^\w/, c => c.toUpperCase())}.`);
+                addMessage('bot', "Sure! Here are some things you can ask me about:");
+
+                questions.forEach((item, i) => {
+                const btn = document.createElement('button');
+                btn.classList.add('chat-option');
+                btn.textContent = item.q;
+                btn.addEventListener('click', () => showAnswer(topicKey, i));
+                chatOptions.appendChild(btn);
                 });
 
-                topicContainer.style.display = 'none';
-                questionContainer.style.display = 'block';
+                const backBtn = document.createElement('button');
+                backBtn.classList.add('back-btn');
+                backBtn.textContent = '⬅ Back to Topics';
+                backBtn.addEventListener('click', showMainTopics);
+                chatOptions.appendChild(backBtn);
+            }
+
+            // Show specific answer
+            function showAnswer(topicKey, index) {
+                const { q, a } = faqs[topicKey][index];
+                addMessage('user', q);
+
+                chatOptions.innerHTML = '';
+                addMessage('bot', '<em>typing...</em>');
+
+                setTimeout(() => {
+                const typing = chatWindow.querySelector('.bot-msg:last-child');
+                if (typing) typing.remove();
+                addMessage('bot', a);
+
+                // Show more questions under same category
+                showQuestions(topicKey);
+                }, 900);
+            }
+
+            // Back to main menu
+            function showMainTopics() {
+                chatOptions.innerHTML = '';
+                addMessage('bot', "Alright! You can choose another topic below 👇");
+                const topics = {
+                general: "🧁 General",
+                ordering: "🛍️ Ordering & Payment",
+                delivery: "🚚 Delivery & Pickup",
+                customization: "🎉 Add-ons & Customization",
+                support: "☎️ Support & Issues"
+                };
+                Object.entries(topics).forEach(([key, label]) => {
+                const btn = document.createElement('button');
+                btn.classList.add('chat-option');
+                btn.textContent = label;
+                btn.addEventListener('click', () => showQuestions(key));
+                chatOptions.appendChild(btn);
                 });
-            });
+            }
 
-            // Back buttons
-            backToCategories.addEventListener('click', () => {
-                questionContainer.style.display = 'none';
-                topicContainer.style.display = 'block';
-            });
-
-            backToQuestions.addEventListener('click', () => {
-                answerContainer.style.display = 'none';
-                questionContainer.style.display = 'block';
+            // First render (main topics)
+            document.querySelectorAll('.chat-option').forEach(btn => {
+                btn.addEventListener('click', () => showQuestions(btn.dataset.topic));
             });
         });
     </script>
