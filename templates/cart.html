@@ -332,60 +332,54 @@
 
                     // Date & time validation (only 1–5 PM, future only, 5-min increments)
                     const dateInput = form.querySelector('input[name="datetime"]');
-                    if (dateInput) {
+                    dateInput.addEventListener("change", () => {
+                        // If input is empty or invalid, skip validation
+                        if (!dateInput.value) return;
+
+                        const selected = new Date(dateInput.value);
+                        if (isNaN(selected.getTime())) return; // skip if invalid
+
                         const now = new Date();
+                        const hour = selected.getHours();
+                        const minute = selected.getMinutes();
 
-                        // Round DOWN to nearest 5-minute mark
-                        now.setMinutes(Math.floor(now.getMinutes() / 5) * 5);
-                        now.setSeconds(0);
-                        now.setMilliseconds(0);
+                        // Must be future
+                        if (selected <= now) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Invalid Date/Time',
+                                text: 'Please choose a future date and time.',
+                                confirmButtonColor: '#ff69b4'
+                            });
+                            dateInput.value = '';
+                            return;
+                        }
 
-                        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                        dateInput.min = now.toISOString().slice(0, 16);
-                        dateInput.step = 300;
+                        // Must be within 1–5 PM
+                        if (hour < 13 || hour >= 17) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Outside Operating Hours',
+                                text: 'Please select a time between 1:00 PM and 5:00 PM.',
+                                confirmButtonColor: '#ff69b4'
+                            });
+                            dateInput.value = '';
+                            return;
+                        }
 
-                        dateInput.addEventListener("change", () => {
-                            const selected = new Date(dateInput.value);
-                            const hour = selected.getHours();
-                            const minute = selected.getMinutes();
+                        // Must be multiple of 5 minutes
+                        if (minute % 5 !== 0) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Invalid Time Interval',
+                                text: 'Please select a time in 5-minute increments (e.g. 13:00, 13:05, 13:10, etc.).',
+                                confirmButtonColor: '#ff69b4'
+                            });
+                            dateInput.value = '';
+                            return;
+                        }
+                    });
 
-                            // Must be future
-                            if (selected <= new Date()) {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Invalid Date/Time',
-                                    text: 'Please choose a future date and time.',
-                                    confirmButtonColor: '#ff69b4'
-                                });
-                                dateInput.value = '';
-                                return;
-                            }
-
-                            // Must be within 1–5 PM
-                            if (hour < 13 || hour >= 17) {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Outside Operating Hours',
-                                    text: 'Please select a time between 1:00 PM and 5:00 PM.',
-                                    confirmButtonColor: '#ff69b4'
-                                });
-                                dateInput.value = '';
-                                return;
-                            }
-
-                            // Must be multiple of 5 minutes
-                            if (minute % 5 !== 0) {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Invalid Time Interval',
-                                    text: 'Please select a time in 5-minute increments (e.g. 13:00, 13:05, 13:10, etc.).',
-                                    confirmButtonColor: '#ff69b4'
-                                });
-                                dateInput.value = '';
-                                return;
-                            }
-                        });
-                    }
 
                     // Submit form
                     form.addEventListener("submit", e => {

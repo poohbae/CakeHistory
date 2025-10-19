@@ -1851,78 +1851,81 @@ button:hover {
         overflow-x: hidden;
     }
 
-    .header {
-        display: flex;
-        flex-direction: column;   /* Stack vertically */
-        align-items: center;      /* Center horizontally */
-        justify-content: center;
+    header.header {  /* add higher specificity */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
         background-color: #ffb6c1;
-        padding: 15px 0;
-        gap: 10px;                /* Space between rows */
         text-align: center;
+        padding: 15px 0;
+        gap: 12px;
     }
 
-    /* Row 1: Logo + Title */
-    .logo {
+    /* Row 1: Logo */
+    .header .logo {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         width: 100%;
+        order: 1;
     }
 
-    .logo-img {
+    .header .logo-img {
         height: 55px;
         width: auto;
     }
 
-    .logo h1 {
+    .header .logo h1 {
         font-size: 22px;
         margin: 0;
     }
 
-    /* Row 2: Navigation links */
-    .nav-links {
+    /* Row 2: Navigation */
+    .header .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
         gap: 6px;
         width: 100%;
+        order: 2;
     }
 
-    .nav-links a {
-        padding: 5px 10px;
+    .header .nav-links a {
+        padding: 6px 10px;
         font-size: 15px;
         color: black;
         text-decoration: none;
     }
 
-    .nav-links a.active {
+    .header .nav-links a.active {
         background: #ff69b4;
         color: white;
         border-radius: 8px;
         padding: 5px 12px;
     }
 
-    .nav-links a:not(:last-child)::after {
+    .header .nav-links a:not(:last-child)::after {
         content: "|";
         color: black;
-        margin: 0 6px;
+        margin: 0 5px;
         position: static;
     }
 
-    /* Row 3: Auth buttons (Login / Register) */
-    .auth-buttons {
+    /* Row 3: Auth Buttons */
+    .header .auth-buttons {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
-        margin-top: 5px;
+        order: 3;
+        margin-top: 2px;
     }
 
-    .auth-buttons a {
+    .header .auth-buttons a {
         color: #ff1493;
         font-size: 15px;
         font-weight: 600;
@@ -1932,16 +1935,16 @@ button:hover {
         gap: 5px;
     }
 
-    .auth-buttons a:hover {
+    .header .auth-buttons a:hover {
         text-decoration: underline;
     }
 
-    .auth-buttons span {
+    .header .auth-buttons span {
         color: black;
         font-weight: 600;
         font-size: 15px;
     }
-    
+
     /* Hero Banner */
     .hero-banner {
         height: 35vh;
