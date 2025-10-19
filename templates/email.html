@@ -36,28 +36,28 @@
             color: #888;
         }
 
-        /* 🎯 Social images: force fixed 120x120 size and alignment */
         .socials {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
+            justify-content: center;     /* center horizontally */
+            align-items: center;         /* center vertically */
+            gap: 20px;                   /* space between QR codes */
             margin-top: 15px;
         }
+
         .socials img {
             width: 120px !important;
             height: 120px !important;
-            object-fit: contain;     /* keeps QR code intact */
+            object-fit: contain;         /* keep QR square */
             border-radius: 10px;
             border: 1px solid #eee;
             display: block;
         }
 
-        /* Optional mobile-friendly tweak */
+        /* 📱 Mobile view: stack vertically */
         @media only screen and (max-width: 480px) {
             .socials {
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
             }
             .socials img {
                 width: 100px !important;
