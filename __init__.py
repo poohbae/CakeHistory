@@ -1,8 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +19,16 @@ def create_app():
     }
 
     db.init_app(app)
+
+    # --- Mail configuration ---
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'avelinedavid@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'your-app-password'         # Use App Password (not Gmail login)
+    app.config['MAIL_DEFAULT_SENDER'] = ('CakeHistory', 'noreply@cakehistory.com')
+
+    mail.init_app(app)
 
     from models import User
     login_manager = LoginManager(app)

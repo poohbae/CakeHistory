@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #fffafc;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            width: 120px;
+            margin-bottom: 15px;
+        }
+        .content {
+            text-align: left;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            font-size: 13px;
+            color: #888;
+        }
+        .socials img {
+            width: 100px;
+            margin: 5px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <img src="cid:logo" alt="CakeHistory Logo" class="logo">
+
+        <h2>🎂 Welcome to CakeHistory!</h2>
+        <div class="content">
+            <p>Hi {{ name }},</p>
+            <p>Welcome to <b>CakeHistory</b> — where every slice tells a story!</p>
+            <p>Your registration was successful, and your account is now active.</p>
+            <p>As a valued member, you’ll receive updates on our latest cake creations, special promotions, and festive offers.</p>
+            <p>If you ever need assistance, just reply to this email or reach us via our socials below:</p>
+        </div>
+
+        <div class="socials">
+            <img src="cid:fb_qr" alt="Facebook QR">
+            <img src="cid:insta_qr" alt="Instagram QR">
+        </div>
+
+        <div class="footer">
+            Sweet regards,<br>
+            <b>The CakeHistory Team</b><br>
+            <em>Follow the sweetness 🍰</em>
+        </div>
+    </div>
+</body>
+</html>

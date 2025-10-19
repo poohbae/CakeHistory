@@ -856,12 +856,12 @@ button:hover {
     border-radius: 8px;
     margin: 6px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: normal;
     transition: 0.3s;
 }
 
 .chat-topic:hover {
-    background-color: #ff85c1;
+    color: #ff85c1;
 }
 
 .qa-item {

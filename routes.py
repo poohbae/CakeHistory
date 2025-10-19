@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_mail import Message
+from __init__ import mail
 from models import db, Box, Cake, Candle, Card, Cart, Feedback, Order, OrderAddon, OrderItem, PaymentMethod, User
 from sqlalchemy.orm import joinedload
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -314,7 +316,7 @@ def register_routes(app):
                 flash('Invalid email or password.', 'danger')
 
         return render_template('login.html')
-
+    
     @app.route('/register', methods=['GET', 'POST'])
     def register():
         if request.method == 'POST':
@@ -324,15 +326,17 @@ def register_routes(app):
             confirm_password = request.form['confirm_password']
             subscribed = True if request.form.get('subscribed') == 'yes' else False
 
-            # Server-side password check
+            # Password check
             if password != confirm_password:
                 flash('Passwords do not match. Please try again.', 'danger')
                 return redirect(url_for('register'))
 
+            # Existing user check
             if User.query.filter_by(email=email).first():
                 flash('Email already registered. Please login.', 'danger')
                 return redirect(url_for('login_user_route'))
 
+            # Create user
             new_user = User(
                 name=name,
                 email=email,
@@ -342,7 +346,33 @@ def register_routes(app):
             db.session.add(new_user)
             db.session.commit()
 
-            flash('Registration successful! Please login.', 'success')
+            # --- Send HTML welcome email with images ---
+            try:
+                msg = Message(
+                    subject="Welcome to CakeHistory!",
+                    recipients=[email]
+                )
+
+                # Render the HTML version
+                msg.html = render_template('email.html', name=name)
+
+                # Embed logo and QR images inline
+                with app.open_resource("static/images/logo.png") as logo:
+                    msg.attach("logo.png", "image/png", logo.read(), 'inline', headers=[['Content-ID','<logo>']])
+
+                with app.open_resource("static/images/fb_qr.png") as fb_qr:
+                    msg.attach("fb_qr.png", "image/png", fb_qr.read(), 'inline', headers=[['Content-ID','<fb_qr>']])
+
+                with app.open_resource("static/images/insta_qr.png") as insta_qr:
+                    msg.attach("insta_qr.png", "image/png", insta_qr.read(), 'inline', headers=[['Content-ID','<insta_qr>']])
+
+                mail.send(msg)
+                flash('Registration successful! A welcome email has been sent.', 'success')
+
+            except Exception as e:
+                print(f"Email sending failed: {e}")
+                flash('Registration successful, but we could not send the welcome email.', 'warning')
+
             return redirect(url_for('login_user_route'))
 
         return render_template('register.html', show_nav=True)
