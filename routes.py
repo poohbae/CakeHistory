@@ -350,22 +350,40 @@ def register_routes(app):
             if subscribed:
                 try:
                     msg = Message(
-                        subject="🎂 Welcome to CakeHistory!",
+                        subject="Welcome to CakeHistory!",
                         recipients=[email]
                     )
 
-                    # Render HTML email
+                    # Render HTML email body
                     msg.html = render_template('email.html', name=name)
 
-                    # Embed logo and QR images inline
+                    # Attach inline images correctly
                     with app.open_resource("static/images/logo.png") as logo:
-                        msg.attach("logo.png", "image/png", logo.read(), 'inline', headers=[['Content-ID','<logo>']])
+                        msg.attach(
+                            "logo.png",
+                            "image/png",
+                            logo.read(),
+                            disposition="inline",
+                            headers={"Content-ID": "<logo>"}
+                        )
 
                     with app.open_resource("static/images/fb_qr.jpg") as fb_qr:
-                        msg.attach("fb_qr.png", "image/png", fb_qr.read(), 'inline', headers=[['Content-ID','<fb_qr>']])
+                        msg.attach(
+                            "fb_qr.jpg",
+                            "image/jpeg",
+                            fb_qr.read(),
+                            disposition="inline",
+                            headers={"Content-ID": "<fb_qr>"}
+                        )
 
                     with app.open_resource("static/images/insta_qr.png") as insta_qr:
-                        msg.attach("insta_qr.png", "image/png", insta_qr.read(), 'inline', headers=[['Content-ID','<insta_qr>']])
+                        msg.attach(
+                            "insta_qr.png",
+                            "image/png",
+                            insta_qr.read(),
+                            disposition="inline",
+                            headers={"Content-ID": "<insta_qr>"}
+                        )
 
                     mail.send(msg)
                     flash('Registration successful! A welcome email has been sent.', 'success')
