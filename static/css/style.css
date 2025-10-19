@@ -1806,10 +1806,9 @@ button:hover {
 }
 
 /* ================================
-   📱 MOBILE RESPONSIVE STYLES
-   For screens 480px and below
+    MOBILE RESPONSIVE STYLES
 ================================ */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 
     html, body {
         overflow-x: hidden;
