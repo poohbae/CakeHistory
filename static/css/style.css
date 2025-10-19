@@ -1809,58 +1809,70 @@ button:hover {
 ================================ */
 @media (max-width: 480px) {
 
-   /* General reset */
     html, body {
         overflow-x: hidden;
     }
 
-    /* Header base */
+    /* Header container */
     .header {
-        flex-direction: column;      /* stack everything vertically */
-        align-items: center;
+        display: flex;
+        flex-direction: column;       /* stack vertically */
+        justify-content: center;      /* center vertically within header */
+        align-items: center;          /* center horizontally */
         text-align: center;
-        padding: 12px 10px;
+        padding: 14px 10px;
         background-color: #ffb6c1;
         width: 100%;
         box-sizing: border-box;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* Top Row: Logo */
+    /* 1️⃣ Top Row — Logo */
     .logo {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        text-align: center;
         margin-bottom: 10px;
     }
 
     .logo-img {
-        height: 50px;
-        margin-bottom: 4px;
+        height: 55px;
+        width: auto;
+        margin-bottom: 5px;
     }
 
     .logo h1 {
-        font-size: 20px;
+        font-size: 22px;
+        color: black;
         margin: 0;
+        font-weight: 700;
     }
 
-    /* Middle Row: Nav Links */
+    /* 2️⃣ Middle Row — Navigation Links */
     .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6px;
-        margin: 8px 0;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0 12px 0;
+        text-align: center;
+        width: 100%;
     }
 
     .nav-links a {
+        display: inline-block;
         background: #ffe4ec;
         color: black;
-        border-radius: 6px;
-        padding: 6px 10px;
-        font-size: 14px;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 15px;
+        font-weight: 500;
         text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: background 0.2s ease;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
     .nav-links a:hover {
@@ -1868,19 +1880,19 @@ button:hover {
         color: white;
     }
 
-    /* Hide the desktop separators on mobile */
     .nav-links a:not(:last-child)::after {
-        display: none;
+        display: none;  /* remove separators */
     }
 
-    /* Bottom Row: Auth Buttons */
+    /* 3️⃣ Bottom Row — Auth Buttons */
     .auth-buttons {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
+        justify-content: center;     /* center horizontally */
+        align-items: center;         /* align vertically */
+        text-align: center;
         gap: 10px;
-        margin-top: 10px;
+        margin-top: 5px;
         width: 100%;
     }
 
@@ -1888,12 +1900,14 @@ button:hover {
         background: #ff69b4;
         color: white;
         border-radius: 8px;
-        padding: 8px 14px;
-        font-size: 14px;
-        font-style: normal;
+        padding: 8px 16px;
+        font-size: 15px;
         font-weight: 600;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        text-decoration: none;
         transition: background 0.2s ease;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .auth-buttons a:hover {
@@ -1906,12 +1920,12 @@ button:hover {
         font-size: 15px;
     }
 
-    /* Ensure the footer doesn’t overlap */
     footer {
         font-size: 13px;
         padding: 10px 5px;
+        text-align: center;
     }
-
+    
     /* Auth Pages (Login / Register) */
     .login-container, .register-container {
         width: 90%;
