@@ -1841,16 +1841,16 @@ button:hover {
 }
 
 /* ==============================================
-   📱 Responsive Design for iPhone / Mobile (≤480px)
+   Responsive Design for Mobile
    ============================================== */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
 
     /* General layout */
     body, html {
         font-size: 14px;
         overflow-x: hidden;
     }
-    
+
     /* Make the header stack vertically */
     .header {
         display: flex;
