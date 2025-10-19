@@ -1871,11 +1871,6 @@ button:hover {
         background: rgba(255, 255, 255, 0.4);
     }
 
-    /* Remove "|" separators */
-    .nav-links a:not(:last-child)::after {
-        display: none;
-    }
-
     /* Auth buttons centered below nav */
     .auth-buttons {
         flex-direction: column;
@@ -1936,6 +1931,28 @@ button:hover {
     /* About page */
     .about-page {
         padding: 10px;
+    }
+
+    /* Force all about page headings equal size */
+    .about-intro h2,
+    .founders-section h2,
+    .team-section h2 {
+        font-size: 22px !important;     /* consistent font size */
+        line-height: 1.3 !important;    /* balanced spacing */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;                       /* space between icon & text */
+        text-align: center;
+    }
+
+    /* Normalize icon size & alignment */
+    .about-intro h2 i,
+    .founders-section h2 i,
+    .team-section h2 i {
+        font-size: 20px !important;     /* match text size visually */
+        color: #ff69b4;                 /* keep theme pink */
+        vertical-align: middle;
     }
 
     .founders-container, .team-container {
