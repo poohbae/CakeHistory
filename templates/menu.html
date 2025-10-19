@@ -277,6 +277,7 @@
 <!-- Modal for cake details -->
 <div id="cakeModal" class="cake-modal">
     <div class="cake-modal-content">
+        <span class="close-modal">&times;</span>
         <img id="modal-img" src="" alt="Cake Image">
         <h3 id="modal-title"></h3>
         <p id="modal-desc"></p>
@@ -319,6 +320,22 @@
             modal.classList.remove('show');
         });
     });
+
+    // Close modal on click (mobile)
+    const closeBtn = document.querySelector('.close-modal');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+    }
+
+    // Optional: also close when tapping outside modal image (for mobile convenience)
+    modal.addEventListener('click', e => {
+        if (window.innerWidth <= 768 && e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+
 
     // Quantity control
     document.querySelectorAll('.menu-item').forEach(item => {

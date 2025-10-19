@@ -981,6 +981,18 @@ button:hover {
     font-weight: 500;
 }
 
+.menu-close-modal {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 26px;
+    color: #ff69b4;
+    font-weight: bold;
+    cursor: pointer;
+    display: none; /* hidden by default */
+    z-index: 20;
+}
+
 /* Quantity & Add button container */
 .menu-actions {
     display: flex;
@@ -1514,15 +1526,6 @@ button:hover {
     margin-right: 4px;
 }
 
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #555;
-}
-
 .confirm-order-btn {
     background: #ff69b4;
     color: white;
@@ -2031,6 +2034,10 @@ button:hover {
 
     .menu-section h2 {
         font-size: 1.4rem;
+    }
+
+    .menu-close-modal {
+        display: block;
     }
 
     /* Cart page */
