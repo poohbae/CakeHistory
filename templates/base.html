@@ -16,13 +16,14 @@
         </div>
 
         <nav class="nav-links">
-            <a href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="{{ url_for('about') }}"><i class="fa-solid fa-house"></i> About</a>
-            <a href="{{ url_for('menu') }}"><i class="fa-solid fa-utensils"></i> Menu</a>
-            <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
-            <a href="{{ url_for('order') }}"><i class="fa-solid fa-box"></i> Order</a>
-            <a href="{{ url_for('feedback') }}"><i class="fa-solid fa-pen-to-square"></i> Feedback</a>
+            <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a>
+            <a href="{{ url_for('menu') }}" class="{% if request.endpoint == 'menu' %}active{% endif %}">Menu</a>
+            <a href="{{ url_for('cart') }}" class="{% if request.endpoint == 'cart' %}active{% endif %}">Cart</a>
+            <a href="{{ url_for('order') }}" class="{% if request.endpoint == 'order' %}active{% endif %}">Order</a>
+            <a href="{{ url_for('feedback') }}" class="{% if request.endpoint == 'feedback' %}active{% endif %}">Feedback</a>
         </nav>
+
 
         <div class="auth-buttons">
             {% if current_user.is_authenticated %}
