@@ -108,6 +108,15 @@ body.swal2-shown {
     border-radius: 8px;
 }
 
+/* Active navigation link (current page) */
+.nav-links a.active {
+    background: #ff69b4;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
 /* Auth Buttons (Login / Register / Logout) */
 .auth-buttons {
     display: flex;
@@ -1816,20 +1825,22 @@ button:hover {
         overflow-x: hidden;
     }
 
-    /* Entire header block centered vertically */
+    /* Make the whole header occupy full height and center all content */
     .header {
-        flex-direction: column;        /* stack rows vertically */
-        align-items: center;           /* center horizontally */
-        justify-content: center;       /* center vertically */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;     /* ✅ centers vertically */
         text-align: center;
-        padding: 20px 10px;
-        gap: 10px;                     /* space between the 3 rows */
+        height: 100vh;               /* ✅ full screen height */
+        background-color: #ffb6c1;   /* matches your theme */
+        padding: 0;                  /* remove extra padding */
+        gap: 14px;                   /* spacing between rows */
     }
 
-    /* Row 1: Logo + Title */
+    /* Row 1 — Logo and Title */
     .logo {
         display: flex;
-        flex-direction: row;           /* logo + text side-by-side */
         align-items: center;
         justify-content: center;
         gap: 8px;
@@ -1846,61 +1857,52 @@ button:hover {
         color: black;
     }
 
-    /* Row 2: Navigation links inline */
+    /* Row 2 — Navigation links (inline center) */
     .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 6px;
         font-size: 14px;
+        width: 100%;
     }
 
     .nav-links a {
-        font-size: 14px;
         color: black;
         text-decoration: none;
-        padding: 4px 6px;
+        padding: 6px 8px;
+        font-size: 15px;
+        position: relative;
     }
 
-    .nav-links a:hover {
-        color: #ff69b4;
-        text-decoration: underline;
-    }
-
-    /* Show simple "|" separators again */
     .nav-links a:not(:last-child)::after {
         content: "|";
         color: black;
-        margin: 0 4px;
-        position: static; /* ensure inline */
-        transform: none;
+        position: static;
+        margin: 0 6px;
     }
 
-    /* Row 3: Auth section centered */
+    /* Row 3 — Auth buttons */
     .auth-buttons {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 8px;
-        margin-top: 5px;
+        font-size: 14px;
     }
 
     .auth-buttons span {
-        font-size: 14px;
-        color: black;
         font-weight: 600;
+        color: black;
     }
 
     .auth-buttons a {
-        font-size: 14px;
-        color: #ff69b4;
+        color: #ff1493;
         text-decoration: none;
         font-weight: 600;
     }
 
     .auth-buttons a:hover {
-        color: #ff1493;
         text-decoration: underline;
     }
 
