@@ -1530,6 +1530,11 @@ button:hover {
     text-align: center;
 }
 
+.order-item-row {
+    margin-top: 4px;
+    font-size: 14px;
+}
+
 .addon-header td {
     background: #f9f9f9;
     border-top: 2px solid #ccc;

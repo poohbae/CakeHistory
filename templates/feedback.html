@@ -43,20 +43,19 @@
         {% for fb in feedbacks %}
         <div class="feedback-card">
             <h3>Order #{{ fb.order.id }}</h3>
-            <p><strong>Date:</strong> {{ fb.order.order_date.strftime('%d %b %Y, %I:%M %p') }}</p>
+            <p><strong>Order Date:</strong> {{ fb.order.order_date.strftime('%d %b %Y, %I:%M %p') }}</p>
             <p><strong>Status:</strong> {{ fb.order.status }}</p>
             <p><strong>Total Amount:</strong> RM {{ "%.2f"|format(fb.order.total_amount) }}</p>
 
             {% if fb.order.items %}
             <div class="order-items-list">
                 <strong>Items:</strong>
-                <ul>
-                    {% for item in fb.order.items %}
-                        <li>{{ item.product.name }} × {{ item.quantity }} 
-                            — RM {{ "%.2f"|format(item.price_each * item.quantity) }}
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% for item in fb.order.items %}
+                    <div class="order-item-row">
+                        {{ item.product.name }} × {{ item.quantity }}
+                        — RM {{ "%.2f"|format(item.price_each * item.quantity) }}
+                    </div>
+                {% endfor %}
             </div>
             {% endif %}
 

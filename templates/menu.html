@@ -426,32 +426,63 @@
                 }).then(result => {
                     if (result.isConfirmed) {
                         const mix = result.value;
-                        const mixSummary = `Mix Box: Butter ${mix.butter}, Marble ${mix.marble}, Pandan ${mix.pandan}, Orange ${mix.orange}, Fruit ${mix.fruit}`;
+                        const mixSummary = `[Mix Box: Butter ${mix.butter}, Marble ${mix.marble}, Pandan ${mix.pandan}, Orange ${mix.orange}, Fruit ${mix.fruit}]`;
 
-                        fetch('/add_to_cart', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                product_id: productId,
-                                quantity: qty,
-                                option_selected: option,
-                                special_request: mixSummary,
-                                item_type: type
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            Swal.fire({
-                                icon: data.success ? 'success' : 'error',
-                                title: data.success ? 'Added to Cart!' : 'Oops...',
-                                text: data.message,
-                                confirmButtonColor: '#ff69b4'
-                            });
+                        // ✅ SECOND PROMPT: Ask for special request
+                        Swal.fire({
+                            title: 'Any Special Request?',
+                            input: 'text',
+                            inputLabel: 'E.g. add candle, write Happy Birthday, etc.',
+                            inputPlaceholder: 'Leave blank if none',
+                            showCancelButton: true,
+                            confirmButtonText: 'Add to Cart',
+                            confirmButtonColor: '#ff69b4',
+                            cancelButtonText: 'Skip',
+                            cancelButtonColor: '#999',
+                            scrollbarPadding: false,
+                            customClass: {
+                                popup: 'swal-custom-popup',
+                                input: 'swal-custom-input'
+                            },
+                            didOpen: () => {
+                                const input = Swal.getInput();
+                                if (input) {
+                                    input.style.textAlign = 'center';
+                                    input.style.fontSize = '15px';
+                                    input.style.padding = '10px';
+                                }
+                            }
+                        }).then(req => {
+                            if (req.isConfirmed || req.isDismissed) {
+                                const specialText = req.value ? ` ${req.value}` : '';
+                                const finalRequest = `${mixSummary}${specialText ? ' | Note: ' + specialText : ''}`;
+
+                                fetch('/add_to_cart', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        product_id: productId,
+                                        quantity: qty,
+                                        option_selected: option,
+                                        special_request: finalRequest,
+                                        item_type: type
+                                    })
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: data.success ? 'success' : 'error',
+                                        title: data.success ? 'Added to Cart!' : 'Oops...',
+                                        text: data.message,
+                                        confirmButtonColor: '#ff69b4'
+                                    });
+                                });
+                            }
                         });
                     }
                 });
             }
-            
+
             // CASE 2: NORMAL PRODUCTS — show special request input
             else {
                 Swal.fire({

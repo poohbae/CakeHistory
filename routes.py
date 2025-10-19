@@ -1,14 +1,15 @@
 from datetime import datetime, timezone
 from flask import flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from models import db, Box, Candle, Card, Cart, Feedback, Order, OrderAddon, OrderItem, PaymentMethod, Product, User
+from models import db, Box, Cake, Candle, Card, Cart, Feedback, Order, OrderAddon, OrderItem, PaymentMethod, User
+from sqlalchemy.orm import joinedload
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def register_routes(app):
     @app.route('/')
     def home():
-        # Load top 3 featured products from the database
-        cakes = Product.query.limit(3).all()
+        # Load top 3 featured cakes from the database
+        cakes = Cake.query.limit(3).all()
         return render_template('home.html', cakes=cakes)
     
     @app.route('/about')
@@ -17,7 +18,7 @@ def register_routes(app):
 
     @app.route('/menu')
     def menu():
-        cakes = Product.query.all()
+        cakes = Cake.query.all()
         candles = Candle.query.all()
         cards = Card.query.all()
         boxes = Box.query.all()
@@ -31,17 +32,17 @@ def register_routes(app):
         quantity = int(data.get('quantity', 1))
         option_selected = data.get('option_selected', None)
         special_request = data.get('special_request', None)
-        item_type = data.get('item_type', 'product')
+        item_type = data.get('item_type', 'cake')
 
         # Select correct model based on item_type
-        if item_type == 'product':
-            product = Product.query.get(product_id)
+        if item_type == 'cake':
+            product = Cake.query.get(product_id)
+        elif item_type == 'box':
+            product = Box.query.get(product_id)
         elif item_type == 'candle':
             product = Candle.query.get(product_id)
         elif item_type == 'card':
             product = Card.query.get(product_id)
-        elif item_type == 'box':
-            product = Box.query.get(product_id)
         else:
             return jsonify({'success': False, 'message': 'Invalid item type.'}), 400
 
@@ -88,13 +89,13 @@ def register_routes(app):
         for item in cart_items:
             # get the correct item object
             if item.item_type == 'cake':
-                product = Product.query.get(item.product_id)
+                product = Cake.query.get(item.product_id)
+            elif item.item_type == 'box':
+                product = Box.query.get(item.product_id)
             elif item.item_type == 'candle':
                 product = Candle.query.get(item.product_id)
             elif item.item_type == 'card':
-                product = Card.query.get(item.product_id)
-            elif item.item_type == 'box':
-                product = Box.query.get(item.product_id)
+                product = Card.query.get(item.product_id)  
             else:
                 continue  # skip unknown
 
@@ -105,7 +106,7 @@ def register_routes(app):
             subtotal += total_price
 
             # group accordingly
-            if item.item_type == 'product':
+            if item.item_type == 'cake':
                 cake_items.append({
                     'name': product.name,
                     'image': product.img,
@@ -167,14 +168,14 @@ def register_routes(app):
         total = 0
         for item in cart_items:
             # Find correct product object by type
-            if item.item_type == 'product':
-                product = Product.query.get(item.product_id)
+            if item.item_type == 'cake':
+                product = Cake.query.get(item.product_id)
+            elif item.item_type == 'box':
+                product = Box.query.get(item.product_id)
             elif item.item_type == 'candle':
                 product = Candle.query.get(item.product_id)
             elif item.item_type == 'card':
-                product = Card.query.get(item.product_id)
-            elif item.item_type == 'box':
-                product = Box.query.get(item.product_id)
+                product = Card.query.get(item.product_id)         
             else:
                 continue
 
@@ -208,8 +209,8 @@ def register_routes(app):
         # Transfer cart items
         for item in cart_items:
             # Handle cakes
-            if item.item_type == 'product':
-                product = Product.query.get(item.product_id)
+            if item.item_type == 'cake':
+                product = Cake.query.get(item.product_id)
                 if not product:
                     continue
                 order_item = OrderItem(
@@ -284,7 +285,16 @@ def register_routes(app):
             return redirect(url_for('feedback'))
 
         # Load data for the page
-        user_orders = Order.query.filter_by(user_id=current_user.id).all()
+        user_orders = (
+            Order.query
+            .options(
+                joinedload(Order.items),
+                joinedload(Order.addons),
+                joinedload(Order.payment_method)
+            )
+            .filter_by(user_id=current_user.id)
+            .all()
+        )
         previous_feedback = Feedback.query.filter_by(user_id=current_user.id).order_by(Feedback.created_at.desc()).all()
 
         return render_template('feedback.html', orders=user_orders, feedbacks=previous_feedback)

@@ -13,8 +13,8 @@ class User(UserMixin, db.Model):
     # Relationship — One user can have many orders
     orders = db.relationship('Order', backref='user', lazy=True)
 
-class Product(db.Model):
-    __tablename__ = 'products'
+class Cake(db.Model):
+    __tablename__ = 'cakes'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Float, nullable=False)
@@ -24,7 +24,7 @@ class Product(db.Model):
     description = db.Column(db.Text)
 
     # Relationship — One product can appear in many order items
-    order_items = db.relationship('OrderItem', backref='product', lazy=True)
+    order_items = db.relationship('OrderItem', backref='cake', lazy=True)
 
 class Candle(db.Model):
     __tablename__ = 'candles'
@@ -82,8 +82,9 @@ class Order(db.Model):
     delivery_address = db.Column(db.String(255), nullable=True)
     scheduled_datetime = db.Column(db.DateTime, nullable=False)
 
-    items = db.relationship('OrderItem', backref='order', lazy=True, cascade="all, delete")
-    payment_method = db.relationship('PaymentMethod', lazy=True)
+    items = db.relationship('OrderItem', backref='order', lazy='subquery', cascade='all, delete-orphan')
+    addons = db.relationship('OrderAddon', backref='order', lazy='subquery', cascade='all, delete-orphan')
+    payment_method = db.relationship('PaymentMethod', lazy='joined')
 
 class OrderItem(db.Model):
     __tablename__ = 'order_items'
@@ -93,6 +94,8 @@ class OrderItem(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=1)
     price_each = db.Column(db.Float, nullable=False)
     special_request = db.Column(db.String(255))
+    
+    product = db.relationship('Cake', lazy='joined')
 
 class OrderAddon(db.Model):
     __tablename__ = 'order_addons'
@@ -109,9 +112,6 @@ class OrderAddon(db.Model):
     # Relationship (optional)
     order = db.relationship('Order', backref=db.backref('addons', cascade='all, delete-orphan', lazy=True))
 
-    def __repr__(self):
-        return f"<OrderAddon {self.addon_type} (x{self.quantity}) - {self.option_selected}>"
-    
 class Feedback(db.Model):
     __tablename__ = 'feedback'
     id = db.Column(db.Integer, primary_key=True)
