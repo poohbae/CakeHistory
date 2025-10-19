@@ -35,31 +35,30 @@
             font-size: 13px;
             color: #888;
         }
-
-        .socials {
-            display: flex;
-            justify-content: center;     /* center horizontally */
-            align-items: center;         /* center vertically */
-            gap: 20px;                   /* space between QR codes */
-            margin-top: 15px;
+        /* Socials */
+        .socials-table {
+            margin: 15px auto;
+            text-align: center;
         }
-
-        .socials img {
+        .socials-table td {
+            padding: 0 10px;
+            vertical-align: middle;
+        }
+        .socials-table img {
             width: 120px !important;
             height: 120px !important;
-            object-fit: contain;         /* keep QR square */
+            object-fit: contain;
             border-radius: 10px;
             border: 1px solid #eee;
             display: block;
+            margin: 0 auto;
         }
-
-        /* 📱 Mobile view: stack vertically */
         @media only screen and (max-width: 480px) {
-            .socials {
-                flex-direction: column;
-                gap: 12px;
+            .socials-table td {
+                display: block;
+                margin-bottom: 10px;
             }
-            .socials img {
+            .socials-table img {
                 width: 100px !important;
                 height: 100px !important;
             }
@@ -79,10 +78,17 @@
             <p>If you ever need assistance, just reply to this email or reach us via our socials below:</p>
         </div>
 
-        <div class="socials">
-            <img src="cid:fb_qr" alt="Facebook QR">
-            <img src="cid:insta_qr" alt="Instagram QR">
-        </div>
+        <!-- ✅ Table layout for full email client support -->
+        <table class="socials-table" role="presentation" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <img src="cid:fb_qr" alt="Facebook QR">
+                </td>
+                <td>
+                    <img src="cid:insta_qr" alt="Instagram QR">
+                </td>
+            </tr>
+        </table>
 
         <div class="footer">
             Sweet regards,<br>
