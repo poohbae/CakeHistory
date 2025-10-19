@@ -1303,6 +1303,35 @@ button:hover {
     margin-left: 4px;
 }
 
+/* 🗑️ Delete button styling */
+.delete-item-btn {
+    background-color: #d3d3d3;        /* light grey */
+    color: #333;                      /* dark text for contrast */
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.delete-item-btn i {
+    color: #555;
+}
+
+/* Hover and active effects */
+.delete-item-btn:hover {
+    background-color: #bfbfbf;        /* slightly darker grey */
+}
+
+.delete-item-btn:active {
+    transform: scale(0.97);
+    background-color: #a8a8a8;
+}
+
 /* Total on the right */
 .cart-total {
     text-align: right;

@@ -86,6 +86,22 @@ def register_routes(app):
             db.session.rollback()
             print("Error:", e)
             return jsonify({'success': False, 'message': 'Database error. Please try again later.'})
+    
+    @app.route('/remove_from_cart/<int:item_id>', methods=['DELETE'])
+    @login_required
+    def remove_from_cart(item_id):
+        item = Cart.query.filter_by(id=item_id, user_id=current_user.id).first()
+        if not item:
+            return jsonify({'success': False, 'message': 'Item not found.'}), 404
+
+        try:
+            db.session.delete(item)
+            db.session.commit()
+            return jsonify({'success': True, 'message': 'Item removed successfully!'})
+        except Exception as e:
+            db.session.rollback()
+            print("Error deleting item:", e)
+            return jsonify({'success': False, 'message': 'Error removing item.'}), 500
 
     @app.route('/cart')
     @login_required
