@@ -876,22 +876,25 @@ button:hover {
 .a { color: #555; margin: 4px 0 0 0; }
 
 .chat-back-btn {
-    background: transparent;        /* no pink background */
-    color: #ff69b4;                 /* use your theme pink */
-    border: 1px solid #ff69b4;      /* subtle outline for visibility */
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-top: 10px;
-    cursor: pointer;
+    background: transparent;           /* no fill color */
+    color: #ff69b4;                    /* theme pink */
+    border: none;                      /* no outline box */
     font-weight: bold;
-    transition: all 0.2s ease;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+    text-align: left;
+    width: auto;                       /* make it shrink to text size */
+    display: inline-block;
+    padding: 0;                        /* no big padding */
+    text-decoration: underline;        /* underline for visibility */
+    transition: color 0.2s ease;
 }
 
 .chat-back-btn:hover {
-    background: #ff69b4;
-    color: #fff;
+    color: #ff85c1;                    /* slightly lighter pink on hover */
+    text-decoration: none;             /* remove underline on hover */
 }
-
 
 .close-chat {
     position: absolute;
