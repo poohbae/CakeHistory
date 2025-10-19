@@ -1849,17 +1849,22 @@ button:hover {
     body, html {
         font-size: 14px;
         overflow-x: hidden;
+        margin: 0;
+        padding: 0;
     }
 
+    /* Header Container */
     .header {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         background-color: #ffb6c1;
-        padding: 25px 0;       /* Increased vertical spacing */
-        gap: 15px;             /* Space between rows */
+        padding: 25px 0;      /* vertical spacing */
+        gap: 15px;
         text-align: center;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* Row 1 — Logo */
@@ -1869,7 +1874,6 @@ button:hover {
         justify-content: center;
         gap: 8px;
         width: 100%;
-        order: 1;
     }
 
     .logo-img {
@@ -1888,9 +1892,8 @@ button:hover {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 10px; /* increased gap for clarity */
+        gap: 10px;
         width: 100%;
-        order: 2;
         margin-top: 5px;
     }
 
@@ -1920,7 +1923,6 @@ button:hover {
         align-items: center;
         gap: 10px;
         width: 100%;
-        order: 3;
     }
 
     .auth-buttons a {
@@ -1941,6 +1943,11 @@ button:hover {
         color: black;
         font-weight: 600;
         font-size: 15px;
+    }
+
+    .header > * {
+        margin: 0 auto;
+        text-align: center;
     }
 
     /* Hero Banner */
@@ -1986,14 +1993,30 @@ button:hover {
         padding: 10px;
     }
 
-    .founders-container, .team-container {
-        flex-direction: column;
+    /* Founders: 2 per row */
+    .founders-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        justify-items: center;
+    }
+
+    .founder-card {
+        width: 100%;
+        max-width: 160px; /* adjust to fit neatly */
+    }
+
+    /* Team: 2 per row */
+    .team-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
     }
 
-    .founder-card,
     .team-card {
-        width: 90%;
+        width: 100%;
+        max-width: 160px;
+        margin: 0 auto;
     }
 
     /* Menu cards */
