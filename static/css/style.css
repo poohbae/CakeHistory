@@ -1857,8 +1857,8 @@ button:hover {
         align-items: center;
         justify-content: center;
         background-color: #ffb6c1;
-        padding: 15px 0;
-        gap: 10px;
+        padding: 25px 0;       /* Increased vertical spacing */
+        gap: 15px;             /* Space between rows */
         text-align: center;
     }
 
@@ -1888,9 +1888,10 @@ button:hover {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 6px;
+        gap: 10px; /* increased gap for clarity */
         width: 100%;
         order: 2;
+        margin-top: 5px;
     }
 
     .nav-links a {
@@ -1907,11 +1908,9 @@ button:hover {
         padding: 5px 10px;
     }
 
+    /* Remove "|" separator for mobile */
     .nav-links a:not(:last-child)::after {
-        content: "|";
-        color: black;
-        margin: 0 4px;
-        position: static;
+        content: none !important;
     }
 
     /* Row 3 — Auth Buttons */
