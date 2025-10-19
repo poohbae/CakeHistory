@@ -1816,52 +1816,82 @@ button:hover {
         overflow-x: hidden;
     }
 
-    /* Header adjustments */
+    /* Stack header items vertically */
     .header {
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        padding: 12px;
+        padding: 16px 10px;
     }
 
+    /* Logo centered */
     .logo {
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
+        gap: 6px;
+        margin-bottom: 8px;
     }
 
     .logo-img {
-        height: 50px;
+        height: 55px;
+        width: auto;
     }
 
     .logo h1 {
-        font-size: 20px;
+        font-size: 22px;
+        margin: 0;
     }
 
-    /* Navigation */
+    /* Nav links stacked & centered */
     .nav-links {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 10px 0;
+        gap: 10px;
+    }
+
+    .nav-links a {
+        font-size: 15px;
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        text-align: center;
+        transition: background 0.2s ease;
+    }
+
+    .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Remove "|" separators */
+    .nav-links a:not(:last-child)::after {
+        display: none;
+    }
+
+    /* Auth buttons centered below nav */
+    .auth-buttons {
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
         gap: 8px;
         margin-top: 10px;
     }
 
-    .nav-links a {
+    .auth-buttons a {
         font-size: 14px;
         padding: 6px 10px;
+        text-align: center;
     }
 
-    .nav-links a:not(:last-child)::after {
-        display: none; /* hide separators on small screens */
-    }
-
-    /* Auth buttons */
-    .auth-buttons {
-        flex-direction: row;
-        justify-content: center;
-        gap: 10px;
-        margin: 10px 0;
-    }
-
-    .auth-buttons a {
+    .auth-buttons span {
         font-size: 14px;
     }
 

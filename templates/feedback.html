@@ -83,7 +83,7 @@
                         {% endfor %}
                     </span>
                 </p>
-                <p><strong>Comment:</strong> "{{ fb.comments }}"</p>
+                <p><strong>Comment:</strong> {{ fb.comments }}</p>
                 <small>Submitted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
             </div>
         </div>

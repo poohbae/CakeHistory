@@ -202,7 +202,7 @@
 
                 const backBtn = document.createElement('button');
                 backBtn.classList.add('chat-back-btn');
-                backBtn.textContent = '⬅ Back to Topics';
+                backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Back to Topics';
                 backBtn.addEventListener('click', showMainTopics);
                 chatOptions.appendChild(backBtn);
             }
@@ -239,7 +239,7 @@
 
                 const backBtn = document.createElement('button');
                 backBtn.classList.add('chat-back-btn');
-                backBtn.textContent = '⬅ Back to Topics';
+                backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Back to Topics';
                 backBtn.addEventListener('click', showMainTopics);
                 chatOptions.appendChild(backBtn);
             }
