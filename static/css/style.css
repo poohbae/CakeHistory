@@ -846,63 +846,6 @@ button:hover {
     color: #ff69b4;
 }
 
-/* Chat content styling */
-.chat-options {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: 15px 0;
-}
-
-.chat-option {
-    background: #ffe1ec;
-    color: black;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.chat-option:hover {
-    background: #ffb6c1;
-}
-
-#chat-input {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 8px;
-    margin-top: 10px;
-    resize: none;
-}
-
-.send-chat-btn {
-    background-color: #ff69b4;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    margin-top: 10px;
-    padding: 8px 16px;
-    cursor: pointer;
-    width: 100%;
-}
-
-.send-chat-btn:hover {
-    background-color: #ff85c1;
-}
-
-/* Chatbot response */
-.chat-response {
-    margin-top: 15px;
-    background: #f5f5f5;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #333;
-}
-
 /* ==========================
    MENU PAGE STYLING
 ========================== */
