@@ -1809,235 +1809,290 @@ button:hover {
 ================================ */
 @media (max-width: 480px) {
 
-  /* General layout */
-  body, html {
-    font-size: 15px;
-    overflow-x: hidden;
-  }
+   /* General reset */
+    html, body {
+        overflow-x: hidden;
+    }
 
-  .header {
-    flex-direction: column;
-    padding: 10px 15px;
-    text-align: center;
-  }
+    /* Header base */
+    .header {
+        flex-direction: column;      /* stack everything vertically */
+        align-items: center;
+        text-align: center;
+        padding: 12px 10px;
+        background-color: #ffb6c1;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
-  .logo-img {
-    height: 45px;
-  }
+    /* Top Row: Logo */
+    .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+    }
 
-  .logo h1 {
-    font-size: 20px;
-  }
+    .logo-img {
+        height: 50px;
+        margin-bottom: 4px;
+    }
 
-  .nav-links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 8px;
-  }
+    .logo h1 {
+        font-size: 20px;
+        margin: 0;
+    }
 
-  .nav-links a {
-    display: block;
-    margin: 6px 0;
-    font-size: 15px;
-  }
+    /* Middle Row: Nav Links */
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        margin: 8px 0;
+    }
 
-  .nav-links a:not(:last-child)::after {
-    display: none; /* remove separators on mobile */
-  }
+    .nav-links a {
+        background: #ffe4ec;
+        color: black;
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-size: 14px;
+        text-decoration: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: background 0.2s ease;
+    }
 
-  .auth-buttons {
-    flex-direction: column;
-    margin: 10px 0;
-    gap: 8px;
-  }
+    .nav-links a:hover {
+        background: #ff85c1;
+        color: white;
+    }
 
-  footer {
-    font-size: 13px;
-    padding: 8px;
-  }
+    /* Hide the desktop separators on mobile */
+    .nav-links a:not(:last-child)::after {
+        display: none;
+    }
 
-  /* Auth Pages (Login / Register) */
-  .login-container, .register-container {
-    width: 90%;
-    padding: 25px 15px;
-  }
+    /* Bottom Row: Auth Buttons */
+    .auth-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+        width: 100%;
+    }
 
-  .auth-logo {
-    width: 80px;
-  }
+    .auth-buttons a {
+        background: #ff69b4;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: background 0.2s ease;
+    }
 
-  input, button {
-    width: 100%;
-    font-size: 14px;
-  }
+    .auth-buttons a:hover {
+        background: #ff1493;
+    }
 
-  /* Subscribe box */
-  .subscribe-box {
-    flex-direction: row;
-    width: 100%;
-    gap: 8px;
-    font-size: 13px;
-  }
+    .auth-buttons span {
+        color: #333;
+        font-weight: bold;
+        font-size: 15px;
+    }
 
-  /* Homepage hero */
-  .hero-banner {
-    height: 40vh;
-  }
+    /* Ensure the footer doesn’t overlap */
+    footer {
+        font-size: 13px;
+        padding: 10px 5px;
+    }
 
-  .hero-overlay h1 {
-    font-size: 28px;
-  }
+    /* Auth Pages (Login / Register) */
+    .login-container, .register-container {
+        width: 90%;
+        padding: 25px 15px;
+    }
 
-  .hero-overlay p {
-    font-size: 14px;
-  }
+    .auth-logo {
+        width: 80px;
+    }
 
-  .hero-btn {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
+    input, button {
+        width: 100%;
+        font-size: 14px;
+    }
 
-  /* Founders & Team cards */
-  .founder-card, .team-card {
-    width: 85%;
-    margin: auto;
-  }
+    /* Subscribe box */
+    .subscribe-box {
+        flex-direction: row;
+        width: 100%;
+        gap: 8px;
+        font-size: 13px;
+    }
 
-  /* Menu cards */
-  .menu-item {
-    width: 90%;
-    padding: 12px;
-  }
+    /* Homepage hero */
+    .hero-banner {
+        height: 40vh;
+    }
 
-  .menu-item img {
-    height: 180px;
-  }
+    .hero-overlay h1 {
+        font-size: 28px;
+    }
 
-  .menu-actions {
-    flex-direction: column;
-    gap: 8px;
-  }
+    .hero-overlay p {
+        font-size: 14px;
+    }
 
-  /* Cart & Order Pages */
-  .cart-container {
-    width: 95%;
-    padding: 15px;
-  }
+    .hero-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 
-  .cart-item {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+    /* Founders & Team cards */
+    .founder-card, .team-card {
+        width: 85%;
+        margin: auto;
+    }
 
-  .cart-item img {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 8px;
-  }
+    /* Menu cards */
+    .menu-item {
+        width: 90%;
+        padding: 12px;
+    }
 
-  .cart-details {
-    margin-left: 0;
-  }
+    .menu-item img {
+        height: 180px;
+    }
 
-  .cart-summary {
-    font-size: 15px;
-    padding: 15px;
-  }
+    .menu-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
 
-  .cart-buttons {
-    flex-direction: column;
-  }
+    /* Cart & Order Pages */
+    .cart-container {
+        width: 95%;
+        padding: 15px;
+    }
 
-  .cart-buttons a,
-  .cart-buttons button {
-    width: 100%;
-  }
+    .cart-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 
-  /* Chat Button & Modal */
-  .chat-btn {
-    bottom: 20px;
-    right: 20px;
-    width: 55px;
-    height: 55px;
-  }
+    .cart-item img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 8px;
+    }
 
-  .chat-modal-content {
-    width: 90%;
-    padding: 15px;
-  }
+    .cart-details {
+        margin-left: 0;
+    }
 
-  .chat-window {
-    height: 280px;
-  }
+    .cart-summary {
+        font-size: 15px;
+        padding: 15px;
+    }
 
-  .bot-msg, .user-msg {
-    font-size: 13px;
-    padding: 6px 10px;
-  }
+    .cart-buttons {
+        flex-direction: column;
+    }
 
-  /* Feedback Page */
-  .feedback-container {
-    width: 90%;
-    height: auto;
-    padding: 25px 20px;
-  }
+    .cart-buttons a,
+    .cart-buttons button {
+        width: 100%;
+    }
 
-  .feedback-container textarea {
-    width: 100%;
-    height: 80px;
-  }
+    /* Chat Button & Modal */
+    .chat-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+    }
 
-  .previous-feedback-section {
-    width: 95%;
-    padding: 20px;
-  }
+    .chat-modal-content {
+        width: 90%;
+        padding: 15px;
+    }
 
-  /* Contact & QR section */
-  .qr-container {
-    gap: 20px;
-  }
+    .chat-window {
+        height: 280px;
+    }
 
-  .qr-item img {
-    width: 90px;
-    height: 90px;
-  }
+    .bot-msg, .user-msg {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
 
-  /* About Page */
-  .about-page {
-    width: 95%;
-    padding: 10px;
-  }
+    /* Feedback Page */
+    .feedback-container {
+        width: 90%;
+        height: auto;
+        padding: 25px 20px;
+    }
 
-  .founders-container {
-    flex-direction: column;
-    align-items: center;
-  }
+    .feedback-container textarea {
+        width: 100%;
+        height: 80px;
+    }
 
-  .team-container {
-    grid-template-columns: 1fr;
-  }
+    .previous-feedback-section {
+        width: 95%;
+        padding: 20px;
+    }
 
-  /* Ingredients & Addons */
-  .ingredients-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
+    /* Contact & QR section */
+    .qr-container {
+        gap: 20px;
+    }
 
-  .ingredient-item img {
-    width: 100px;
-    height: 100px;
-  }
+    .qr-item img {
+        width: 90px;
+        height: 90px;
+    }
 
-  .addon-item {
-    width: 90%;
-  }
+    /* About Page */
+    .about-page {
+        width: 95%;
+        padding: 10px;
+    }
 
-  /* Modal Adjustments */
-  .cake-modal-content,
-  .order-modal-content {
-    width: 90%;
-    height: auto;
-    padding: 20px;
-  }
+    .founders-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Ingredients & Addons */
+    .ingredients-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .ingredient-item img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .addon-item {
+        width: 90%;
+    }
+
+    /* Modal Adjustments */
+    .cake-modal-content,
+    .order-modal-content {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+    }
 }
