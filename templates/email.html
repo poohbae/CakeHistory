@@ -7,11 +7,12 @@
             color: #333;
             background-color: #fffafc;
             padding: 20px;
+            margin: 0;
         }
         .email-container {
             max-width: 600px;
             margin: auto;
-            background: white;
+            background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             padding: 20px;
@@ -19,6 +20,7 @@
         }
         .logo {
             width: 120px;
+            height: auto;
             margin-bottom: 15px;
         }
         .content {
@@ -33,10 +35,34 @@
             font-size: 13px;
             color: #888;
         }
+
+        /* 🎯 Social images: force fixed 120x120 size and alignment */
+        .socials {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
         .socials img {
-            width: 100px;
-            margin: 5px;
-            border-radius: 8px;
+            width: 120px !important;
+            height: 120px !important;
+            object-fit: contain;     /* keeps QR code intact */
+            border-radius: 10px;
+            border: 1px solid #eee;
+            display: block;
+        }
+
+        /* Optional mobile-friendly tweak */
+        @media only screen and (max-width: 480px) {
+            .socials {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .socials img {
+                width: 100px !important;
+                height: 100px !important;
+            }
         }
     </style>
 </head>
@@ -44,7 +70,7 @@
     <div class="email-container">
         <img src="cid:logo" alt="CakeHistory Logo" class="logo">
 
-        <h2>🎂 Welcome to CakeHistory!</h2>
+        <h2>Welcome to CakeHistory!</h2>
         <div class="content">
             <p>Hi {{ name }},</p>
             <p>Welcome to <b>CakeHistory</b> — where every slice tells a story!</p>
