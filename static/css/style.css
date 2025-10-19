@@ -875,7 +875,8 @@ button:hover {
 .q { color: #333; margin: 0; }
 .a { color: #555; margin: 4px 0 0 0; }
 
-.chat-back-btn {
+.chat-back-btn,
+.browse-menu-btn {
     background: none;             /* no background */
     border: none;                 /* no border */
     color: #ff69b4;               /* your theme pink */
@@ -890,7 +891,8 @@ button:hover {
     display: inline-block;
 }
 
-.chat-back-btn:hover {
+.chat-back-btn:hover,
+.browse-menu-btn:hover {
     color: #ff85c1;               /* lighter pink on hover */
     text-decoration: none;        /* remove underline when hovered */
 }
@@ -1814,127 +1816,125 @@ button:hover {
     }
 
     .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 14px 10px;
-        background-color: #ffb6c1;
-        width: 100%;
-        box-sizing: border-box;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 16px 10px !important;
+        background-color: #ffb6c1 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 
-    /* Top row — logo centered */
+    /* ✅ Top row: logo */
     .logo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 10px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        margin: 0 auto 10px auto !important;
+        width: 100% !important;
     }
 
     .logo-img {
-        height: 55px;
-        width: auto;
-        margin: 0 auto 5px auto;
-        display: block;
+        display: block !important;
+        height: 60px !important;
+        margin: 0 auto 6px auto !important;
     }
 
     .logo h1 {
-        font-size: 22px;
-        color: black;
-        font-weight: 700;
-        text-align: center;
-        margin: 0;
+        font-size: 22px !important;
+        color: black !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+        margin: 0 !important;
     }
 
-    /* Middle row — nav links centered horizontally */
+    /* ✅ Middle row: navigation links */
     .nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        gap: 10px;
-        margin: 6px 0;
-        width: 100%;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 10px !important;
+        margin: 10px 0 !important;
+        width: 100% !important;
     }
 
     .nav-links a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: #ffe4ec;
-        color: black;
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 15px;
-        text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-        transition: background 0.2s ease;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background: #ffe4ec !important;
+        color: black !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+        font-size: 15px !important;
+        text-decoration: none !important;
+        font-weight: 500 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
     }
 
     .nav-links a i {
-        margin-right: 5px;
+        margin-right: 5px !important;
     }
 
     .nav-links a:hover {
-        background: #ff85c1;
-        color: white;
+        background: #ff85c1 !important;
+        color: white !important;
     }
 
     .nav-links a:not(:last-child)::after {
-        display: none; /* hide separator bars */
+        display: none !important;
     }
 
-    /* Bottom row — auth buttons centered below nav */
+    /* ✅ Bottom row: auth buttons */
     .auth-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        gap: 12px;
-        margin-top: 8px;
-        width: 100%;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 12px !important;
+        margin-top: 8px !important;
+        width: 100% !important;
     }
 
     .auth-buttons a {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        background: #ff69b4;
-        color: white;
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 15px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: background 0.2s ease;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background: #ff69b4 !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 8px 16px !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
     }
 
     .auth-buttons a:hover {
-        background: #ff1493;
+        background: #ff1493 !important;
     }
 
     .auth-buttons span {
-        color: #333;
-        font-weight: bold;
-        font-size: 15px;
+        color: #333 !important;
+        font-weight: bold !important;
+        font-size: 15px !important;
     }
 
     footer {
-        font-size: 13px;
-        padding: 10px 5px;
-        text-align: center;
+        font-size: 13px !important;
+        padding: 10px 5px !important;
+        text-align: center !important;
     }
 
     /* Auth Pages (Login / Register) */
     .login-container, .register-container {
-        width: 90%;
+        width: 100%;
         padding: 25px 15px;
     }
 
