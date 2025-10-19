@@ -158,20 +158,6 @@ body.swal2-shown {
     font-size: 18px;
 }
 
-/* Make it responsive */
-@media (max-width: 768px) {
-    .auth-buttons {
-        flex-direction: column;
-        gap: 8px;
-        margin-right: 10px;
-    }
-
-    .auth-buttons a {
-        padding: 6px 10px;
-        font-size: 14px;
-    }
-}
-
 footer {
     background-color: #ffb6c1;
     padding: 10px;
@@ -1303,35 +1289,33 @@ button:hover {
     margin-left: 4px;
 }
 
-/* 🗑️ Icon-only delete button */
+/* 🗑️ Transparent icon-only delete button */
 .delete-item-btn {
-    background-color: #d3d3d3;        /* light grey background */
-    color: #333;                      /* dark icon for contrast */
+    background-color: transparent;   /* no background */
     border: none;
-    padding: 8px 10px;
-    border-radius: 50%;               /* round shape */
-    font-size: 15px;
+    padding: 6px;
+    border-radius: 50%;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.25s ease, transform 0.1s ease;
+    transition: color 0.25s ease, transform 0.1s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-/* hover + active animation */
-.delete-item-btn:hover {
-    background-color: #bfbfbf;        /* darker grey when hovered */
+/* default icon color */
+.delete-item-btn i {
+    color: #777;                     /* medium grey by default */
+    transition: color 0.25s ease;
+}
+
+/* hover + active states */
+.delete-item-btn:hover i {
+    color: #444;                     /* darker grey on hover */
 }
 
 .delete-item-btn:active {
-    transform: scale(0.92);
-    background-color: #a8a8a8;
-}
-
-/* icon color */
-.delete-item-btn i {
-    color: #333;
-    pointer-events: none;             /* prevent double events */
+    transform: scale(0.9);           /* subtle click feedback */
 }
 
 /* Total on the right */
