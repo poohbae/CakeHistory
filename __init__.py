@@ -24,8 +24,8 @@ def create_app():
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = 'avelinedavid@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'your-app-password'         # Use App Password (not Gmail login)
+    app.config['MAIL_USERNAME'] = 'avelinedavid7275@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'muxi xplk hbgy mycz'
     app.config['MAIL_DEFAULT_SENDER'] = ('CakeHistory', 'noreply@cakehistory.com')
 
     mail.init_app(app)
