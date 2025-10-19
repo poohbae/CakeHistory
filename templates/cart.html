@@ -332,7 +332,7 @@
 
                     // Date & time validation (only 1–5 PM, future only, 5-min increments)
                     const dateInput = form.querySelector('input[name="datetime"]');
-                    dateInput.addEventListener("change", () => {
+                    dateInput.addEventListener("blur", () => {
                         // If input is empty or invalid, skip validation
                         if (!dateInput.value) return;
 
@@ -379,7 +379,6 @@
                             return;
                         }
                     });
-
 
                     // Submit form
                     form.addEventListener("submit", e => {

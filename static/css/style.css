@@ -1850,40 +1850,41 @@ button:hover {
         font-size: 14px;
         overflow-x: hidden;
     }
-
-    header.header {  /* add higher specificity */
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
+    
+    /* Make the header stack vertically */
+    .header {
+        display: flex;
+        flex-direction: column;        /* stack rows vertically */
+        align-items: center;           /* center horizontally */
+        justify-content: center;       /* vertically center inside container */
         background-color: #ffb6c1;
-        text-align: center;
         padding: 15px 0;
-        gap: 12px;
+        gap: 10px;                     /* spacing between logo, nav, and auth buttons */
+        text-align: center;
     }
 
-    /* Row 1: Logo */
-    .header .logo {
+    /* Row 1 — Logo */
+    .logo {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         width: 100%;
-        order: 1;
+        order: 1;                      /* ensure logo appears first */
     }
 
-    .header .logo-img {
+    .logo-img {
         height: 55px;
         width: auto;
     }
 
-    .header .logo h1 {
+    .logo h1 {
         font-size: 22px;
         margin: 0;
     }
 
-    /* Row 2: Navigation */
-    .header .nav-links {
+    /* Row 2 — Navigation */
+    .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -1893,53 +1894,53 @@ button:hover {
         order: 2;
     }
 
-    .header .nav-links a {
-        padding: 6px 10px;
+    .nav-links a {
+        padding: 5px 8px;
         font-size: 15px;
         color: black;
         text-decoration: none;
+        display: inline-block;
     }
 
-    .header .nav-links a.active {
+    .nav-links a.active {
         background: #ff69b4;
         color: white;
         border-radius: 8px;
-        padding: 5px 12px;
+        padding: 5px 10px;
     }
 
-    .header .nav-links a:not(:last-child)::after {
+    .nav-links a:not(:last-child)::after {
         content: "|";
         color: black;
-        margin: 0 5px;
+        margin: 0 4px;
         position: static;
     }
 
-    /* Row 3: Auth Buttons */
-    .header .auth-buttons {
+    /* Row 3 — Auth Buttons */
+    .auth-buttons {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 10px;
         width: 100%;
-        order: 3;
-        margin-top: 2px;
+        order: 3;                      /* ensure at bottom */
     }
 
-    .header .auth-buttons a {
+    .auth-buttons a {
         color: #ff1493;
         font-size: 15px;
         font-weight: 600;
         text-decoration: none;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 5px;
     }
 
-    .header .auth-buttons a:hover {
+    .auth-buttons a:hover {
         text-decoration: underline;
     }
 
-    .header .auth-buttons span {
+    .auth-buttons span {
         color: black;
         font-weight: 600;
         font-size: 15px;
