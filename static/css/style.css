@@ -1813,66 +1813,72 @@ button:hover {
         overflow-x: hidden;
     }
 
-    /* Header container */
     .header {
         display: flex;
-        flex-direction: column;       /* stack vertically */
-        justify-content: center;      /* center vertically within header */
-        align-items: center;          /* center horizontally */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         padding: 14px 10px;
         background-color: #ffb6c1;
         width: 100%;
         box-sizing: border-box;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* 1️⃣ Top Row — Logo */
+    /* Top row — logo centered */
     .logo {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
+        width: 100%;
         margin-bottom: 10px;
     }
 
     .logo-img {
         height: 55px;
         width: auto;
-        margin-bottom: 5px;
+        margin: 0 auto 5px auto;
+        display: block;
     }
 
     .logo h1 {
         font-size: 22px;
         color: black;
-        margin: 0;
         font-weight: 700;
+        text-align: center;
+        margin: 0;
     }
 
-    /* 2️⃣ Middle Row — Navigation Links */
+    /* Middle row — nav links centered horizontally */
     .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 8px;
-        margin: 8px 0 12px 0;
         text-align: center;
+        gap: 10px;
+        margin: 6px 0;
         width: 100%;
     }
 
     .nav-links a {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         background: #ffe4ec;
         color: black;
         border-radius: 8px;
         padding: 8px 12px;
         font-size: 15px;
-        font-weight: 500;
         text-decoration: none;
-        transition: all 0.2s ease;
         box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        transition: background 0.2s ease;
+    }
+
+    .nav-links a i {
+        margin-right: 5px;
     }
 
     .nav-links a:hover {
@@ -1881,22 +1887,25 @@ button:hover {
     }
 
     .nav-links a:not(:last-child)::after {
-        display: none;  /* remove separators */
+        display: none; /* hide separator bars */
     }
 
-    /* 3️⃣ Bottom Row — Auth Buttons */
+    /* Bottom row — auth buttons centered below nav */
     .auth-buttons {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;     /* center horizontally */
-        align-items: center;         /* align vertically */
+        justify-content: center;
+        align-items: center;
         text-align: center;
-        gap: 10px;
-        margin-top: 5px;
+        gap: 12px;
+        margin-top: 8px;
         width: 100%;
     }
 
     .auth-buttons a {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
         background: #ff69b4;
         color: white;
         border-radius: 8px;
@@ -1905,9 +1914,6 @@ button:hover {
         font-weight: 600;
         text-decoration: none;
         transition: background 0.2s ease;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .auth-buttons a:hover {
@@ -1925,7 +1931,7 @@ button:hover {
         padding: 10px 5px;
         text-align: center;
     }
-    
+
     /* Auth Pages (Login / Register) */
     .login-container, .register-container {
         width: 90%;
