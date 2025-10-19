@@ -36,8 +36,7 @@ def register_routes(app):
         special_request = data.get('special_request', None)
         item_type = data.get('item_type', 'cake')
 
-        # Select correct model based on item_type
-        if item_type == 'cake':
+        if item_type in ['cake', 'addon']:
             product = Cake.query.get(product_id)
         elif item_type == 'box':
             product = Box.query.get(product_id)
@@ -50,6 +49,12 @@ def register_routes(app):
 
         if not product:
             return jsonify({'success': False, 'message': 'Item not found.'}), 404
+
+        # Determine correct price
+        if item_type == 'addon' and getattr(product, 'indi_price', None) is not None:
+            price = product.indi_price
+        else:
+            price = product.price
 
         # Check if already in cart (same product + same option + same note)
         existing_item = Cart.query.filter_by(
@@ -69,7 +74,8 @@ def register_routes(app):
                 item_type=item_type,
                 quantity=quantity,
                 option_selected=option_selected,
-                special_request=special_request
+                special_request=special_request,
+                price=price
             )
             db.session.add(new_item)
 
@@ -89,39 +95,81 @@ def register_routes(app):
         subtotal = 0
 
         for item in cart_items:
-            # get the correct item object
-            if item.item_type == 'cake':
+            product = None
+            price_each = 0
+            image_used = None
+
+            # 🧁 Handle cakes and add-ons
+            if item.item_type in ['cake', 'addon']:
                 product = Cake.query.get(item.product_id)
+                if product:
+                    if item.item_type == 'addon':
+                        # ✅ Use slice price + slice image (img3)
+                        price_each = product.indi_price if product.indi_price else product.price
+                        image_used = product.img3 if product.img3 else product.img
+                    else:
+                        price_each = product.price
+                        image_used = product.img
+
             elif item.item_type == 'box':
                 product = Box.query.get(item.product_id)
+                if product:
+                    price_each = product.price
+                    image_used = product.img
+
             elif item.item_type == 'candle':
                 product = Candle.query.get(item.product_id)
+                if product:
+                    price_each = product.price
+                    image_used = product.img
+
             elif item.item_type == 'card':
-                product = Card.query.get(item.product_id)  
+                product = Card.query.get(item.product_id)
+                if product:
+                    price_each = product.price
+                    image_used = product.img
+
             else:
                 continue  # skip unknown
 
             if not product:
                 continue
 
-            total_price = product.price * item.quantity
+            total_price = price_each * item.quantity
             subtotal += total_price
 
-            # group accordingly
+            # 🍰 Normal cakes
             if item.item_type == 'cake':
                 cake_items.append({
+                    'id': item.id,
                     'name': product.name,
-                    'image': product.img,
-                    'price': product.price,
+                    'image': image_used,
+                    'price': price_each,
                     'quantity': item.quantity,
                     'total': total_price,
                     'special_request': item.special_request
                 })
+
+            # 🍰 Add-on slices (indi_price + img3)
+            elif item.item_type == 'addon':
+                addon_items.append({
+                    'id': item.id,
+                    'name': f"{product.name} (Add-on Slice)",
+                    'image': image_used,
+                    'price': price_each,
+                    'quantity': item.quantity,
+                    'total': total_price,
+                    'special_request': item.special_request,
+                    'option_selected': item.option_selected
+                })
+
+            # 🎁 Other add-ons (box, candle, card)
             else:
                 addon_items.append({
+                    'id': item.id,
                     'name': product.name,
-                    'image': product.img,
-                    'price': product.price,
+                    'image': image_used,
+                    'price': price_each,
                     'quantity': item.quantity,
                     'total': total_price,
                     'special_request': item.special_request,
@@ -150,12 +198,8 @@ def register_routes(app):
         delivery_fee = float(data.get('delivery_fee', 0))
     
         try:
-            # Parse input (naive, no timezone)
             selected_dt = datetime.fromisoformat(date_time)
-
-            # Assume it's local time; convert to UTC safely
             selected_dt = selected_dt.replace(tzinfo=timezone.utc)
-
             if selected_dt < datetime.now(timezone.utc):
                 return jsonify({'success': False, 'message': 'Please choose a future date/time.'})
         except Exception as e:
@@ -169,20 +213,31 @@ def register_routes(app):
         # Calculate total
         total = 0
         for item in cart_items:
-            # Find correct product object by type
-            if item.item_type == 'cake':
+            product = None
+            price_each = 0
+
+            if item.item_type in ['cake', 'addon']:
                 product = Cake.query.get(item.product_id)
+                if product:
+                    # Use indi_price if it's an add-on
+                    price_each = product.indi_price if item.item_type == 'addon' and product.indi_price else product.price
             elif item.item_type == 'box':
                 product = Box.query.get(item.product_id)
+                if product:
+                    price_each = product.price
             elif item.item_type == 'candle':
                 product = Candle.query.get(item.product_id)
+                if product:
+                    price_each = product.price
             elif item.item_type == 'card':
-                product = Card.query.get(item.product_id)         
+                product = Card.query.get(item.product_id)
+                if product:
+                    price_each = product.price
             else:
                 continue
 
             if product:
-                total += product.price * item.quantity
+                total += price_each * item.quantity
 
         total += delivery_fee
 
@@ -210,24 +265,27 @@ def register_routes(app):
 
         # Transfer cart items
         for item in cart_items:
-            # Handle cakes
-            if item.item_type == 'cake':
+            product = None
+            price_each = 0
+
+            if item.item_type in ['cake', 'addon']:
                 product = Cake.query.get(item.product_id)
                 if not product:
                     continue
+                # Differentiate normal cake vs addon
+                price_each = product.indi_price if item.item_type == 'addon' and product.indi_price else product.price
+
                 order_item = OrderItem(
                     order_id=order.id,
                     product_id=item.product_id,
                     quantity=item.quantity,
-                    price_each=product.price,
+                    price_each=price_each,
                     special_request=item.special_request
                 )
                 db.session.add(order_item)
 
-            # Handle add-ons (candles/cards/boxes)
-            elif item.item_type in ['candle', 'card', 'box']:
-                # find product to get price
-                model = {'candle': Candle, 'card': Card, 'box': Box}[item.item_type]
+            elif item.item_type in ['box', 'candle', 'card']:
+                model = {'box': Box, 'candle': Candle, 'card': Card}[item.item_type]
                 product = model.query.get(item.product_id)
                 if not product:
                     continue

@@ -1296,6 +1296,13 @@ button:hover {
     display: inline-block;
 }
 
+.addon-label {
+    font-size: 13px;
+    color: #999;
+    font-style: italic;
+    margin-left: 4px;
+}
+
 /* Total on the right */
 .cart-total {
     text-align: right;

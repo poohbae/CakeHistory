@@ -51,44 +51,75 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Cakes -->
+                        <!-- 🍰 Normal Cakes -->
                         {% for item in order.items %}
-                        <tr>
-                            <td>
-                                {{ item.product.name }}
-                                {% if item.special_request %}
-                                    <p class="special"><strong>Note:</strong> {{ item.special_request }}</p>
-                                {% endif %}
-                            </td>
-                            <td>{{ item.quantity }}</td>
-                            <td>{{ "%.2f"|format(item.price_each) }}</td>
-                            <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
-                        </tr>
+                            {% if item.product and (not 'addon' in (item.special_request or '').lower()) %}
+                            <tr>
+                                <td>
+                                    {{ item.product.name }}
+                                    {% if item.special_request %}
+                                        <p class="special"><strong>Note:</strong> {{ item.special_request }}</p>
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ "%.2f"|format(item.price_each) }}</td>
+                                <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
+                            </tr>
+                            {% endif %}
                         {% endfor %}
 
-                        <!-- Add-ons -->
-                        {% if order.addons %}
-                        <tr class="addon-header">
-                            <td colspan="4" style="font-weight:bold; padding-top:10px;">
-                                <i class="fa-solid fa-gift"></i> Add-ons
-                            </td>
-                        </tr>
-                        {% for addon in order.addons %}
-                        <tr class="addon-row">
-                            <td>
-                                {{ addon.addon_name }}
-                                {% if addon.option_selected %}
-                                    <p class="special"><strong>Option:</strong> {{ addon.option_selected }}</p>
+                        <!-- Add-ons (Add-on Slices + Other Addons) -->
+                        {% set has_addon_header = false %}
+
+                        {% for item in order.items %}
+                            {% if item.product and 'addon' in (item.product.name | lower) %}
+                                {% if not has_addon_header %}
+                                    {% set has_addon_header = true %}
+                                    <tr class="addon-header">
+                                        <td colspan="4" style="font-weight:bold; padding-top:10px;">
+                                            <i class="fa-solid fa-gift"></i> Add-ons
+                                        </td>
+                                    </tr>
                                 {% endif %}
-                            </td>
-                            <td>{{ addon.quantity }}</td>
-                            <td>{{ "%.2f"|format(addon.price_each) }}</td>
-                            <td>{{ "%.2f"|format(addon.quantity * addon.price_each) }}</td>
-                        </tr>
+                                <tr class="addon-row">
+                                    <td>
+                                        {{ item.product.name }} <span class="addon-label">(Add-on Slice)</span>
+                                        {% if item.special_request %}
+                                            <p class="special"><strong>Note:</strong> {{ item.special_request }}</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ "%.2f"|format(item.price_each) }}</td>
+                                    <td>{{ "%.2f"|format(item.quantity * item.price_each) }}</td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
+
+                        <!-- Non-cake Add-ons (Boxes / Candles / Cards) -->
+                        {% if order.addons %}
+                            {% if not has_addon_header %}
+                                <tr class="addon-header">
+                                    <td colspan="4" style="font-weight:bold; padding-top:10px;">
+                                        <i class="fa-solid fa-gift"></i> Add-ons
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% for addon in order.addons %}
+                            <tr class="addon-row">
+                                <td>
+                                    {{ addon.addon_name }}
+                                    {% if addon.option_selected %}
+                                        <p class="special"><strong>Option:</strong> {{ addon.option_selected }}</p>
+                                    {% endif %}
+                                </td>
+                                <td>{{ addon.quantity }}</td>
+                                <td>{{ "%.2f"|format(addon.price_each) }}</td>
+                                <td>{{ "%.2f"|format(addon.quantity * addon.price_each) }}</td>
+                            </tr>
+                            {% endfor %}
                         {% endif %}
 
-                        <!-- 💰 Total -->
+                        <!-- Total -->
                         <tr class="order-total-row">
                             <td colspan="3" style="text-align:right; font-weight:bold;">Total Amount:</td>
                             <td style="font-weight:bold;">RM {{ "%.2f"|format(order.total_amount) }}</td>

@@ -135,7 +135,7 @@
         {% for cake in cakes %}
             {% if cake.img3 and 1 <= cake.id <= 5 %}
             <div class="menu-item"
-                data-item-type="cake"
+                data-item-type="addon"
                 data-id="{{ cake.id }}" 
                 data-name="{{ cake.name }}" 
                 data-description="{{ cake.description }}" 
@@ -144,7 +144,7 @@
                 
                 <img src="{{ url_for('static', filename='images/' + cake.img3) }}" alt="{{ cake.name }}">
                 <h3>{{ cake.name }}</h3>
-                <p>RM {{ "%.2f"|format(cake.price) }}</p>
+                <p>RM {{ "%.2f"|format(cake.indi_price) }}</p>
 
                 <div class="menu-actions">
                     <div class="quantity">
@@ -390,6 +390,7 @@
             const option = item.querySelector('.addon-select')?.value || null;
             const name = item.dataset.name || '';
             const type = item.dataset.itemType || 'cake';
+            const price = parseFloat(item.querySelector('p').textContent.replace('RM', '').trim());
 
             // CASE 1: MIX BOX (choose up to 5 cakes)
             if (name.includes("Mix")) {
@@ -465,7 +466,8 @@
                                         quantity: qty,
                                         option_selected: option,
                                         special_request: finalRequest,
-                                        item_type: type
+                                        item_type: type,
+                                        price: price
                                     })
                                 })
                                 .then(res => res.json())

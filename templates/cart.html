@@ -22,27 +22,35 @@
                     </div>
                     <div class="cart-total">
                         <p>Total: <strong>RM {{ "%.2f"|format(item.total) }}</strong></p>
+                        <button class="delete-item-btn" data-id="{{ item.id }}">
+                            <i class="fa-solid fa-trash"></i> Remove
+                        </button>
                     </div>
                 </div>
                 {% endfor %}
                 {% endif %}
 
-                <!-- 🎁 Add-ons Section -->
+                <!-- Add-ons Section -->
                 {% if addon_items %}
                 <h3 class="cart-section-title"><i class="fa-solid fa-gift"></i> Add-ons</h3>
                 {% for item in addon_items %}
                 <div class="cart-item">
                     <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
                     <div class="cart-details">
-                        <h3>{{ item.name }}</h3>
-                        
+                        <h3>
+                            {{ item.name }}
+                            {% if '(Add-on Slice)' in item.name %}
+                                <span class="addon-label">(Slice)</span>
+                            {% endif %}
+                        </h3>
+
                         {% if item.option_selected %}
                             <p><strong>Option: </strong>{{ item.option_selected }}</p>
                         {% endif %}
-                        
+
                         <p>Quantity: {{ item.quantity }}</p>
                         <p>Price per item: RM {{ "%.2f"|format(item.price) }}</p>
-                        
+
                         {% if item.special_request %}
                             <p class="special-request"><strong>Special Request:</strong> {{ item.special_request }}</p>
                         {% endif %}
@@ -53,6 +61,7 @@
                 </div>
                 {% endfor %}
                 {% endif %}
+
 
                 <!-- Summary -->
                 <div class="cart-summary">
@@ -243,7 +252,7 @@
                             const hour = selected.getHours();
                             const minute = selected.getMinutes();
 
-                            // 1️⃣ Must be future
+                            // Must be future
                             if (selected <= new Date()) {
                                 Swal.fire({
                                     icon: 'warning',
@@ -255,7 +264,7 @@
                                 return;
                             }
 
-                            // 2️⃣ Must be within 1–5 PM
+                            // Must be within 1–5 PM
                             if (hour < 13 || hour >= 17) {
                                 Swal.fire({
                                     icon: 'warning',
@@ -267,7 +276,7 @@
                                 return;
                             }
 
-                            // 3️⃣ Must be multiple of 5 minutes
+                            // Must be multiple of 5 minutes
                             if (minute % 5 !== 0) {
                                 Swal.fire({
                                     icon: 'warning',

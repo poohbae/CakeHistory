@@ -31,6 +31,7 @@ class Cake(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Float, nullable=False)
+    indi_price = db.Column(db.Float, nullable=False)
     img = db.Column(db.String(120))
     img2 = db.Column(db.String(120))
     img3 = db.Column(db.String(120))
@@ -89,6 +90,7 @@ class Cart(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=1)
     option_selected = db.Column(db.String(50))
     special_request = db.Column(db.String(200))
+    price = db.Column(db.Float, nullable=False, default=0.0)
 
 # ============================================================
 # ORDER MODEL
