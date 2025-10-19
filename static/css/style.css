@@ -1851,15 +1851,14 @@ button:hover {
         overflow-x: hidden;
     }
 
-    /* Make the header stack vertically */
     .header {
         display: flex;
-        flex-direction: column;        /* stack rows vertically */
-        align-items: center;           /* center horizontally */
-        justify-content: center;       /* vertically center inside container */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         background-color: #ffb6c1;
         padding: 15px 0;
-        gap: 10px;                     /* spacing between logo, nav, and auth buttons */
+        gap: 10px;
         text-align: center;
     }
 
@@ -1870,7 +1869,7 @@ button:hover {
         justify-content: center;
         gap: 8px;
         width: 100%;
-        order: 1;                      /* ensure logo appears first */
+        order: 1;
     }
 
     .logo-img {
@@ -1899,7 +1898,6 @@ button:hover {
         font-size: 15px;
         color: black;
         text-decoration: none;
-        display: inline-block;
     }
 
     .nav-links a.active {
@@ -1923,7 +1921,7 @@ button:hover {
         align-items: center;
         gap: 10px;
         width: 100%;
-        order: 3;                      /* ensure at bottom */
+        order: 3;
     }
 
     .auth-buttons a {
