@@ -113,7 +113,7 @@ body.swal2-shown {
     background: #ff69b4;
     color: white;
     border-radius: 8px;
-    font-weight: 600;
+    font-weight: normal;
     box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
@@ -1825,20 +1825,19 @@ button:hover {
         overflow-x: hidden;
     }
 
-    /* Make the whole header occupy full height and center all content */
     .header {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;     /* ✅ centers vertically */
+        flex-direction: column;        /* stack 3 rows */
+        align-items: center;           /* center horizontally */
+        justify-content: center;       /* center vertically */
+        height: auto;                  /* adjust to content height */
         text-align: center;
-        height: 100vh;               /* ✅ full screen height */
-        background-color: #ffb6c1;   /* matches your theme */
-        padding: 0;                  /* remove extra padding */
-        gap: 14px;                   /* spacing between rows */
+        padding: 15px 0;
+        background-color: #ffb6c1;
+        gap: 10px;                     /* space between rows */
     }
 
-    /* Row 1 — Logo and Title */
+    /* Row 1: Logo + Title */
     .logo {
         display: flex;
         align-items: center;
@@ -1854,56 +1853,61 @@ button:hover {
     .logo h1 {
         font-size: 22px;
         margin: 0;
-        color: black;
     }
 
-    /* Row 2 — Navigation links (inline center) */
+    /* Row 2: Navigation */
     .nav-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
-        font-size: 14px;
-        width: 100%;
+        gap: 6px;
     }
 
     .nav-links a {
+        padding: 5px 8px;
+        font-size: 15px;
         color: black;
         text-decoration: none;
-        padding: 6px 8px;
-        font-size: 15px;
-        position: relative;
+    }
+
+    .nav-links a.active {
+        background: #ff69b4;
+        color: white;
+        border-radius: 8px;
+        padding: 5px 10px;
     }
 
     .nav-links a:not(:last-child)::after {
         content: "|";
         color: black;
+        margin: 0 4px;
         position: static;
-        margin: 0 6px;
     }
 
-    /* Row 3 — Auth buttons */
+    /* Row 3: Auth buttons */
     .auth-buttons {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 8px;
-        font-size: 14px;
-    }
-
-    .auth-buttons span {
-        font-weight: 600;
-        color: black;
+        margin-top: 2px;
     }
 
     .auth-buttons a {
         color: #ff1493;
-        text-decoration: none;
+        font-size: 15px;
         font-weight: 600;
+        text-decoration: none;
     }
 
     .auth-buttons a:hover {
         text-decoration: underline;
+    }
+
+    .auth-buttons span {
+        color: black;
+        font-weight: 600;
+        font-size: 15px;
     }
 
     /* Hero Banner */
