@@ -1805,158 +1805,69 @@ button:hover {
     font-style: italic;
 }
 
-/* ================================
-    MOBILE RESPONSIVE STYLES
-================================ */
-@media (max-width: 600px) {
+/* ==============================================
+   📱 Responsive Design for iPhone / Mobile (≤480px)
+   ============================================== */
+@media (max-width: 480px) {
 
-    html, body {
+    /* General layout */
+    body, html {
+        font-size: 14px;
         overflow-x: hidden;
     }
 
+    /* Header adjustments */
     .header {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        padding: 16px 10px !important;
-        background-color: #ffb6c1 !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
+        flex-direction: column;
+        text-align: center;
+        padding: 12px;
     }
 
-    /* ✅ Top row: logo */
     .logo {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        margin: 0 auto 10px auto !important;
-        width: 100% !important;
+        justify-content: center;
     }
 
     .logo-img {
-        display: block !important;
-        height: 60px !important;
-        margin: 0 auto 6px auto !important;
+        height: 50px;
     }
 
     .logo h1 {
-        font-size: 22px !important;
-        color: black !important;
-        font-weight: 700 !important;
-        text-align: center !important;
-        margin: 0 !important;
+        font-size: 20px;
     }
 
-    /* ✅ Middle row: navigation links */
+    /* Navigation */
     .nav-links {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        align-items: center !important;
-        text-align: center !important;
-        gap: 10px !important;
-        margin: 10px 0 !important;
-        width: 100% !important;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 10px;
     }
 
     .nav-links a {
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        background: #ffe4ec !important;
-        color: black !important;
-        border-radius: 8px !important;
-        padding: 8px 12px !important;
-        font-size: 15px !important;
-        text-decoration: none !important;
-        font-weight: 500 !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-    }
-
-    .nav-links a i {
-        margin-right: 5px !important;
-    }
-
-    .nav-links a:hover {
-        background: #ff85c1 !important;
-        color: white !important;
+        font-size: 14px;
+        padding: 6px 10px;
     }
 
     .nav-links a:not(:last-child)::after {
-        display: none !important;
+        display: none; /* hide separators on small screens */
     }
 
-    /* ✅ Bottom row: auth buttons */
+    /* Auth buttons */
     .auth-buttons {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        align-items: center !important;
-        text-align: center !important;
-        gap: 12px !important;
-        margin-top: 8px !important;
-        width: 100% !important;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 0;
     }
 
     .auth-buttons a {
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        background: #ff69b4 !important;
-        color: white !important;
-        border-radius: 8px !important;
-        padding: 8px 16px !important;
-        font-size: 15px !important;
-        font-weight: 600 !important;
-        text-decoration: none !important;
-    }
-
-    .auth-buttons a:hover {
-        background: #ff1493 !important;
-    }
-
-    .auth-buttons span {
-        color: #333 !important;
-        font-weight: bold !important;
-        font-size: 15px !important;
-    }
-
-    footer {
-        font-size: 13px !important;
-        padding: 10px 5px !important;
-        text-align: center !important;
-    }
-
-    /* Auth Pages (Login / Register) */
-    .login-container, .register-container {
-        width: 100%;
-        padding: 25px 15px;
-    }
-
-    .auth-logo {
-        width: 80px;
-    }
-
-    input, button {
-        width: 100%;
         font-size: 14px;
     }
 
-    /* Subscribe box */
-    .subscribe-box {
-        flex-direction: row;
-        width: 100%;
-        gap: 8px;
-        font-size: 13px;
-    }
-
-    /* Homepage hero */
+    /* Hero Banner */
     .hero-banner {
-        height: 40vh;
+        height: 35vh;
     }
 
     .hero-overlay h1 {
@@ -1968,32 +1879,60 @@ button:hover {
     }
 
     .hero-btn {
+        padding: 8px 14px;
         font-size: 14px;
-        padding: 8px 16px;
     }
 
-    /* Founders & Team cards */
-    .founder-card, .team-card {
-        width: 85%;
-        margin: auto;
+    /* Containers (Login, Register, Feedback) */
+    .login-container,
+    .register-container,
+    .feedback-container {
+        width: 90%;
+        height: auto;
+        padding: 25px 20px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+
+    .feedback-container textarea {
+        width: 100%;
+    }
+
+    /* Subscribe box */
+    .subscribe-box {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    /* About page */
+    .about-page {
+        padding: 10px;
+    }
+
+    .founders-container, .team-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .founder-card,
+    .team-card {
+        width: 90%;
     }
 
     /* Menu cards */
     .menu-item {
         width: 90%;
-        padding: 12px;
+        margin: 0 auto;
     }
 
     .menu-item img {
-        height: 180px;
+        height: 160px;
     }
 
-    .menu-actions {
-        flex-direction: column;
-        gap: 8px;
+    .menu-section h2 {
+        font-size: 1.4rem;
     }
 
-    /* Cart & Order Pages */
+    /* Cart page */
     .cart-container {
         width: 95%;
         padding: 15px;
@@ -2001,101 +1940,67 @@ button:hover {
 
     .cart-item {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
+        align-items: flex-start;
     }
 
     .cart-item img {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 8px;
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
     }
 
     .cart-details {
         margin-left: 0;
     }
 
-    .cart-summary {
-        font-size: 15px;
-        padding: 15px;
-    }
-
     .cart-buttons {
         flex-direction: column;
     }
 
-    .cart-buttons a,
-    .cart-buttons button {
-        width: 100%;
+    /* Order modal */
+    .order-modal-content {
+        width: 90%;
+        padding: 20px;
     }
 
-    /* Chat Button & Modal */
+    /* Chat button & modal */
     .chat-btn {
         bottom: 20px;
         right: 20px;
-        width: 55px;
-        height: 55px;
+        width: 50px;
+        height: 50px;
     }
 
     .chat-modal-content {
         width: 90%;
+        max-height: 80vh;
         padding: 15px;
     }
 
     .chat-window {
-        height: 280px;
+        height: 250px;
     }
 
-    .bot-msg, .user-msg {
+    /* Footer */
+    footer {
         font-size: 13px;
-        padding: 6px 10px;
+        padding: 8px;
     }
 
-    /* Feedback Page */
-    .feedback-container {
-        width: 90%;
-        height: auto;
-        padding: 25px 20px;
-    }
-
-    .feedback-container textarea {
-        width: 100%;
-        height: 80px;
-    }
-
+    /* Feedback cards */
     .previous-feedback-section {
         width: 95%;
-        padding: 20px;
+        padding: 15px;
     }
 
-    /* Contact & QR section */
-    .qr-container {
-        gap: 20px;
+    .feedback-card {
+        width: 100%;
+        padding: 15px;
     }
 
-    .qr-item img {
-        width: 90px;
-        height: 90px;
-    }
-
-    /* About Page */
-    .about-page {
-        width: 95%;
-        padding: 10px;
-    }
-
-    .founders-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .team-container {
-        grid-template-columns: 1fr;
-    }
-
-    /* Ingredients & Addons */
+    /* Ingredients grid */
     .ingredients-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     }
 
     .ingredient-item img {
@@ -2103,15 +2008,23 @@ button:hover {
         height: 100px;
     }
 
+    /* Add-ons section */
+    .addons-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+
     .addon-item {
         width: 90%;
     }
 
-    /* Modal Adjustments */
-    .cake-modal-content,
-    .order-modal-content {
-        width: 90%;
-        height: auto;
-        padding: 20px;
+    /* Social QR area */
+    .qr-container {
+        gap: 15px;
+    }
+
+    .qr-item img {
+        width: 100px;
+        height: 100px;
     }
 }
