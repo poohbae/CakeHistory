@@ -68,10 +68,8 @@
 
                 <!-- Summary -->
                 <div class="cart-summary">
-                    <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal|float) }}</p>
-                    <p class="grand-total"><strong>Total:</strong> RM 
-                        <span id="grand-total">{{ "%.2f"|format(subtotal|float) }}</span>
-                    </p>
+                    <p><strong>Subtotal:</strong> RM{{ "%.2f"|format(subtotal|float) }}</p>
+                    <p class="grand-total"><strong>Total:</strong> RM<span id="grand-total">{{ "%.2f"|format(subtotal|float) }}</span></p>
 
                     <div class="cart-buttons">
                         <a href="{{ url_for('menu') }}" class="continue-btn">
@@ -210,16 +208,18 @@
                                                     if (newTotal < 0) newTotal = 0;
 
                                                     // Update total
-                                                    totalEl.textContent = newTotal.toFixed(2);
+                                                    totalEl.textContent = newTotal.toFixed(2).replace(/\s+/g, '');
                                                     totalEl.style.transition = "color 0.3s ease";
                                                     totalEl.style.color = "#ff69b4";
                                                     setTimeout(() => totalEl.style.color = "", 500);
 
                                                     // Update subtotal paragraph correctly
-                                                    const subtotalP = document.querySelector('.cart-summary p'); // not the <strong>
+                                                    const subtotalP = document.querySelector('.cart-summary p');
                                                     if (subtotalP) {
-                                                        subtotalP.innerHTML = `<strong>Subtotal:</strong> RM ${newTotal.toFixed(2)}`;
+                                                        const formattedSubtotal = newTotal.toFixed(2).replace(/\s+/g, '');
+                                                        subtotalP.innerHTML = `<strong>Subtotal:</strong> RM ${formattedSubtotal}`;
                                                     }
+
                                                     
                                                     // If no more items left, replace the entire cart with empty message
                                                     const remainingItems = document.querySelectorAll('.cart-item');
