@@ -90,7 +90,7 @@ class Cart(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=1)
     option_selected = db.Column(db.String(50))
     special_request = db.Column(db.String(200))
-    price = db.Column(db.Float, nullable=False, default=0.0)
+    price = db.Column(db.Float, nullable=False)
 
 # ============================================================
 # ORDER MODEL
