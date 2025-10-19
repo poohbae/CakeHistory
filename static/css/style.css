@@ -806,6 +806,48 @@ button:hover {
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
 
+.chat-window {
+    background: #fdfdfd;
+    height: 350px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.bot-msg, .user-msg {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin: 6px 0;
+    line-height: 1.4;
+    display: inline-block;
+    animation: fadeIn 0.3s ease;
+}
+
+.bot-msg {
+    background: #fff0f6;
+    color: #333;
+    border: 1px solid #ffd1e3;
+    align-self: flex-start;
+}
+
+.user-msg {
+    background: #ff69b4;
+    color: white;
+    margin-left: auto;
+    align-self: flex-end;
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .chat-topic, .back-btn {
     background-color: #ff69b4;
     color: #fff;
