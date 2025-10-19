@@ -68,8 +68,8 @@
 
                 <!-- Summary -->
                 <div class="cart-summary">
-                    <p><strong>Subtotal:</strong> RM{{ "%.2f"|format(subtotal|float) }}</p>
-                    <p class="grand-total"><strong>Total:</strong> RM<span id="grand-total">{{ "%.2f"|format(subtotal|float) }}</span></p>
+                    <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(subtotal|float) }}</p>
+                    <p class="grand-total"><strong>Total:</strong> RM {{ "%.2f"|format(subtotal|float) }}</p>
 
                     <div class="cart-buttons">
                         <a href="{{ url_for('menu') }}" class="continue-btn">
@@ -201,14 +201,19 @@
                                                 setTimeout(() => {
                                                     itemDiv.remove();
 
-                                                    // ✅ Recalculate subtotal after removal
+                                                    // Recalculate subtotal after removal
                                                     const totalEl = document.getElementById('grand-total');
-                                                    let currentTotal = parseFloat(totalEl.textContent);
+
+                                                    // Clean and parse numeric value correctly
+                                                    let currentTotal = parseFloat(totalEl.textContent.replace(/[^\d.-]/g, '')) || 0;
+
+                                                    // Subtract item total and format properly
                                                     let newTotal = currentTotal - itemTotal;
                                                     if (newTotal < 0) newTotal = 0;
 
-                                                    // Update total
-                                                    totalEl.textContent = newTotal.toFixed(2).replace(/\s+/g, '');
+                                                    // Update total with proper formatting (no spaces)
+                                                    const formattedTotal = newTotal.toFixed(2);
+                                                    totalEl.textContent = `RM ${formattedTotal}`;
                                                     totalEl.style.transition = "color 0.3s ease";
                                                     totalEl.style.color = "#ff69b4";
                                                     setTimeout(() => totalEl.style.color = "", 500);
@@ -216,10 +221,8 @@
                                                     // Update subtotal paragraph correctly
                                                     const subtotalP = document.querySelector('.cart-summary p');
                                                     if (subtotalP) {
-                                                        const formattedSubtotal = newTotal.toFixed(2).replace(/\s+/g, '');
-                                                        subtotalP.innerHTML = `<strong>Subtotal:</strong> RM ${formattedSubtotal}`;
+                                                        subtotalP.innerHTML = `<strong>Subtotal:</strong> RM ${formattedTotal}`;
                                                     }
-
                                                     
                                                     // If no more items left, replace the entire cart with empty message
                                                     const remainingItems = document.querySelectorAll('.cart-item');
