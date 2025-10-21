@@ -105,21 +105,52 @@
         {% if others_feedbacks and others_feedbacks|length > 0 %}
             {% for fb in others_feedbacks %}
             <div class="feedback-card">
-                <p><strong>User:</strong> {{ fb.user.username }}</p>
-                <p><strong>Order:</strong> #{{ fb.order.id }}</p>
-                <p><strong>Rating:</strong>
-                    <span class="rating-stars-display">
-                        {% for i in range(fb.rating) %}⭐{% endfor %}
-                    </span>
-                </p>
-                <p><strong>Comment:</strong> {{ fb.comments }}</p>
-                <small>Posted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+                <h3>Order #{{ fb.order.id }}</h3>
+
+                {% if fb.order.items %}
+                <div class="order-items-list">
+                    <strong>Items:</strong>
+                    {% for item in fb.order.items %}
+                        <div class="order-item-row">
+                            {{ item.product.name }} × {{ item.quantity }}
+                            — RM {{ "%.2f"|format(item.price_each * item.quantity) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if fb.order.addons %}
+                <div class="order-addons-list" style="margin-top:10px;">
+                    <strong>Add-ons:</strong>
+                    {% for addon in fb.order.addons %}
+                        <div class="order-item-row">
+                            {{ addon.addon_name }}
+                            {% if addon.option_selected %}
+                                ({{ addon.option_selected }})
+                            {% endif %}
+                            × {{ addon.quantity }}
+                            — RM {{ "%.2f"|format(addon.price_each * addon.quantity) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="feedback-details">
+                    <p><strong>Rating:</strong>
+                        <span class="rating-stars-display">
+                            {% for i in range(fb.rating) %}⭐{% endfor %}
+                        </span>
+                    </p>
+                    <p><strong>Comment:</strong> {{ fb.comments }}</p>
+                    <small>Posted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+                </div>
             </div>
             {% endfor %}
         {% else %}
             <p class="no-feedback">No public feedback yet. 🌸</p>
         {% endif %}
     </div>
+
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
