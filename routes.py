@@ -358,20 +358,30 @@ def register_routes(app):
 
         user_orders = (
             Order.query
-            .options(
-                joinedload(Order.items),
-                joinedload(Order.addons)
-            )
+            .options(joinedload(Order.items), joinedload(Order.addons))
             .filter_by(user_id=current_user.id)
             .all()
         )
         previous_feedback = (
-            Feedback.query.filter_by(user_id=current_user.id)
+            Feedback.query
+            .filter_by(user_id=current_user.id)
             .order_by(Feedback.created_at.desc())
             .all()
         )
+        others_feedback = (
+            Feedback.query
+            .filter(Feedback.user_id != current_user.id)
+            .order_by(Feedback.created_at.desc())
+            .limit(10)
+            .all()
+        )
 
-        return render_template('feedback.html', orders=user_orders, feedbacks=previous_feedback)
+        return render_template(
+            'feedback.html',
+            orders=user_orders,
+            feedbacks=previous_feedback,
+            others_feedbacks=others_feedback
+        )
 
     @app.route('/login', methods=['GET', 'POST'])
     def login_user_route():

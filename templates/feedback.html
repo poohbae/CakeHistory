@@ -36,63 +36,91 @@
 </div>
 
 <!-- Previous Feedback Section -->
+<!-- Previous Feedback Section -->
 <div class="previous-feedback-section">
-    <h2>🧁 Your Previous Feedback</h2>
+    <h2>🧁 Feedback Gallery</h2>
 
-    {% if feedbacks %}
-        {% for fb in feedbacks %}
-        <div class="feedback-card">
-            <h3>Order #{{ fb.order.id }}</h3>
-            <p><strong>Order Date:</strong> {{ fb.order.order_date.strftime('%d %b %Y, %I:%M %p') }}</p>
-            <p><strong>Status:</strong> {{ fb.order.status }}</p>
-            <p><strong>Total Amount:</strong> RM {{ "%.2f"|format(fb.order.total_amount) }}</p>
+    <!-- Tabs Navigation -->
+    <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="my-feedback">My Feedback</button>
+        <button class="tab-btn" data-tab="others-feedback">Others' Feedback</button>
+    </div>
 
-            {% if fb.order.items %}
-            <div class="order-items-list">
-                <strong>Items:</strong>
-                {% for item in fb.order.items %}
-                    <div class="order-item-row">
-                        {{ item.product.name }} × {{ item.quantity }}
-                        — RM {{ "%.2f"|format(item.price_each * item.quantity) }}
-                    </div>
-                {% endfor %}
+    <!-- My Feedback Tab -->
+    <div id="my-feedback" class="tab-content active">
+        {% if feedbacks and feedbacks|length > 0 %}
+            {% for fb in feedbacks %}
+            <div class="feedback-card">
+                <h3>Order #{{ fb.order.id }}</h3>
+                <p><strong>Order Date:</strong> {{ fb.order.order_date.strftime('%d %b %Y, %I:%M %p') }}</p>
+                <p><strong>Status:</strong> {{ fb.order.status }}</p>
+                <p><strong>Total Amount:</strong> RM {{ "%.2f"|format(fb.order.total_amount) }}</p>
+
+                {% if fb.order.items %}
+                <div class="order-items-list">
+                    <strong>Items:</strong>
+                    {% for item in fb.order.items %}
+                        <div class="order-item-row">
+                            {{ item.product.name }} × {{ item.quantity }}
+                            — RM {{ "%.2f"|format(item.price_each * item.quantity) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if fb.order.addons %}
+                <div class="order-addons-list" style="margin-top:10px;">
+                    <strong>Add-ons:</strong>
+                    {% for addon in fb.order.addons %}
+                        <div class="order-item-row">
+                            {{ addon.addon_name }}
+                            {% if addon.option_selected %}
+                                ({{ addon.option_selected }})
+                            {% endif %}
+                            × {{ addon.quantity }}
+                            — RM {{ "%.2f"|format(addon.price_each * addon.quantity) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="feedback-details">
+                    <p><strong>Rating:</strong>
+                        <span class="rating-stars-display">
+                            {% for i in range(fb.rating) %}⭐{% endfor %}
+                        </span>
+                    </p>
+                    <p><strong>Comment:</strong> {{ fb.comments }}</p>
+                    <small>Submitted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+                </div>
             </div>
-            {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="no-feedback">You haven’t submitted any feedback yet. 🥺</p>
+        {% endif %}
+    </div>
 
-            {% if fb.order.addons %}
-            <div class="order-addons-list" style="margin-top:10px;">
-                <strong>Add-ons:</strong>
-                {% for addon in fb.order.addons %}
-                    <div class="order-item-row">
-                        {{ addon.addon_name }}
-                        {% if addon.option_selected %}
-                            ({{ addon.option_selected }})
-                        {% endif %}
-                        × {{ addon.quantity }}
-                        — RM {{ "%.2f"|format(addon.price_each * addon.quantity) }}
-                    </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <div class="feedback-details">
+    <!-- Others Feedback Tab -->
+    <div id="others-feedback" class="tab-content">
+        {% if others_feedbacks and others_feedbacks|length > 0 %}
+            {% for fb in others_feedbacks %}
+            <div class="feedback-card">
+                <p><strong>User:</strong> {{ fb.user.username }}</p>
+                <p><strong>Order:</strong> #{{ fb.order.id }}</p>
                 <p><strong>Rating:</strong>
                     <span class="rating-stars-display">
-                        {% for i in range(fb.rating) %}
-                            ⭐
-                        {% endfor %}
+                        {% for i in range(fb.rating) %}⭐{% endfor %}
                     </span>
                 </p>
                 <p><strong>Comment:</strong> {{ fb.comments }}</p>
-                <small>Submitted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+                <small>Posted on {{ fb.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
             </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <p class="no-feedback">You haven’t submitted any feedback yet. 🥺</p>
-    {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="no-feedback">No public feedback yet. 🌸</p>
+        {% endif %}
+    </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.querySelector('form[action="{{ url_for("feedback") }}"]');
@@ -129,6 +157,18 @@
                     confirmButtonColor: '#ff69b4'
                 });
                 console.error(err);
+            });
+        });
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
             });
         });
     });
